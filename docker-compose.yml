@@ -1,0 +1,15 @@
+services:
+  workbench:
+    build:
+      context: .
+      args:
+        INSTALL_ADVANCED_ENGINES: "false"
+    ports:
+      - "3838:3838"
+    environment:
+      SHINY_LOG_LEVEL: INFO
+    read_only: true
+    tmpfs:
+      - /tmp:size=1g
+    mem_limit: 4g
+    cpus: 2

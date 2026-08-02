@@ -1,0 +1,24 @@
+Package: SpatialMethodsWorkbench
+Type: Project
+Title: Spatial Methods Workbench
+Version: 0.1.0
+Authors@R: person("Sagnik", "Bhadury", email = "bhadury@umich.edu", role = c("aut", "cre"))
+Description: Interactive Shiny workbench that validates uploaded spatial and
+    structured biomedical data, recommends compatible analyses, runs selected
+    methods, and produces reproducible result bundles.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Imports:
+    shiny,
+    bslib,
+    DT,
+    ggplot2,
+    jsonlite,
+    zip
+Suggests:
+    testthat,
+    ISPAT,
+    ISPAT3D,
+    GPGHS,
+    GOV,
+    FunctionalDepth

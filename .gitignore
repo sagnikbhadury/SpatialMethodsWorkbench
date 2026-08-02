@@ -1,0 +1,10 @@
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+rsconnect/
+data-uploads/
+results/
+.env
+__pycache__/
+*.pyc
