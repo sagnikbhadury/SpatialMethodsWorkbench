@@ -71,7 +71,7 @@ recommend_methods <- function(data, mapping, features) {
 
 workbench_citation <- function() {
   paste0(
-    "Bhadury, S. (2026). Spatial Methods Workbench (Version 0.1.0) ",
+    "Bhadury, S. (2026). Spatial Methods Workbench (Version 0.1.1) ",
     "[Computer software]. https://github.com/sagnikbhadury/SpatialMethodsWorkbench"
   )
 }

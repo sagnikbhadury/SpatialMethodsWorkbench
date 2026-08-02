@@ -1,7 +1,7 @@
 result_manifest <- function(result) {
   list(
     application = "Spatial Methods Workbench",
-    application_version = "0.1.0",
+    application_version = "0.1.1",
     analysis_id = result$analysis_id,
     method = result$method,
     started_at = result$started_at,

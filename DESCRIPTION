@@ -1,7 +1,7 @@
 Package: SpatialMethodsWorkbench
 Type: Project
 Title: Spatial Methods Workbench
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: person("Sagnik", "Bhadury", email = "bhadury@umich.edu", role = c("aut", "cre"))
 Description: Interactive Shiny workbench that validates uploaded spatial and
     structured biomedical data, recommends compatible analyses, runs selected
