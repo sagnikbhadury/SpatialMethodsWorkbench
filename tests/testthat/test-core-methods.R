@@ -66,4 +66,5 @@ test_that("result bundles contain reproducibility artifacts", {
   files <- utils::unzip(path, list = TRUE)$Name
   expect_true(all(c("results.csv", "manifest.json", "CITATION.txt", "COLLABORATION.txt", "figure.png", "result_object.rds") %in% files))
   expect_false(any(c("interpretation.md", "optional_llm_prompt.txt") %in% files))
+  expect_match(workbench_citation(), "10.5281/zenodo.21763607", fixed = TRUE)
 })

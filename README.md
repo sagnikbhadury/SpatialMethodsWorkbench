@@ -1,5 +1,7 @@
 # Spatial Methods Workbench
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21763606.svg)](https://doi.org/10.5281/zenodo.21763606)
+
 A functional Shiny application for guided analysis of spatial and structured biomedical data. Users upload a CSV, map its columns, see which analyses are compatible, configure a method, run it, and download a reproducibility bundle containing results, a figure, settings, citations, and the R result object.
 
 The public application is intentionally separated from private research code. Its method registry contains only workflows intentionally implemented here or adapters to already-public packages.
@@ -90,6 +92,9 @@ When using ISPat, also cite:
 Each advanced engine retains its own citation and license requirements.
 
 Citation acknowledgement is a strong research-norm and provenance mechanism, not a technical guarantee about a later publication's bibliography. A tagged release can be archived with Zenodo to add a persistent DOI.
+
+- Cite the current `v0.1.1` release using [DOI 10.5281/zenodo.21763607](https://doi.org/10.5281/zenodo.21763607).
+- Use the [concept DOI 10.5281/zenodo.21763606](https://doi.org/10.5281/zenodo.21763606) when referring to the workbench across all versions.
 
 ## Design evidence
 
