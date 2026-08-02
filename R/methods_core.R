@@ -139,6 +139,167 @@ run_spatial_ml <- function(data, mapping, features, params) {
                               "Spatial leakage can inflate performance; use spatially blocked validation for confirmatory studies."))
 }
 
+run_spatial_clustering <- function(data, mapping, features, params) {
+  columns <- c(mapping$x, mapping$y, features)
+  clean <- sanitize_for_analysis(data, columns)
+  if (nrow(clean) < 20L) stop("Spatial clustering requires at least 20 complete observations.")
+  k <- as.integer(params$clusters %||% 4L)
+  if (k < 2L || k >= nrow(clean)) stop("Choose between 2 clusters and one fewer than the number of observations.")
+  marker_matrix <- scale(as.matrix(clean[, features, drop = FALSE]))
+  coord_matrix <- scale(as.matrix(clean[, c(mapping$x, mapping$y), drop = FALSE]))
+  coord_weight <- as.numeric(params$spatial_weight %||% .5)
+  design <- cbind(marker_matrix, coord_weight * coord_matrix)
+  design[!is.finite(design)] <- 0
+  set.seed(params$seed %||% 1L)
+  fit <- stats::kmeans(design, centers = k, nstart = 25, iter.max = 100)
+  table <- data.frame(x = clean[[mapping$x]], y = clean[[mapping$y]], cluster = factor(fit$cluster))
+  plot <- ggplot2::ggplot(table, ggplot2::aes(x, y, color = cluster)) +
+    ggplot2::geom_point(size = 2.2, alpha = .82) + ggplot2::coord_equal() +
+    ggplot2::scale_color_brewer(palette = "Dark2") + ggplot2::theme_minimal(base_size = 13) +
+    ggplot2::labs(title = "Spatially weighted phenotype clusters", color = "Cluster")
+  list(method = "Spatially weighted phenotype clustering", plot = plot, table = table,
+       summary = c(observations = nrow(clean), clusters = k, spatial_weight = coord_weight,
+                   between_total_ratio = fit$betweenss / fit$totss), model = fit,
+       notes = c("Coordinates and markers are standardized before clustering; the spatial weight controls their relative influence.",
+                 "Clusters are exploratory partitions and are not validated biological cell states or clinical subtypes."))
+}
+
+standardize_train_test <- function(train, test) {
+  center <- colMeans(train)
+  scale_value <- apply(train, 2, stats::sd)
+  scale_value[!is.finite(scale_value) | scale_value == 0] <- 1
+  list(train = sweep(sweep(train, 2, center, "-"), 2, scale_value, "/"),
+       test = sweep(sweep(test, 2, center, "-"), 2, scale_value, "/"),
+       center = center, scale = scale_value)
+}
+
+run_neural_prediction <- function(data, mapping, features, params) {
+  if (!requireNamespace("nnet", quietly = TRUE)) stop("The nnet engine is not installed on this deployment.")
+  predictors <- unique(c(features, mapping$x, mapping$y, mapping$z))
+  clean <- sanitize_for_analysis(data, c(mapping$outcome, predictors))
+  if (nrow(clean) < 40L) stop("Neural prediction requires at least 40 complete observations.")
+  if (length(predictors) > 250L) stop("Select no more than 250 predictors for this shallow-network workflow.")
+  set.seed(params$seed %||% 1L)
+  train_id <- sample(seq_len(nrow(clean)), floor(.75 * nrow(clean)))
+  test_id <- setdiff(seq_len(nrow(clean)), train_id)
+  scaled <- standardize_train_test(as.matrix(clean[train_id, predictors, drop = FALSE]),
+                                   as.matrix(clean[test_id, predictors, drop = FALSE]))
+  outcome <- clean[[mapping$outcome]]
+  size <- as.integer(params$hidden_units %||% 5L)
+  decay <- as.numeric(params$decay %||% .01)
+  if (is.numeric(outcome)) {
+    y_train <- outcome[train_id]; y_center <- mean(y_train); y_scale <- stats::sd(y_train)
+    if (!is.finite(y_scale) || y_scale == 0) stop("The numeric outcome must vary in the training set.")
+    fit <- nnet::nnet(scaled$train, (y_train - y_center) / y_scale, size = size, linout = TRUE,
+                      decay = decay, maxit = 500, trace = FALSE, MaxNWts = 20000)
+    prediction <- as.numeric(stats::predict(fit, scaled$test)) * y_scale + y_center
+    observed <- outcome[test_id]
+    table <- data.frame(observed = observed, predicted = prediction, residual = observed - prediction)
+    metrics <- c(rmse = sqrt(mean((observed - prediction)^2)), mae = mean(abs(observed - prediction)),
+                 r_squared = suppressWarnings(stats::cor(observed, prediction)^2))
+    plot <- ggplot2::ggplot(table, ggplot2::aes(observed, predicted)) + ggplot2::geom_point(alpha = .7, color = "#176b68") +
+      ggplot2::geom_abline(linetype = 2, color = "#d46245") + ggplot2::theme_minimal(base_size = 13) +
+      ggplot2::labs(title = "Held-out shallow-network predictions")
+  } else {
+    outcome <- factor(outcome)
+    if (nlevels(outcome) != 2L) stop("Neural classification currently supports a binary outcome.")
+    target <- as.numeric(outcome[train_id] == levels(outcome)[2])
+    fit <- nnet::nnet(scaled$train, target, size = size, entropy = TRUE, decay = decay,
+                      maxit = 500, trace = FALSE, MaxNWts = 20000)
+    probability <- as.numeric(stats::predict(fit, scaled$test))
+    predicted <- factor(ifelse(probability >= .5, levels(outcome)[2], levels(outcome)[1]), levels = levels(outcome))
+    observed <- outcome[test_id]
+    table <- data.frame(observed = observed, predicted = predicted, probability = probability)
+    metrics <- c(accuracy = mean(observed == predicted), test_observations = length(test_id))
+    plot <- ggplot2::ggplot(table, ggplot2::aes(probability, fill = observed)) + ggplot2::geom_density(alpha = .45) +
+      ggplot2::geom_vline(xintercept = .5, linetype = 2) + ggplot2::theme_minimal(base_size = 13) +
+      ggplot2::labs(title = "Held-out shallow-network probabilities", fill = "Observed")
+  }
+  list(method = "Spatial shallow-neural prediction", plot = plot, table = table,
+       summary = c(metrics, hidden_units = size, weight_decay = decay), model = fit,
+       notes = c("This is a single-hidden-layer predictive workflow with standardized inputs and a held-out test set.",
+                 "It is an applied spatial adaptation of public AI/deep-learning curricula, not a reproduction of their tutorial examples.",
+                 "Use spatially blocked or external validation before confirmatory use."))
+}
+
+ridge_coefficients <- function(X, y, lambda) {
+  if (ncol(X) <= nrow(X)) {
+    solve(crossprod(X) + diag(lambda, ncol(X)), crossprod(X, y))
+  } else {
+    crossprod(X, solve(tcrossprod(X) + diag(lambda, nrow(X)), y))
+  }
+}
+
+run_scalar_image <- function(data, mapping, features, params) {
+  clean <- sanitize_for_analysis(data, c(mapping$outcome, features))
+  outcome <- clean[[mapping$outcome]]
+  if (!is.numeric(outcome)) stop("Wide-image scalar regression currently requires a numeric outcome.")
+  if (nrow(clean) < 30L) stop("Wide-image regression requires at least 30 complete subjects.")
+  if (length(features) > 5000L) stop("Select no more than 5,000 image features in the interactive workflow.")
+  set.seed(params$seed %||% 1L)
+  train_id <- sample(seq_len(nrow(clean)), floor(.75 * nrow(clean)))
+  test_id <- setdiff(seq_len(nrow(clean)), train_id)
+  scaled <- standardize_train_test(as.matrix(clean[train_id, features, drop = FALSE]),
+                                   as.matrix(clean[test_id, features, drop = FALSE]))
+  y_center <- mean(outcome[train_id]); y_train <- outcome[train_id] - y_center
+  lambda <- as.numeric(params$image_ridge %||% 10)
+  beta <- ridge_coefficients(scaled$train, y_train, lambda)
+  prediction <- as.numeric(scaled$test %*% beta + y_center)
+  observed <- outcome[test_id]
+  coefficients <- data.frame(feature = features, coefficient = as.numeric(beta))
+  coefficients <- coefficients[order(abs(coefficients$coefficient), decreasing = TRUE), , drop = FALSE]
+  top <- head(coefficients, 30L); top$feature <- factor(top$feature, levels = rev(top$feature))
+  plot <- ggplot2::ggplot(top, ggplot2::aes(feature, coefficient, fill = coefficient > 0)) +
+    ggplot2::geom_col(show.legend = FALSE) + ggplot2::coord_flip() +
+    ggplot2::scale_fill_manual(values = c("#d46245", "#176b68")) + ggplot2::theme_minimal(base_size = 12) +
+    ggplot2::labs(title = "Largest standardized image-feature coefficients", x = NULL)
+  list(method = "Wide-image scalar regression screen", plot = plot, table = coefficients,
+       summary = c(subjects = nrow(clean), image_features = length(features), ridge = lambda,
+                   heldout_rmse = sqrt(mean((observed - prediction)^2)), heldout_mae = mean(abs(observed - prediction))),
+       model = list(coefficients = beta, feature_center = scaled$center, feature_scale = scaled$scale, outcome_center = y_center),
+       notes = c("Each selected numeric column is treated as an aligned pixel, voxel, or image-derived feature.",
+                 "This fast ridge screen is not the Bayesian SV-NN or ST-CAR posterior algorithm; their publications are included as related advanced methodology.",
+                 "Image registration and common feature ordering must be established before upload."))
+}
+
+run_image_to_image <- function(data, mapping, features, params) {
+  input_features <- features[startsWith(features, "input__")]
+  output_features <- features[startsWith(features, "output__")]
+  clean <- sanitize_for_analysis(data, c(input_features, output_features))
+  if (nrow(clean) < 30L) stop("Image-to-image regression requires at least 30 complete subjects.")
+  set.seed(params$seed %||% 1L)
+  train_id <- sample(seq_len(nrow(clean)), floor(.75 * nrow(clean)))
+  test_id <- setdiff(seq_len(nrow(clean)), train_id)
+  X <- as.matrix(clean[, input_features, drop = FALSE]); Z <- as.matrix(clean[, output_features, drop = FALSE])
+  x_scaled <- standardize_train_test(X[train_id, , drop = FALSE], X[test_id, , drop = FALSE])
+  z_scaled <- standardize_train_test(Z[train_id, , drop = FALSE], Z[test_id, , drop = FALSE])
+  components <- min(as.integer(params$latent_factors %||% 5L), nrow(x_scaled$train) - 2L,
+                    ncol(x_scaled$train), ncol(z_scaled$train))
+  x_pca <- stats::prcomp(x_scaled$train, center = FALSE, scale. = FALSE, rank. = components)
+  z_pca <- stats::prcomp(z_scaled$train, center = FALSE, scale. = FALSE, rank. = components)
+  x_train_scores <- x_pca$x[, seq_len(components), drop = FALSE]
+  z_train_scores <- z_pca$x[, seq_len(components), drop = FALSE]
+  coef <- qr.solve(cbind(1, x_train_scores), z_train_scores)
+  x_test_scores <- x_scaled$test %*% x_pca$rotation[, seq_len(components), drop = FALSE]
+  z_score_prediction <- cbind(1, x_test_scores) %*% coef
+  z_scaled_prediction <- z_score_prediction %*% t(z_pca$rotation[, seq_len(components), drop = FALSE])
+  prediction <- sweep(sweep(z_scaled_prediction, 2, z_scaled$scale, "*"), 2, z_scaled$center, "+")
+  observed <- Z[test_id, , drop = FALSE]
+  feature_rmse <- sqrt(colMeans((observed - prediction)^2))
+  table <- data.frame(output_feature = output_features, heldout_rmse = feature_rmse)
+  first <- data.frame(observed = observed[, 1], predicted = prediction[, 1])
+  plot <- ggplot2::ggplot(first, ggplot2::aes(observed, predicted)) + ggplot2::geom_point(color = "#176b68", alpha = .75) +
+    ggplot2::geom_abline(linetype = 2, color = "#d46245") + ggplot2::theme_minimal(base_size = 13) +
+    ggplot2::labs(title = paste("Held-out prediction:", output_features[1]))
+  list(method = "Latent image-to-image regression", plot = plot, table = table,
+       summary = c(subjects = nrow(clean), input_features = length(input_features), output_features = length(output_features),
+                   latent_factors = components, overall_heldout_rmse = sqrt(mean((observed - prediction)^2))),
+       model = list(input_pca = x_pca, output_pca = z_pca, regression = coef),
+       notes = c("Columns prefixed input__ and output__ are treated as aligned predictor- and outcome-image features.",
+                 "This is a fast low-rank screening workflow, not the full Bayesian SBLF posterior engine.",
+                 "All images must share registration, mask, resolution, and feature ordering before upload."))
+}
+
 run_mediation <- function(data, mapping, features, params) {
   columns <- c(mapping$exposure, mapping$mediator, mapping$outcome)
   clean <- sanitize_for_analysis(data, columns); names(clean) <- c("exposure", "mediator", "outcome")

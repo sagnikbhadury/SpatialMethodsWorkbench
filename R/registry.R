@@ -36,6 +36,30 @@ analysis_registry <- function() {
       family = "Prediction", runtime = "Fast", engine = "Built-in ML workflow",
       needs = c("outcome", "numeric_features"), runner = "run_spatial_ml"
     ),
+    spatial_clustering = list(
+      label = "Spatially weighted phenotype clustering",
+      short = "Discover multivariate phenotypes while controlling how strongly tissue coordinates influence the clusters.",
+      family = "Spatial AI & ML", runtime = "Fast", engine = "Built-in k-means adaptation",
+      needs = c("x", "y", "numeric_features"), runner = "run_spatial_clustering"
+    ),
+    neural_prediction = list(
+      label = "Spatial shallow-neural prediction",
+      short = "Fit a single-hidden-layer network to measured features and optional spatial coordinates with held-out validation.",
+      family = "Spatial AI & ML", runtime = "Moderate", engine = "nnet shallow neural network",
+      needs = c("outcome", "numeric_features"), package = "nnet", runner = "run_neural_prediction"
+    ),
+    scalar_image = list(
+      label = "Wide-image scalar regression screen",
+      short = "Predict a numeric subject-level outcome from selected pixel, voxel, or image-derived columns using regularized regression.",
+      family = "Imaging regression", runtime = "Fast", engine = "Built-in ridge screening workflow",
+      needs = c("outcome", "image_features"), runner = "run_scalar_image"
+    ),
+    image_to_image = list(
+      label = "Latent image-to-image regression",
+      short = "Link aligned predictor and outcome images through low-dimensional factors using input__ and output__ feature groups.",
+      family = "Imaging regression", runtime = "Moderate", engine = "Built-in latent-factor screening workflow",
+      needs = c("paired_image_features"), runner = "run_image_to_image"
+    ),
     mediation = list(
       label = "Mediation with sensitivity diagnostics",
       short = "Estimate a model-based indirect effect with bootstrap uncertainty.",
@@ -59,6 +83,12 @@ method_compatibility <- function(method, data, mapping, features) {
   }
   if ("numeric_feature" %in% needs && length(features) < 1L) reason <- c(reason, "Select a numeric feature")
   if ("numeric_features" %in% needs && length(features) < 3L) reason <- c(reason, "Select at least three numeric features")
+  if ("image_features" %in% needs && length(features) < 5L) reason <- c(reason, "Select at least five numeric image features")
+  if ("paired_image_features" %in% needs) {
+    if (sum(startsWith(features, "input__")) < 3L || sum(startsWith(features, "output__")) < 3L) {
+      reason <- c(reason, "Select at least three input__ and three output__ image columns")
+    }
+  }
   package_ready <- is.null(method$package) || requireNamespace(method$package, quietly = TRUE)
   if (!package_ready) reason <- c(reason, paste(method$package, "engine is not installed on this server"))
   list(compatible = !length(reason), package_ready = package_ready, reason = paste(reason, collapse = "; "))
@@ -71,8 +101,8 @@ recommend_methods <- function(data, mapping, features) {
 
 workbench_citation <- function() {
   paste0(
-    "Bhadury, S. (2026). Spatial Methods Workbench (Version 0.1.1) ",
-    "[Computer software]. https://doi.org/10.5281/zenodo.21763607"
+    "Bhadury, S. (2026). Spatial Methods Workbench (Version 0.2.0) ",
+    "[Computer software]. https://github.com/sagnikbhadury/SpatialMethodsWorkbench"
   )
 }
 
@@ -85,6 +115,25 @@ method_citations <- function(id) {
   if (id == "gpghs") {
     citations <- c(citations,
       "Bhadury, S. GP-GHS software. https://github.com/sagnikbhadury/GP-GHS")
+  }
+  if (id == "spatial_clustering") {
+    citations <- c(citations,
+      "Microsoft. ML for Beginners curriculum. https://github.com/microsoft/ML-For-Beginners")
+  }
+  if (id == "neural_prediction") {
+    citations <- c(citations,
+      "Microsoft. AI for Beginners curriculum. https://github.com/microsoft/AI-For-Beginners",
+      "Cohen, M. X. A deep understanding of deep learning. https://github.com/mikexcohen/DeepUnderstandingOfDeepLearning",
+      "Venables, W. N. and Ripley, B. D. (2002). Modern Applied Statistics with S. Springer.")
+  }
+  if (id == "scalar_image") {
+    citations <- c(citations,
+      "Wu, B., Wu, K., and Kang, J. (2025). Bayesian Scalar-on-Image Regression with a Spatially Varying Single-layer Neural Network Prior. JMLR 26(116):1-38. https://jmlr.org/papers/v26/22-0246.html",
+      "Xu, Y. et al. (2025). Bayesian Image Regression with Soft-thresholded Conditional Autoregressive Prior. ICLR 2025. https://openreview.net/forum?id=rnL3OafDdw")
+  }
+  if (id == "image_to_image") {
+    citations <- c(citations,
+      "Guo, C., Kang, J., and Johnson, T. D. (2022). A Spatial Bayesian Latent Factor Model for Image-on-Image Regression. Biometrics 78(1):72-84. https://doi.org/10.1111/biom.13420")
   }
   unique(citations)
 }

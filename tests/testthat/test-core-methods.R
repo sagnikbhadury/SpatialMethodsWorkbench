@@ -43,6 +43,36 @@ test_that("prediction and mediation complete", {
   expect_equal(nrow(mediation$table), 5)
 })
 
+test_that("spatial AI workflows complete with held-out outputs", {
+  data <- demo_spatial_data(160)
+  features <- c("epithelial", "APC", "CTL", "Treg", "T_helper")
+  clusters <- run_spatial_clustering(data, list(x = "x", y = "y"), features,
+                                     list(clusters = 4, spatial_weight = .5, seed = 2))
+  expect_equal(length(unique(clusters$table$cluster)), 4)
+  expect_s3_class(clusters$plot, "ggplot")
+  neural <- run_neural_prediction(data, list(outcome = "disease", x = "x", y = "y", z = NULL),
+                                  features, list(hidden_units = 4, decay = .02, seed = 2))
+  expect_true("accuracy" %in% names(neural$summary))
+  expect_s3_class(neural$plot, "ggplot")
+})
+
+test_that("wide-image regression workflows complete", {
+  set.seed(4)
+  n <- 90; p <- 12
+  input <- matrix(rnorm(n * p), n, p); output <- input[, 1:6] %*% matrix(rnorm(6 * p, sd = .2), 6, p) + matrix(rnorm(n * p), n, p)
+  data <- data.frame(outcome = input[, 1] - input[, 2] + rnorm(n, sd = .3))
+  data[paste0("pixel_", seq_len(p))] <- input
+  data[paste0("input__", seq_len(p))] <- input
+  data[paste0("output__", seq_len(p))] <- output
+  scalar_features <- paste0("pixel_", seq_len(p))
+  scalar <- run_scalar_image(data, list(outcome = "outcome"), scalar_features, list(image_ridge = 5, seed = 3))
+  expect_equal(nrow(scalar$table), p)
+  paired <- c(paste0("input__", seq_len(p)), paste0("output__", seq_len(p)))
+  latent <- run_image_to_image(data, list(), paired, list(latent_factors = 4, seed = 3))
+  expect_equal(nrow(latent$table), p)
+  expect_true(is.finite(unname(latent$summary["overall_heldout_rmse"])))
+})
+
 test_that("shape PCA resamples multiple contours", {
   theta <- seq(0, 2 * pi, length.out = 25)[-25]
   shapes <- do.call(rbind, lapply(1:8, function(i) {
@@ -66,5 +96,5 @@ test_that("result bundles contain reproducibility artifacts", {
   files <- utils::unzip(path, list = TRUE)$Name
   expect_true(all(c("results.csv", "manifest.json", "CITATION.txt", "COLLABORATION.txt", "figure.png", "result_object.rds") %in% files))
   expect_false(any(c("interpretation.md", "optional_llm_prompt.txt") %in% files))
-  expect_match(workbench_citation(), "10.5281/zenodo.21763607", fixed = TRUE)
+  expect_match(workbench_citation(), "SpatialMethodsWorkbench", fixed = TRUE)
 })

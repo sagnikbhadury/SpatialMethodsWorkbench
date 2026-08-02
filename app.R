@@ -22,8 +22,8 @@ ui <- fluidPage(
       div(class = "header-links", a(href = "https://sagnikbhadury.github.io", "Research site ↗"), a(href = "https://github.com/sagnikbhadury", "GitHub ↗"))
     ),
     tags$section(class = "app-intro",
-      div(p(class = "kicker", "UPLOAD · VALIDATE · CHOOSE · RUN"), h1("One careful path through spatial and structured data."),
-          p("Upload a table, map its columns, and run only analyses whose input requirements are satisfied. Results stay tied to their assumptions and reproducible settings.")),
+      div(p(class = "kicker", "UPLOAD · VALIDATE · CHOOSE · RUN"), h1("One careful path through spatial, imaging, and structured data."),
+          p("Upload a table, map its columns, and run only analyses whose input requirements are satisfied—from spatial networks and 3D models to spatial AI, image regression, and causal workflows.")),
       tags$aside(strong("Research use only"), p("This application does not provide clinical decisions. Uploaded data are held only in the active Shiny session; do not upload protected health information to a public deployment."))
     ),
     div(class = "workbench",
@@ -149,6 +149,10 @@ server <- function(input, output, session) {
       gpghs = tagList(sliderInput("param_basis", "Basis functions per dimension", 2, 8, 4), selectInput("param_nu", "Matérn smoothness", c(.5, 1.5, 2.5), 1.5), numericInput("param_nmc", "MCMC iterations", 1200, 500, 10000, 100), numericInput("param_burn", "Burn-in", 400, 100, 5000, 100), selectInput("param_symmetry", "Symmetry rule", c("AND", "OR")), numericInput("param_cores", "Cores", 1, 1, 8)),
       ispat3d = tagList(selectInput("param_kernel", "Volumetric kernel", c("Matern", "RBF")), selectInput("param_factor_fit", "Factor fit", c("CAVI", "SVI")), sliderInput("param_threshold", "Display threshold", 0, .8, .15, .05), numericInput("param_cores", "Cores", 1, 1, 8)),
       spatial_ml = numericInput("param_seed", "Random seed", 2026, 1, 999999),
+      spatial_clustering = tagList(sliderInput("param_clusters", "Number of clusters", 2, 12, 4), sliderInput("param_spatial_weight", "Coordinate influence", 0, 2, .5, step = .1), numericInput("param_seed", "Random seed", 2026, 1, 999999)),
+      neural_prediction = tagList(sliderInput("param_hidden_units", "Hidden units", 2, 30, 6), sliderInput("param_decay", "Weight decay", 0, .2, .01, step = .01), numericInput("param_seed", "Random seed", 2026, 1, 999999)),
+      scalar_image = tagList(sliderInput("param_image_ridge", "Ridge penalty", .1, 100, 10, step = .1), numericInput("param_seed", "Random seed", 2026, 1, 999999), helpText("Select aligned pixel, voxel, or image-derived columns as features.")),
+      image_to_image = tagList(sliderInput("param_latent_factors", "Latent factors", 2, 20, 5), numericInput("param_seed", "Random seed", 2026, 1, 999999), helpText("Name and select predictor-image columns input__* and outcome-image columns output__*.")),
       mediation = tagList(sliderInput("param_bootstrap", "Bootstrap replicates", 100, 1000, 300, 100), numericInput("param_seed", "Random seed", 2026, 1, 999999)),
       shape_pca = sliderInput("param_landmarks", "Resampled landmarks", 20, 100, 40, 5)
     )
@@ -160,7 +164,9 @@ server <- function(input, output, session) {
          kernel = input$param_kernel, spatial_fit = input$param_spatial_fit, factor_fit = input$param_factor_fit,
          cores = input$param_cores, basis = input$param_basis, nu = as.numeric(input$param_nu),
          nmc = input$param_nmc, burn = input$param_burn, thin = 4L, symmetry = input$param_symmetry,
-         seed = input$param_seed, bootstrap = input$param_bootstrap, landmarks = input$param_landmarks)
+         seed = input$param_seed, clusters = input$param_clusters, spatial_weight = input$param_spatial_weight,
+         hidden_units = input$param_hidden_units, decay = input$param_decay, image_ridge = input$param_image_ridge,
+         latent_factors = input$param_latent_factors, bootstrap = input$param_bootstrap, landmarks = input$param_landmarks)
   })
 
   output$readiness <- renderUI({

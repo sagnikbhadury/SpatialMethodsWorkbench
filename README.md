@@ -11,6 +11,10 @@ The public application is intentionally separated from private research code. It
 - Spatial feature maps and permutation-based Moran's I.
 - Region-aware ridge-regularized partial-correlation networks.
 - Spatial prediction with a held-out test set.
+- Spatially weighted phenotype clustering adapted from public machine-learning curricula.
+- Shallow-neural spatial prediction with held-out validation.
+- Wide-image scalar regression screening for aligned pixel or voxel columns.
+- Latent image-to-image regression using `input__*` and `output__*` feature groups.
 - Bootstrap mediation analysis with explicit causal caveats.
 - Contour alignment, resampling, and shape PCA.
 - Optional adapters for the public `ISPAT`, `GPGHS`, and `ISPAT3D` R packages. The UI exposes these only when the corresponding package is installed.
@@ -30,6 +34,12 @@ Use one row per observation (cell, spot, location, landmark, or subject-feature 
 - three or more numeric marker/feature columns for network analyses.
 
 The application never assumes column names: users confirm every mapping. The bundled synthetic dataset opens by default and demonstrates the required structure.
+
+For wide-image workflows, use one row per subject. Scalar-on-image screening treats the selected numeric columns as aligned image features. Image-to-image screening requires selected predictor columns named `input__*` and outcome-image columns named `output__*`. Registration, mask, resolution, and feature order must already be harmonized.
+
+The spatial AI/ML workflows are deployable adaptations informed by the public Microsoft AI/ML curricula and deep-learning course repositories; they do not claim that a curriculum repository is a statistical package. The image-regression screens cite the related SV-NN, ST-CAR, and SBLF publications and state explicitly when the interactive implementation is a faster screening model rather than the full Bayesian posterior engine.
+
+No uploaded values or analysis results are sent to OmniRoute or an LLM. Public LLM engineering repositories inform deployment design only; automated result explanation remains outside the application by policy.
 
 ## Run locally
 
