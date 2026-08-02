@@ -37,6 +37,8 @@ The application never assumes column names: users confirm every mapping. The bun
 
 See the complete [Usage, Restrictions, and Local Installation Guide](docs/USER_GUIDE.md) before applying the suite to real data. The same guide is available inside the application.
 
+The [Function-by-Function Pipeline Reference](docs/PIPELINE_REFERENCE.md) documents every executable workflow, control, input contract, output object, assumption, common failure, citation, and programmatic example. It is also rendered as a dedicated tab in the application.
+
 For wide-image workflows, use one row per subject. Scalar-on-image screening treats the selected numeric columns as aligned image features. Image-to-image screening requires selected predictor columns named `input__*` and outcome-image columns named `output__*`. Registration, mask, resolution, and feature order must already be harmonized.
 
 The spatial AI/ML workflows are deployable adaptations informed by the public Microsoft AI/ML curricula and deep-learning course repositories; they do not claim that a curriculum repository is a statistical package. The image-regression screens cite the related SV-NN, ST-CAR, and SBLF publications and state explicitly when the interactive implementation is a faster screening model rather than the full Bayesian posterior engine.

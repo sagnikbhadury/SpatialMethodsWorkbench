@@ -70,6 +70,7 @@ ui <- fluidPage(
         navset_card_tab(
           nav_panel("Readiness", uiOutput("readiness")),
           nav_panel("Usage & restrictions", div(class = "usage-guide", includeMarkdown(file.path(app_root, "docs", "USER_GUIDE.md")))),
+          nav_panel("Pipeline reference", div(class = "usage-guide", includeMarkdown(file.path(app_root, "docs", "PIPELINE_REFERENCE.md")))),
           nav_panel("Figure", div(class = "plot-wrap", plotOutput("result_plot", height = "610px"))),
           nav_panel("Table", DTOutput("result_table")),
           nav_panel("Discuss results", div(class = "collaboration-panel",
@@ -158,7 +159,7 @@ server <- function(input, output, session) {
       spatial_qc = tagList(selectInput("param_feature", "Feature to map", choices = features()), sliderInput("param_neighbors", "Nearest neighbors", 3, 20, 8), sliderInput("param_permutations", "Permutations", 99, 999, 199, step = 100)),
       conditional_network = tagList(sliderInput("param_threshold", "|Partial correlation| threshold", 0, .8, .15, step = .05), sliderInput("param_ridge", "Ridge regularization", .01, .5, .05, step = .01), checkboxInput("param_by_zone", "Estimate one network per selected zone", !is.null(mapping()$zone))),
       ispat = tagList(selectInput("param_kernel", "Spatial kernel", c("Matern", "RBF")), selectInput("param_spatial_fit", "Spatial fit", c("VB", "MLE")), selectInput("param_factor_fit", "Factor fit", c("CAVI", "SVI")), sliderInput("param_threshold", "Display threshold", 0, .8, .15, .05), numericInput("param_cores", "Cores", 1, 1, 8)),
-      gpghs = tagList(sliderInput("param_basis", "Basis functions per dimension", 2, 8, 4), selectInput("param_nu", "Matérn smoothness", c(.5, 1.5, 2.5), 1.5), numericInput("param_nmc", "MCMC iterations", 1200, 500, 10000, 100), numericInput("param_burn", "Burn-in", 400, 100, 5000, 100), selectInput("param_symmetry", "Symmetry rule", c("AND", "OR")), numericInput("param_cores", "Cores", 1, 1, 8)),
+      gpghs = tagList(sliderInput("param_basis", "Basis functions per dimension", 2, 8, 4), selectInput("param_nu", "Matérn smoothness", c(.5, 1.5, 2.5), 1.5), numericInput("param_nmc", "MCMC iterations", 1200, 500, 10000, 100), numericInput("param_burn", "Burn-in", 400, 100, 5000, 100), sliderInput("param_threshold", "Edge threshold", 0, .8, .15, .05), selectInput("param_symmetry", "Symmetry rule", c("AND", "OR")), numericInput("param_cores", "Cores", 1, 1, 8)),
       ispat3d = tagList(selectInput("param_kernel", "Volumetric kernel", c("Matern", "RBF")), selectInput("param_factor_fit", "Factor fit", c("CAVI", "SVI")), sliderInput("param_threshold", "Display threshold", 0, .8, .15, .05), numericInput("param_cores", "Cores", 1, 1, 8)),
       spatial_ml = numericInput("param_seed", "Random seed", 2026, 1, 999999),
       spatial_clustering = tagList(sliderInput("param_clusters", "Number of clusters", 2, 12, 4), sliderInput("param_spatial_weight", "Coordinate influence", 0, 2, .5, step = .1), numericInput("param_seed", "Random seed", 2026, 1, 999999)),
