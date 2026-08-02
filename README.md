@@ -1,25 +1,38 @@
 # Spatial Methods Workbench
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21763606.svg)](https://doi.org/10.5281/zenodo.21763606)
+[![Version](https://img.shields.io/badge/release-v0.2.1-176b68)](https://github.com/sagnikbhadury/SpatialMethodsWorkbench/releases/tag/v0.2.1)
+[![License: MIT](https://img.shields.io/badge/License-MIT-d46245.svg)](LICENSE)
+[![R tests](https://github.com/sagnikbhadury/SpatialMethodsWorkbench/actions/workflows/test.yml/badge.svg)](https://github.com/sagnikbhadury/SpatialMethodsWorkbench/actions/workflows/test.yml)
 
 A functional Shiny application for guided analysis of spatial and structured biomedical data. Users upload a CSV, map its columns, see which analyses are compatible, configure a method, run it, and download a reproducibility bundle containing results, a figure, settings, citations, and the R result object.
 
+**[Launch the live application](https://sagnikbhadury.shinyapps.io/spatial-methods-workbench/)** · **[Read the complete usage and installation guide](docs/USER_GUIDE.md)** · **[Open the function-by-function reference](docs/PIPELINE_REFERENCE.md)** · **[Cite v0.2.1](https://doi.org/10.5281/zenodo.21764196)**
+
 The public application is intentionally separated from private research code. Its method registry contains only workflows intentionally implemented here or adapters to already-public packages.
 
-## What works now
+## Analyses available in the application
 
-- Spatial feature maps and permutation-based Moran's I.
-- Region-aware ridge-regularized partial-correlation networks.
-- Spatial prediction with a held-out test set.
-- Spatially weighted phenotype clustering adapted from public machine-learning curricula.
-- Shallow-neural spatial prediction with held-out validation.
-- Wide-image scalar regression screening for aligned pixel or voxel columns.
-- Latent image-to-image regression using `input__*` and `output__*` feature groups.
-- Bootstrap mediation analysis with explicit causal caveats.
-- Contour alignment, resampling, and shape PCA.
-- Optional adapters for the public `ISPAT`, `GPGHS`, and `ISPAT3D` R packages. The UI exposes these only when the corresponding package is installed.
-- Synthetic demonstration data, automatic column suggestions, structural validation, compatibility gating, and downloadable result bundles.
-- No automated interpretation of results. Researchers are directed to contact Sagnik Bhadury for study-specific guidance or collaboration.
+The Workbench currently hosts 12 executable analysis paths. It first checks the uploaded data against each method's input contract and exposes only compatible choices.
+
+| Analysis | Designed for | Required data | Principal output | Implementation scope |
+|---|---|---|---|---|
+| Spatial exploration and autocorrelation | Detecting whether a measured feature is spatially patterned | Numeric x/y coordinates and one numeric feature | Spatial feature map, Moran's I, permutation p-value | Built-in executable diagnostic |
+| Region-aware conditional network | Exploring adjusted relationships overall and within tissue regions | At least three numeric features; region is optional | Ridge-regularized partial-correlation edge tables and heat maps | Built-in exploratory network workflow |
+| ISPat 2D Bayesian network | Shared and region-specific network estimation after spatial adjustment | x/y coordinates, tissue zone, and at least three numeric markers | Shared and zone-specific conditional-association networks and fitted object | Direct adapter to the public `ISPAT` package |
+| Spatially varying GP–horseshoe network | Allowing network edges to vary continuously over tissue space | x/y coordinates and at least three numeric features | Posterior-selected adjacency, edge table, and full fit | Direct adapter to the public `GPGHS` package |
+| Volumetric ISPat 3D network | Network estimation from registered 3D images or serial sections | x/y/z coordinates, zone, volume/spot ID, and numeric markers | Shared and zone-specific 3D networks and fitted objects | Direct adapter to the public `ISPAT3D` package |
+| Spatial machine-learning prediction | Predicting a numeric outcome from measured covariates and optional coordinates | Numeric outcome and at least three numeric predictors | Held-out predictions, error metrics, and variable importance | Built-in held-out prediction workflow |
+| Spatially weighted phenotype clustering | Discovering multivariate phenotypes while controlling spatial influence | x/y coordinates and at least three numeric features | Cluster assignments, centers, diagnostics, and spatial cluster map | Built-in spatially weighted k-means adaptation |
+| Spatial shallow-neural prediction | Nonlinear prediction from features and optional spatial coordinates | Numeric outcome and at least three numeric predictors | Held-out predictions and performance metrics | Executable single-hidden-layer `nnet` workflow |
+| Wide-image scalar regression screen | Screening aligned pixel, voxel, or image-derived features against one scalar outcome | One row per subject, numeric outcome, and at least five aligned image features | Ridge predictions, test error, and ranked coefficients | Fast screening model; not presented as the full SV-NN or ST-CAR Bayesian algorithm |
+| Latent image-to-image regression | Screening associations between aligned predictor and outcome images | One row per subject with at least three `input__*` and three `output__*` columns | Low-rank latent factors, reconstructed outcomes, and performance summaries | Fast latent-factor screen; not presented as the full SBLF posterior engine |
+| Mediation with sensitivity diagnostics | Estimating a model-based indirect effect | Numeric exposure, mediator, and outcome | Direct, indirect, and total effects with bootstrap uncertainty | Built-in model-based workflow with explicit causal assumptions |
+| Tumor contour and shape PCA | Summarizing variation among ordered two-dimensional tumor boundaries | Contour ID and ordered x/y landmark coordinates | Resampled/aligned contours, shape scores, variance summaries, and mean shape | R implementation of the public shape workflow |
+
+Every path returns numerical/statistical output rather than an automated scientific narrative. Network edges are conditional associations unless the selected method and study design establish something stronger. For interpretation, method selection, or a study collaboration, contact [Sagnik Bhadury](mailto:bhadury@umich.edu?subject=Spatial%20Methods%20Workbench%20collaboration).
+
+The application also includes synthetic demonstration data, automatic column suggestions, structural validation, compatibility gating, documented controls, and downloadable result bundles. The advanced engines are available only when their corresponding public R package is installed; the live v0.2.1 deployment includes all three.
 
 The advanced Bayesian engines are computationally intensive. Production deployments should enforce upload, memory, worker, and runtime limits and should use a job queue for large studies.
 
@@ -43,7 +56,7 @@ For wide-image workflows, use one row per subject. Scalar-on-image screening tre
 
 The spatial AI/ML workflows are deployable adaptations informed by the public Microsoft AI/ML curricula and deep-learning course repositories; they do not claim that a curriculum repository is a statistical package. The image-regression screens cite the related SV-NN, ST-CAR, and SBLF publications and state explicitly when the interactive implementation is a faster screening model rather than the full Bayesian posterior engine.
 
-No uploaded values or analysis results are sent to OmniRoute or an LLM. Public LLM engineering repositories inform deployment design only; automated result explanation remains outside the application by policy.
+No uploaded values or analysis results are sent to a third-party AI interpretation service. Automated result explanation remains outside the application by policy.
 
 ## Run locally
 
@@ -109,6 +122,12 @@ Citation acknowledgement is a strong research-norm and provenance mechanism, not
 
 - Cite the current `v0.2.1` release using [DOI 10.5281/zenodo.21764196](https://doi.org/10.5281/zenodo.21764196).
 - Use the [concept DOI 10.5281/zenodo.21763606](https://doi.org/10.5281/zenodo.21763606) when referring to the workbench across all versions.
+
+## License and software publication
+
+The Workbench source code is published under the [MIT License](LICENSE). The MIT License allows reuse, modification, redistribution, sublicensing, and commercial use, provided the copyright and permission notice are retained. The software is supplied without warranty.
+
+The archived software release is a citable software publication on Zenodo: [v0.2.1, DOI 10.5281/zenodo.21764196](https://doi.org/10.5281/zenodo.21764196). The MIT License governs reuse of this repository's code; it does **not** replace scholarly attribution, method-specific citations, data-use obligations, or licenses attached to external packages. The application requires citation acknowledgement and writes the applicable references into every result bundle, but no open-source license can technically guarantee what a later manuscript includes.
 
 ## Design evidence
 
