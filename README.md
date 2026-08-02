@@ -107,7 +107,7 @@ Each advanced engine retains its own citation and license requirements.
 
 Citation acknowledgement is a strong research-norm and provenance mechanism, not a technical guarantee about a later publication's bibliography. A tagged release can be archived with Zenodo to add a persistent DOI.
 
-- Cite the current `v0.2.0` release using [DOI 10.5281/zenodo.21763796](https://doi.org/10.5281/zenodo.21763796).
+- Cite the current `v0.2.1` release using the citation displayed by the application and in [`CITATION.cff`](CITATION.cff). The version DOI is added after Zenodo archives the release.
 - Use the [concept DOI 10.5281/zenodo.21763606](https://doi.org/10.5281/zenodo.21763606) when referring to the workbench across all versions.
 
 ## Design evidence

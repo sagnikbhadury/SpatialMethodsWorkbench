@@ -1,6 +1,6 @@
 # Function-by-function pipeline reference
 
-This manual describes every executable analysis path in Spatial Methods Workbench v0.2.0. Read the [Usage, Restrictions, and Local Installation Guide](USER_GUIDE.md) first. The toolkit produces statistical outputs but does not explain results or assign scientific meaning; interpretation requires the study design and domain context.
+This manual describes every executable analysis path in Spatial Methods Workbench v0.2.1. Read the [Usage, Restrictions, and Local Installation Guide](USER_GUIDE.md) first. The toolkit produces statistical outputs but does not explain results or assign scientific meaning; interpretation requires the study design and domain context.
 
 ## Common programmatic interface
 
