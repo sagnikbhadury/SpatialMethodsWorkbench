@@ -98,4 +98,5 @@ test_that("result bundles contain reproducibility artifacts", {
   expect_false(any(c("interpretation.md", "optional_llm_prompt.txt") %in% files))
   expect_match(workbench_citation(), "SpatialMethodsWorkbench", fixed = TRUE)
   expect_match(workbench_citation(), "Version 0.2.1", fixed = TRUE)
+  expect_match(workbench_citation(), "10.5281/zenodo.21764196", fixed = TRUE)
 })

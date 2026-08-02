@@ -190,6 +190,6 @@ The shinyapps.io service is appropriate for demonstrations and moderate public r
 
 ## Citation and collaboration
 
-Use the workbench citation included in the bundle and the method-specific citations added for the selected pipeline. For v0.2.1, use the citation displayed by the application and in [`CITATION.cff`](../CITATION.cff); the version DOI is added after Zenodo archives the release. The all-versions DOI is [10.5281/zenodo.21763606](https://doi.org/10.5281/zenodo.21763606).
+Use the workbench citation included in the bundle and the method-specific citations added for the selected pipeline. The current v0.2.1 software DOI is [10.5281/zenodo.21764196](https://doi.org/10.5281/zenodo.21764196), and the all-versions DOI is [10.5281/zenodo.21763606](https://doi.org/10.5281/zenodo.21763606).
 
 For method selection, scientific interpretation, a production deployment, or collaboration, email [bhadury@umich.edu](mailto:bhadury@umich.edu?subject=Spatial%20Methods%20Workbench%20collaboration).
