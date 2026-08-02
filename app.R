@@ -3,7 +3,18 @@ library(bslib)
 library(ggplot2)
 library(DT)
 
-invisible(lapply(list.files("R", pattern = "\\.R$", full.names = TRUE), source, local = FALSE))
+app_root <- local({
+  candidate <- normalizePath(".")
+  for (i in seq_len(6L)) {
+    if (file.exists(file.path(candidate, "app.R")) && dir.exists(file.path(candidate, "R"))) return(candidate)
+    parent <- dirname(candidate)
+    if (identical(parent, candidate)) break
+    candidate <- parent
+  }
+  stop("Could not locate the Spatial Methods Workbench application root.")
+})
+
+invisible(lapply(list.files(file.path(app_root, "R"), pattern = "\\.R$", full.names = TRUE), source, local = FALSE))
 
 app_theme <- bs_theme(version = 5, bg = "#f6f3ec", fg = "#112d35", primary = "#176b68",
                       secondary = "#d46245", base_font = font_collection("Inter", "system-ui"),
@@ -58,6 +69,7 @@ ui <- fluidPage(
         uiOutput("dataset_summary"),
         navset_card_tab(
           nav_panel("Readiness", uiOutput("readiness")),
+          nav_panel("Usage & restrictions", div(class = "usage-guide", includeMarkdown(file.path(app_root, "docs", "USER_GUIDE.md")))),
           nav_panel("Figure", div(class = "plot-wrap", plotOutput("result_plot", height = "610px"))),
           nav_panel("Table", DTOutput("result_table")),
           nav_panel("Discuss results", div(class = "collaboration-panel",
