@@ -30,7 +30,7 @@ run_ispat <- function(data, mapping, features, params) {
 }
 
 run_gpghs <- function(data, mapping, features, params) {
-  if (!requireNamespace("GPGHS", quietly = TRUE)) stop("The GP–GHS engine is not installed on this deployment.")
+  if (!requireNamespace("GPGHS", quietly = TRUE)) stop("The GP-GHS engine is not installed on this deployment.")
   clean <- sanitize_for_analysis(data, c(mapping$x, mapping$y, features))
   Y <- as.matrix(clean[, features, drop = FALSE]); coords <- as.matrix(clean[, c(mapping$x, mapping$y), drop = FALSE])
   fit <- GPGHS::gp_group_horseshoe_graph(Y, coords, m = params$basis %||% 4L, nu = params$nu %||% 1.5,
@@ -41,8 +41,8 @@ run_gpghs <- function(data, mapping, features, params) {
   plot_data <- expand.grid(row = rownames(adj), column = colnames(adj), stringsAsFactors = FALSE); plot_data$value <- as.vector(adj)
   plot <- ggplot2::ggplot(plot_data, ggplot2::aes(column, row, fill = value)) + ggplot2::geom_tile(color = "white") +
     ggplot2::scale_fill_gradient(low = "#fffdf8", high = "#176b68") + ggplot2::coord_equal() + ggplot2::theme_minimal(base_size = 12) +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)) + ggplot2::labs(title = "GP–GHS selected network", x = NULL, y = NULL)
-  list(method = "Spatially varying GP–horseshoe network", plot = plot, table = edges, raw = fit,
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)) + ggplot2::labs(title = "GP-GHS selected network", x = NULL, y = NULL)
+  list(method = "Spatially varying GP-horseshoe network", plot = plot, table = edges, raw = fit,
        summary = c(cell_types = ncol(Y), selected_edges = nrow(edges)),
        notes = c("The adjacency matrix summarizes edges selected by the configured posterior shrinkage rule.", "Inspect spatial edge maps before drawing region-specific biological conclusions."))
 }

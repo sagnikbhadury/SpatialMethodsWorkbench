@@ -2,7 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21763606.svg)](https://doi.org/10.5281/zenodo.21763606)
 [![Version](https://img.shields.io/badge/release-v0.2.1-176b68)](https://github.com/sagnikbhadury/SpatialMethodsWorkbench/releases/tag/v0.2.1)
-[![License: MIT](https://img.shields.io/badge/License-MIT-d46245.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-d46245.svg)](LICENSE.md)
 [![R tests](https://github.com/sagnikbhadury/SpatialMethodsWorkbench/actions/workflows/test.yml/badge.svg)](https://github.com/sagnikbhadury/SpatialMethodsWorkbench/actions/workflows/test.yml)
 
 A functional Shiny application for guided analysis of spatial and structured biomedical data. Users upload a CSV, map its columns, see which analyses are compatible, configure a method, run it, and download a reproducibility bundle containing results, a figure, settings, citations, and the R result object.
@@ -14,6 +14,10 @@ A functional Shiny application for guided analysis of spatial and structured bio
 [![Watch the Spatial Methods Workbench tutorial on YouTube](https://img.youtube.com/vi/Ft9groM2ilI/maxresdefault.jpg)](https://www.youtube.com/watch?v=Ft9groM2ilI)
 
 **[Watch the complete Spatial Methods Workbench usage tutorial on YouTube](https://www.youtube.com/watch?v=Ft9groM2ilI).** It demonstrates the live application, synthetic-data workflow, column mapping, compatibility checks, analysis selection, controls, citation requirements, reproducibility downloads, and local installation. The tutorial explains operation and statistical purpose without interpreting a user's scientific results.
+
+## Reproducible vignettes
+
+**[Open the simulated-data vignette index](docs/VIGNETTES.md).** Five executable vignettes reproduce the Shiny workflow and every analysis family using small deterministic datasets. Upload-ready CSV files are included under [`inst/extdata`](inst/extdata), and every dataset can be regenerated from a fixed seed with the exported simulation functions.
 
 The public application is intentionally separated from private research code. Its method registry contains only workflows intentionally implemented here or adapters to already-public packages.
 
@@ -78,6 +82,22 @@ Rscript run-local.R
 ```
 
 Open `http://127.0.0.1:3838`.
+
+## Install as an R package and open the vignettes
+
+```r
+install.packages(c("remotes", "knitr", "rmarkdown"))
+remotes::install_github(
+  "sagnikbhadury/SpatialMethodsWorkbench",
+  build_vignettes = TRUE,
+  dependencies = NA
+)
+
+vignette(package = "SpatialMethodsWorkbench")
+vignette("app-walkthrough", package = "SpatialMethodsWorkbench")
+```
+
+The installed package exports the four deterministic data generators, validation and readiness functions, all 12 workflow runners, the common `run_analysis()` dispatcher, citation helpers, and reproducibility-bundle functions. The Shiny app and package call the same analysis implementation.
 
 ## Install public advanced engines
 
@@ -158,7 +178,7 @@ Citation acknowledgement is a strong research-norm and provenance mechanism, not
 
 ## License and software publication
 
-The Workbench source code is published under the [MIT License](LICENSE). The MIT License allows reuse, modification, redistribution, sublicensing, and commercial use, provided the copyright and permission notice are retained. The software is supplied without warranty.
+The Workbench source code is published under the [MIT License](LICENSE.md). The MIT License allows reuse, modification, redistribution, sublicensing, and commercial use, provided the copyright and permission notice are retained. The software is supplied without warranty.
 
 The archived software release is a citable software publication on Zenodo: [v0.2.1, DOI 10.5281/zenodo.21764196](https://doi.org/10.5281/zenodo.21764196). The MIT License governs reuse of this repository's code; it does **not** replace scholarly attribution, method-specific citations, data-use obligations, or licenses attached to external packages. The application requires citation acknowledgement and writes the applicable references into every result bundle, but no open-source license can technically guarantee what a later manuscript includes.
 

@@ -110,3 +110,56 @@ test_that("every workflow exports a method-specific source citation", {
   expect_match(paste(method_citations("scalar_image"), collapse = "\n"), "github.com/benwu233/SV-NN", fixed = TRUE)
   expect_match(paste(method_citations("image_to_image"), collapse = "\n"), "github.com/umich-biostatistics/SBLF", fixed = TRUE)
 })
+
+test_that("small vignette datasets are deterministic and workflow-ready", {
+  spatial <- demo_spatial_data(72, seed = 2026)
+  expect_identical(spatial, demo_spatial_data(72, seed = 2026))
+  expect_equal(nrow(spatial), 72)
+
+  image <- demo_image_data(48, features = 8, seed = 2026)
+  expect_identical(image, demo_image_data(48, features = 8, seed = 2026))
+  expect_equal(dim(image), c(48, 26))
+
+  contours <- demo_contour_data(6, points = 16, seed = 2026)
+  expect_identical(contours, demo_contour_data(6, points = 16, seed = 2026))
+  expect_equal(nrow(contours), 96)
+
+  volume <- demo_spatial_3d_data(72, volumes = 2, seed = 2026)
+  expect_identical(volume, demo_spatial_3d_data(72, volumes = 2, seed = 2026))
+  expect_equal(nrow(volume), 72)
+  expect_equal(length(unique(volume$volume_id)), 2)
+})
+
+test_that("small specialized vignette datasets execute fast workflows", {
+  image <- demo_image_data(48, features = 8, seed = 2026)
+  pixels <- grep("^pixel_", names(image), value = TRUE)
+  scalar <- run_analysis("scalar_image", image, list(outcome = "outcome"), pixels,
+                         list(image_ridge = 5, seed = 2026))
+  expect_equal(nrow(scalar$table), 8)
+
+  paired <- grep("^(input__|output__)", names(image), value = TRUE)
+  latent <- run_analysis("image_to_image", image, list(), paired,
+                         list(latent_factors = 3, seed = 2026))
+  expect_equal(nrow(latent$table), 8)
+
+  contours <- demo_contour_data(6, points = 16, seed = 2026)
+  shape <- run_analysis("shape_pca", contours,
+                        list(id = "contour_id", x = "x", y = "y"), character(),
+                        list(landmarks = 16))
+  expect_equal(nrow(shape$table), 6)
+})
+
+test_that("vignette sources and app navigation are present", {
+  root <- normalizePath(file.path("..", ".."), mustWork = TRUE)
+  skip_if_not(file.exists(file.path(root, "app.R")),
+              "Source-repository app navigation is not included in the installed package check.")
+  expected <- file.path(root, "vignettes", c(
+    "app-walkthrough.Rmd", "spatial-networks.Rmd",
+    "prediction-clustering-mediation.Rmd", "imaging-shape-3d.Rmd",
+    "reproducibility-bundles.Rmd"
+  ))
+  expect_true(all(file.exists(expected)))
+  expect_true(file.exists(file.path(root, "docs", "VIGNETTES.md")))
+  expect_match(paste(readLines(file.path(root, "app.R"), warn = FALSE), collapse = "\n"),
+               "Reproducible vignettes", fixed = TRUE)
+})

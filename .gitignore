@@ -8,3 +8,6 @@ results/
 .env
 __pycache__/
 *.pyc
+SpatialMethodsWorkbench.Rcheck/
+SpatialMethodsWorkbench_*.tar.gz
+*.Rproj

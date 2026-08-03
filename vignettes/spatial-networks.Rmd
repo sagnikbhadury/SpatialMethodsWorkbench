@@ -1,0 +1,104 @@
+---
+title: "Spatial diagnostics and network workflows"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Spatial diagnostics and network workflows}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 6.5, fig.height = 4.5)
+library(SpatialMethodsWorkbench)
+```
+
+This vignette exercises the spatial and network analysis family with 72 synthetic observations. The small permutation count and compact data are intended for reproducibility checks, not final analysis settings.
+
+```{r data}
+d <- demo_spatial_data(n = 72, seed = 2026)
+features <- c("epithelial", "APC", "CTL", "Treg", "T_helper")
+mapping <- list(
+  x = "x", y = "y", z = NULL, zone = "zone", id = "sample_id",
+  outcome = "disease", exposure = "epithelial", mediator = "APC"
+)
+```
+
+## Spatial exploration and autocorrelation
+
+```{r spatial-qc}
+spatial_qc <- run_analysis(
+  "spatial_qc", d, mapping, features,
+  list(feature = "epithelial", neighbors = 6, permutations = 19, seed = 2026)
+)
+spatial_qc$table
+```
+
+```{r spatial-qc-plot}
+spatial_qc$plot
+```
+
+The output reports the configured neighbor graph, statistic, permutation calculation, and provenance. It does not establish a biological mechanism.
+
+## Region-aware conditional network
+
+```{r conditional-network}
+conditional <- run_analysis(
+  "conditional_network", d, mapping, features,
+  list(threshold = 0.15, ridge = 0.05, by_zone = TRUE)
+)
+head(conditional$table, 10)
+conditional$summary
+```
+
+```{r conditional-network-plot}
+conditional$plot
+```
+
+The stored matrices can be audited directly.
+
+```{r matrix-names}
+names(conditional$matrices)
+vapply(conditional$matrices, nrow, integer(1))
+```
+
+Edges are regularized conditional-association summaries. The vignette intentionally stops at reproducible output inspection.
+
+## Public advanced engines
+
+The following calls use the same 72-row table. They are not evaluated while building the vignette because runtime depends on the installed public engines and local hardware.
+
+### ISPat 2D
+
+```{r ispat, eval=FALSE}
+remotes::install_github("sagnikbhadury/ISPAT")
+
+ispat <- run_analysis(
+  "ispat", d, mapping, features,
+  list(
+    kernel = "Matern", spatial_fit = "VB", factor_fit = "CAVI",
+    cores = 1L, threshold = 0.15
+  )
+)
+ispat$summary
+head(ispat$table)
+```
+
+### GP-GHS
+
+The short chain below is a software smoke check. Increase Monte Carlo settings and perform convergence assessment for research use.
+
+```{r gpghs, eval=FALSE}
+remotes::install_github("sagnikbhadury/GP-GHS")
+
+gpghs <- run_analysis(
+  "gpghs", d, mapping, features,
+  list(
+    basis = 3L, nu = 1.5, nmc = 200L, burn = 50L, thin = 2L,
+    threshold = 0.15, symmetry = "AND", cores = 1L
+  )
+)
+gpghs$summary
+head(gpghs$table)
+```
+
+Use `method_citations("ispat")` and `method_citations("gpghs")` to retrieve the required software and method references.

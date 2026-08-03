@@ -71,6 +71,7 @@ ui <- fluidPage(
           nav_panel("Readiness", uiOutput("readiness")),
           nav_panel("Usage & restrictions", div(class = "usage-guide", includeMarkdown(file.path(app_root, "docs", "USER_GUIDE.md")))),
           nav_panel("Pipeline reference", div(class = "usage-guide", includeMarkdown(file.path(app_root, "docs", "PIPELINE_REFERENCE.md")))),
+          nav_panel("Reproducible vignettes", div(class = "usage-guide", includeMarkdown(file.path(app_root, "docs", "VIGNETTES.md")))),
           nav_panel("Figure", div(class = "plot-wrap", plotOutput("result_plot", height = "610px"))),
           nav_panel("Table", DTOutput("result_table")),
           nav_panel("Discuss results", div(class = "collaboration-panel",

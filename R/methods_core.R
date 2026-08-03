@@ -248,7 +248,7 @@ run_scalar_image <- function(data, mapping, features, params) {
   observed <- outcome[test_id]
   coefficients <- data.frame(feature = features, coefficient = as.numeric(beta))
   coefficients <- coefficients[order(abs(coefficients$coefficient), decreasing = TRUE), , drop = FALSE]
-  top <- head(coefficients, 30L); top$feature <- factor(top$feature, levels = rev(top$feature))
+  top <- utils::head(coefficients, 30L); top$feature <- factor(top$feature, levels = rev(top$feature))
   plot <- ggplot2::ggplot(top, ggplot2::aes(feature, coefficient, fill = coefficient > 0)) +
     ggplot2::geom_col(show.legend = FALSE) + ggplot2::coord_flip() +
     ggplot2::scale_fill_manual(values = c("#d46245", "#176b68")) + ggplot2::theme_minimal(base_size = 12) +
@@ -323,7 +323,7 @@ run_mediation <- function(data, mapping, features, params) {
   list(method = "Mediation with sensitivity diagnostics", plot = plot, table = table,
        summary = c(indirect = indirect, direct = direct, total = total, ci_low = ci[1], ci_high = ci[2]),
        notes = c("These are model-based mediation estimates, not automatic causal effects.",
-                 "Causal interpretation requires temporal ordering, consistency, positivity, and no unmeasured exposure–mediator, exposure–outcome, or mediator–outcome confounding."))
+                 "Causal interpretation requires temporal ordering, consistency, positivity, and no unmeasured exposure-mediator, exposure-outcome, or mediator-outcome confounding."))
 }
 
 resample_contour <- function(x, y, landmarks = 40L) {

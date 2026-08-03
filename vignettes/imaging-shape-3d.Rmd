@@ -1,0 +1,107 @@
+---
+title: "Imaging, shape, and volumetric workflows"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Imaging, shape, and volumetric workflows}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 6.5, fig.height = 4.5)
+library(SpatialMethodsWorkbench)
+```
+
+This vignette uses three compact deterministic datasets: 48 image subjects, six contours, and 72 volumetric observations.
+
+## Wide-image scalar regression screen
+
+```{r image-data}
+image <- demo_image_data(n = 48, features = 8, seed = 2026)
+pixel_features <- grep("^pixel_", names(image), value = TRUE)
+```
+
+```{r scalar-image}
+scalar <- run_analysis(
+  "scalar_image", image, list(outcome = "outcome"), pixel_features,
+  list(image_ridge = 5, seed = 2026)
+)
+scalar$summary
+head(scalar$table)
+```
+
+```{r scalar-image-plot}
+scalar$plot
+```
+
+## Latent image-to-image regression screen
+
+```{r image-to-image}
+paired_features <- grep("^(input__|output__)", names(image), value = TRUE)
+latent <- run_analysis(
+  "image_to_image", image, list(), paired_features,
+  list(latent_factors = 3L, seed = 2026)
+)
+latent$summary
+head(latent$table)
+```
+
+```{r image-to-image-plot}
+latent$plot
+```
+
+These fast screens expect already aligned and consistently ordered image features. They are not the full SV-NN, ST-CAR, or SBLF posterior engines.
+
+```{r image-method-citations}
+method_citations("scalar_image")
+method_citations("image_to_image")
+```
+
+## Ordered-contour shape PCA
+
+```{r contour-data}
+contours <- demo_contour_data(contours = 6, points = 16, seed = 2026)
+head(contours)
+```
+
+```{r shape-pca}
+shape <- run_analysis(
+  "shape_pca", contours,
+  list(id = "contour_id", x = "x", y = "y"), character(),
+  list(landmarks = 16L)
+)
+shape$summary
+shape$table
+```
+
+```{r shape-pca-plot}
+shape$plot
+```
+
+Input points must follow each boundary in order. The vignette reports reproducible scores without assigning a tumor phenotype.
+
+## Volumetric ISPAT-3D input
+
+```{r volume-data}
+volume <- demo_spatial_3d_data(n = 72, volumes = 2, seed = 2026)
+volume_features <- c("epithelial", "APC", "CTL", "Treg", "T_helper")
+volume_mapping <- list(
+  x = "x", y = "y", z = "z", zone = "zone", id = "volume_id"
+)
+validate_dataset(volume, volume_mapping)[c("ok", "n", "p")]
+```
+
+The public ISPAT-3D engine is opt-in and is not executed during vignette builds.
+
+```{r ispat3d, eval=FALSE}
+remotes::install_github("sagnikbhadury/ISPAT-3D")
+
+ispat3d <- run_analysis(
+  "ispat3d", volume, volume_mapping, volume_features,
+  list(kernel = "Matern", factor_fit = "CAVI", threshold = 0.15, cores = 1L)
+)
+ispat3d$summary
+head(ispat3d$table)
+```
+
+The 72-row dataset is a software demonstration. Registered coordinates, section alignment, zones, and study-specific sampling must be established before using real volumetric data.

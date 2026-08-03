@@ -28,6 +28,63 @@ demo_spatial_data <- function(n = 180L, seed = 2026L) {
              Treg = treg, T_helper = helper, check.names = FALSE)
 }
 
+demo_spatial_3d_data <- function(n = 72L, volumes = 2L, seed = 2026L) {
+  n <- max(40L, as.integer(n))
+  volumes <- max(1L, min(as.integer(volumes), floor(n / 20L)))
+  set.seed(seed)
+  volume_id <- rep(sprintf("V%02d", seq_len(volumes)), length.out = n)
+  x <- stats::runif(n, 0, 8)
+  y <- stats::runif(n, 0, 8)
+  z <- stats::runif(n, 0, 4) + (as.integer(factor(volume_id)) - 1L) * .25
+  spatial_score <- x + y + 1.5 * z
+  zone <- cut(spatial_score,
+    breaks = stats::quantile(spatial_score, probs = seq(0, 1, length.out = 4)),
+    include.lowest = TRUE, labels = c("Low", "Intermediate", "High")
+  )
+  epithelial <- scale(sin(x / 2) + cos(y / 2.5) + .2 * z + stats::rnorm(n, sd = .5))[, 1]
+  apc <- scale(.5 * epithelial + sin(z) + stats::rnorm(n, sd = .7))[, 1]
+  ctl <- scale(.55 * apc - .2 * epithelial + stats::rnorm(n, sd = .7))[, 1]
+  treg <- scale(-.35 * ctl + .3 * epithelial + stats::rnorm(n, sd = .75))[, 1]
+  helper <- scale(.4 * apc + .25 * treg + stats::rnorm(n, sd = .75))[, 1]
+  data.frame(
+    volume_id = volume_id, x = x, y = y, z = z, zone = zone,
+    epithelial = epithelial, APC = apc, CTL = ctl, Treg = treg,
+    T_helper = helper, check.names = FALSE
+  )
+}
+
+demo_image_data <- function(n = 48L, features = 8L, seed = 2026L) {
+  n <- max(36L, as.integer(n))
+  features <- max(5L, min(as.integer(features), 40L))
+  set.seed(seed)
+  input <- matrix(stats::rnorm(n * features), nrow = n, ncol = features)
+  loading <- matrix(stats::rnorm(features * features, sd = .18), features, features)
+  output <- input %*% loading + matrix(stats::rnorm(n * features, sd = .65), n, features)
+  outcome <- .8 * input[, 1] - .55 * input[, 2] + .3 * input[, 3] + stats::rnorm(n, sd = .5)
+  out <- data.frame(subject_id = sprintf("I%03d", seq_len(n)), outcome = outcome, check.names = FALSE)
+  out[paste0("pixel_", seq_len(features))] <- input
+  out[paste0("input__", seq_len(features))] <- input
+  out[paste0("output__", seq_len(features))] <- output
+  out
+}
+
+demo_contour_data <- function(contours = 6L, points = 16L, seed = 2026L) {
+  contours <- max(5L, as.integer(contours))
+  points <- max(8L, as.integer(points))
+  set.seed(seed)
+  theta <- seq(0, 2 * pi, length.out = points + 1L)[-1L]
+  do.call(rbind, lapply(seq_len(contours), function(i) {
+    phase <- stats::runif(1, -.12, .12)
+    radial <- 1 + .08 * sin(3 * theta + phase) + stats::rnorm(points, sd = .015)
+    data.frame(
+      contour_id = sprintf("C%02d", i),
+      order = seq_len(points),
+      x = radial * (1 + i / 35) * cos(theta),
+      y = radial * (1 - i / 45) * sin(theta)
+    )
+  }))
+}
+
 numeric_columns <- function(data) names(data)[vapply(data, is.numeric, logical(1))]
 categorical_columns <- function(data) names(data)[vapply(data, function(x) is.factor(x) || is.character(x), logical(1))]
 

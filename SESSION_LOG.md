@@ -70,3 +70,19 @@ Edit `media/youtube/public_usage_slides.json` or `media/youtube/interpretation_s
 - Verified that Zenodo retained DOI `10.5281/zenodo.21764196`, version `v0.2.1`, the MIT license, open access, repository relation, and the original archived ZIP checksum.
 - Verified the public Zenodo page exposes the updated description, required attribution statement, public upstream/fork acknowledgments, and the explicit private/working-manuscript exclusion.
 - GitHub Actions passed all 36 checks for public source commit `87cd1cb`.
+
+## 2026-08-02 — reproducible package and app vignettes
+
+### Completed
+
+- Converted the analysis layer from an app-only project layout into an installable R package while preserving the Shiny source application.
+- Added five executable R Markdown vignettes covering the app walkthrough, all 12 analysis workflows, result-bundle auditing, and public fork provenance.
+- Added deterministic generators for spatial, 3D/volumetric, aligned image-feature, and ordered-contour inputs.
+- Added four upload-ready CSV files under `inst/extdata/`: 72 spatial rows, 72 volumetric rows, 48 image subjects, and six contours with 16 points each.
+- Used fast vignette settings: 19 permutations, 25 bootstrap replicates, compact neural networks, and small feature matrices. Advanced Bayesian calls remain opt-in and use clearly labeled smoke-test settings.
+- Added an in-app **Reproducible vignettes** tab and a repository vignette index with direct CSV downloads and mapping instructions.
+- Documented how every public fork is represented, distinguishing direct R engine adapters, executable built-in adaptations, and related full methods cited alongside screening workflows.
+- Exported the public dataset generators, validation/readiness utilities, all 12 workflow runners, dispatcher, citation helpers, and reproducibility-bundle functions.
+- Added package manuals, a package-safe MIT license stub plus full `LICENSE.md`, package build exclusions, and continuous-integration vignette building.
+- Verified 51 source tests with no failures, warnings, or skips.
+- Built all five HTML vignettes and completed `R CMD check --no-manual` with `Status: OK`.

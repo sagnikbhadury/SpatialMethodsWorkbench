@@ -1,0 +1,108 @@
+---
+title: "Reproducing the Shiny app workflow"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Reproducing the Shiny app workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 6.5, fig.height = 4.5)
+library(SpatialMethodsWorkbench)
+```
+
+This vignette reproduces the main path through the Spatial Methods Workbench using small, deterministic simulated data. The same seed produces the same CSV and statistical output. No protected data, private method, or unpublished manuscript content is required.
+
+## 1. Create upload-ready demonstration files
+
+```{r create-data}
+spatial <- demo_spatial_data(n = 72, seed = 2026)
+image <- demo_image_data(n = 48, features = 8, seed = 2026)
+contour <- demo_contour_data(contours = 6, points = 16, seed = 2026)
+volume <- demo_spatial_3d_data(n = 72, volumes = 2, seed = 2026)
+
+vapply(list(spatial = spatial, image = image, contour = contour, volume = volume), nrow, integer(1))
+```
+
+Write any dataset to CSV, then upload it through **01 · DATA** in the app.
+
+```{r write-csv}
+demo_dir <- file.path(tempdir(), "spatial-workbench-vignettes")
+dir.create(demo_dir, showWarnings = FALSE)
+utils::write.csv(spatial, file.path(demo_dir, "spatial_demo.csv"), row.names = FALSE)
+utils::write.csv(image, file.path(demo_dir, "image_demo.csv"), row.names = FALSE)
+utils::write.csv(contour, file.path(demo_dir, "contour_demo.csv"), row.names = FALSE)
+utils::write.csv(volume, file.path(demo_dir, "spatial_3d_demo.csv"), row.names = FALSE)
+basename(list.files(demo_dir))
+```
+
+Start the app from the repository root with `shiny::runApp()` or use the [live application](https://sagnikbhadury.shinyapps.io/spatial-methods-workbench/).
+
+## 2. Reproduce column mapping
+
+For `spatial_demo.csv`, select the following roles in **02 · COLUMN MAP**.
+
+| App role | Column |
+|---|---|
+| X coordinate | `x` |
+| Y coordinate | `y` |
+| Region / zone | `zone` |
+| Sample / contour / volume ID | `sample_id` |
+| Outcome | `disease` |
+| Exposure | `epithelial` |
+| Mediator | `APC` |
+| Numeric features | `epithelial`, `APC`, `CTL`, `Treg`, `T_helper` |
+
+The programmatic equivalent is:
+
+```{r mapping}
+mapping <- coerce_mapping(spatial, list(
+  x = "x", y = "y", z = NULL, zone = "zone", id = "sample_id",
+  outcome = "disease", exposure = "epithelial", mediator = "APC"
+))
+features <- c("epithelial", "APC", "CTL", "Treg", "T_helper")
+validate_dataset(spatial, mapping)[c("ok", "n", "p", "missing_rate")]
+```
+
+## 3. Reproduce readiness checks
+
+```{r readiness}
+readiness <- recommend_methods(spatial, mapping, features)
+data.frame(
+  analysis = names(readiness),
+  compatible = vapply(readiness, `[[`, logical(1), "compatible"),
+  reason = vapply(readiness, `[[`, character(1), "reason"),
+  row.names = NULL
+)
+```
+
+Readiness describes whether the mapped table satisfies each input contract and whether an optional engine is installed. It is not a scientific recommendation.
+
+## 4. Reproduce an app run
+
+In **03 · ANALYSIS**, choose **Spatial exploration & autocorrelation**, select `epithelial`, set six neighbors and 19 permutations, acknowledge the citation condition, and run. The equivalent call is:
+
+```{r app-equivalent-run}
+result <- run_analysis(
+  "spatial_qc", spatial, mapping, features,
+  params = list(feature = "epithelial", neighbors = 6, permutations = 19, seed = 2026)
+)
+result$table
+```
+
+```{r app-equivalent-plot, fig.cap="Synthetic-data output from the same workflow used by the app."}
+result$plot
+```
+
+The table, plot, summary, controls, mappings, citations, and fitted result object are retained. This vignette does not interpret the numerical result.
+
+## 5. Reproduce the download
+
+```{r bundle}
+bundle <- file.path(tempdir(), "spatial-workbench-example.zip")
+write_result_bundle(result, bundle)
+utils::unzip(bundle, list = TRUE)$Name
+```
+
+The archive contains the numerical table, figure, manifest, R object, citations, and collaboration notice. It does not contain the uploaded data or an automated interpretation.

@@ -1,0 +1,99 @@
+---
+title: "Prediction, clustering, and mediation workflows"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Prediction, clustering, and mediation workflows}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 6.5, fig.height = 4.5)
+library(SpatialMethodsWorkbench)
+```
+
+All examples use the same 72-row synthetic table and fixed seed. Small settings make the vignette suitable for a laptop or continuous integration.
+
+These executable workflows are adaptations informed by the public AI for Beginners, ML for Beginners, and Deep Understanding of Deep Learning repositories credited by `method_citations()`. Those curriculum repositories are not imported as R packages and are not presented as statistical engines.
+
+```{r data}
+d <- demo_spatial_data(n = 72, seed = 2026)
+features <- c("epithelial", "APC", "CTL", "Treg", "T_helper")
+mapping <- list(
+  x = "x", y = "y", z = NULL, zone = "zone", id = "sample_id",
+  outcome = "disease", exposure = "epithelial", mediator = "APC"
+)
+```
+
+## Held-out spatial prediction
+
+```{r spatial-ml}
+prediction <- run_analysis(
+  "spatial_ml", d, mapping, features,
+  list(seed = 2026)
+)
+prediction$summary
+head(prediction$table)
+```
+
+```{r spatial-ml-plot}
+prediction$plot
+```
+
+## Spatially weighted clustering
+
+```{r clustering}
+clusters <- run_analysis(
+  "spatial_clustering", d, mapping, features,
+  list(clusters = 3L, spatial_weight = 0.5, seed = 2026)
+)
+clusters$summary
+head(clusters$table)
+```
+
+```{r clustering-plot}
+clusters$plot
+```
+
+## Shallow-neural prediction
+
+The `nnet` package is a suggested dependency. The model below has only four hidden units and a small dataset.
+
+```{r neural}
+if (requireNamespace("nnet", quietly = TRUE)) {
+  neural <- run_analysis(
+    "neural_prediction", d, mapping, features,
+    list(hidden_units = 4L, decay = 0.02, seed = 2026)
+  )
+  neural$summary
+}
+```
+
+```{r neural-plot}
+if (exists("neural")) neural$plot
+```
+
+## Mediation with a small bootstrap
+
+For this synthetic execution check, `epithelial` is mapped to exposure, `APC` to mediator, and `CTL` to outcome. Twenty-five bootstrap replicates keep rendering fast; a real analysis requires settings justified for the study.
+
+```{r mediation}
+mediation_mapping <- mapping
+mediation_mapping$outcome <- "CTL"
+mediation <- run_analysis(
+  "mediation", d, mediation_mapping, features,
+  list(bootstrap = 25L, seed = 2026)
+)
+mediation$table
+```
+
+```{r mediation-plot}
+mediation$plot
+```
+
+These workflows return predictive, clustering, and model-based mediation quantities. The code demonstrates execution and object structure; it does not validate biological labels, clinical utility, or causal identification.
+
+```{r fork-citations}
+method_citations("spatial_ml")
+method_citations("neural_prediction")
+```

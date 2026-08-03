@@ -21,6 +21,17 @@ Create synthetic cell/spot-level data:
 d <- demo_spatial_data(200, seed = 2026)
 ```
 
+Small reproducible vignette inputs for each data family are available directly:
+
+```r
+spatial <- demo_spatial_data(72, seed = 2026)
+volume <- demo_spatial_3d_data(72, volumes = 2, seed = 2026)
+image <- demo_image_data(48, features = 8, seed = 2026)
+contours <- demo_contour_data(6, points = 16, seed = 2026)
+```
+
+The generated CSV versions are stored under `inst/extdata/`. See the [reproducible vignette index](VIGNETTES.md) for app mappings, every analysis family, fork provenance, and bundle auditing.
+
 ### `run_analysis()`
 
 ```r

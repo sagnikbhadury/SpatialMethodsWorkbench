@@ -1,0 +1,69 @@
+---
+title: "Auditing reproducibility bundles"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Auditing reproducibility bundles}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 6.5, fig.height = 4.5)
+library(SpatialMethodsWorkbench)
+```
+
+Every successful app or programmatic run can be exported as a reproducibility bundle. This example uses 60 synthetic observations, 19 permutations, and a fixed seed.
+
+```{r run}
+d <- demo_spatial_data(n = 60, seed = 2026)
+mapping <- list(x = "x", y = "y")
+features <- "APC"
+result <- run_analysis(
+  "spatial_qc", d, mapping, features,
+  list(feature = "APC", neighbors = 5L, permutations = 19L, seed = 2026)
+)
+```
+
+## Inspect the manifest before writing
+
+```{r manifest}
+manifest <- result_manifest(result)
+manifest[c("application", "application_version", "analysis_id", "method", "features")]
+manifest$parameters
+```
+
+## Write and list the archive
+
+```{r write}
+bundle <- file.path(tempdir(), "spatial-methods-workbench-bundle.zip")
+write_result_bundle(result, bundle)
+contents <- utils::unzip(bundle, list = TRUE)
+contents[, c("Name", "Length")]
+```
+
+## Audit the archived metadata
+
+```{r audit}
+extract_dir <- tempfile("workbench-bundle-")
+dir.create(extract_dir)
+utils::unzip(bundle, exdir = extract_dir)
+
+archived_manifest <- jsonlite::read_json(
+  file.path(extract_dir, "manifest.json"), simplifyVector = TRUE
+)
+archived_manifest[c("application_version", "analysis_id", "method", "features")]
+
+readLines(file.path(extract_dir, "CITATION.txt"), n = 8)
+```
+
+The archive should contain `results.csv`, `figure.png`, `manifest.json`, `result_object.rds`, `CITATION.txt`, and `COLLABORATION.txt`. It intentionally excludes the input dataset and automated result interpretation.
+
+## Reopen the exact R result
+
+```{r reopen}
+restored <- readRDS(file.path(extract_dir, "result_object.rds"))
+identical(restored$analysis_id, result$analysis_id)
+identical(restored$params, result$params)
+```
+
+Record the Workbench version, method citations, seed, mapping, features, and controls when reporting an analysis. Scientific interpretation still requires study design and domain context outside the application.

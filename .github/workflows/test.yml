@@ -13,6 +13,7 @@ jobs:
         with:
           r-version: release
           use-public-rspm: true
+      - uses: r-lib/actions/setup-pandoc@v2
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           packages: |
@@ -24,7 +25,11 @@ jobs:
             any::markdown
             any::zip
             any::testthat
+            any::knitr
+            any::rmarkdown
       - name: Parse application
         run: Rscript -e "files <- c('app.R', list.files('R', full.names=TRUE, pattern='[.]R$')); invisible(lapply(files, parse))"
       - name: Run tests
         run: Rscript tests/testthat.R
+      - name: Build package and all vignettes
+        run: R CMD build .

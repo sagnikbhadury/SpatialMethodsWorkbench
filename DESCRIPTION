@@ -1,5 +1,5 @@
 Package: SpatialMethodsWorkbench
-Type: Project
+Type: Package
 Title: Spatial Methods Workbench
 Version: 0.2.1
 Authors@R: person("Sagnik", "Bhadury", email = "bhadury@umich.edu", role = c("aut", "cre"))
@@ -10,17 +10,20 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Imports:
     shiny,
-    bslib,
-    DT,
     ggplot2,
     jsonlite,
-    markdown,
     zip
 Suggests:
     testthat,
+    knitr,
+    rmarkdown,
+    bslib,
+    DT,
+    markdown,
     nnet,
     ISPAT,
     ISPAT3D,
     GPGHS,
     GOV,
     FunctionalDepth
+VignetteBuilder: knitr

@@ -19,7 +19,7 @@ analysis_registry <- function() {
       needs = c("x", "y", "zone", "numeric_features"), package = "ISPAT", runner = "run_ispat"
     ),
     gpghs = list(
-      label = "Spatially varying GP–horseshoe network",
+      label = "Spatially varying GP-horseshoe network",
       short = "Estimate spatially varying edge surfaces with group-horseshoe shrinkage.",
       family = "Network estimation", runtime = "Intensive", engine = "GPGHS",
       needs = c("x", "y", "numeric_features"), package = "GPGHS", runner = "run_gpghs"
