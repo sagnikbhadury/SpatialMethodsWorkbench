@@ -31,3 +31,11 @@
 ### Next safe extension point
 
 New public modules should enter through `analysis_registry()`, `run_analysis()`, a standard result object, Shiny controls, citations, tests, and both manuals. Do not integrate a module until its public status, license, truthful computational scope, and input/output contract have been verified.
+
+### Final publication follow-up
+
+- Expanded the public repository README with a structured catalog of all 12 analyses, their required data, principal outputs, and exact-engine versus screening status.
+- Added explicit MIT License and software-publication guidance. The MIT terms govern code reuse; they do not replace scholarly citation or external-package licenses.
+- Embedded the live Shiny application directly in the academic website page with a full-screen fallback.
+- Updated the website catalog to state the input and output of every analysis and linked the latest v0.2.1 installation guide and complete function reference.
+- Synchronized this local development clone with public source commit `a750fcd`; the local handoff commit remains intentionally local and is not pushed to the public repository.
