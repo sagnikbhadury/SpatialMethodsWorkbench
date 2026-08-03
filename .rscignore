@@ -3,6 +3,17 @@
 .Rbuildignore
 .gitignore
 .zenodo.json
+CITATION.cff
+DESCRIPTION
+NAMESPACE
+LICENSE
+LICENSE.md
+README.md
+REFERENCES.md
+SECURITY.md
+Dockerfile
+docker-compose.yml
+run-local.R
 data-raw
 inst
 man

@@ -2,6 +2,7 @@ library(shiny)
 library(bslib)
 library(ggplot2)
 library(DT)
+library(markdown)
 
 app_root <- local({
   candidate <- normalizePath(".")
