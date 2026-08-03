@@ -1,0 +1,17 @@
+.git
+.github
+.Rbuildignore
+.gitignore
+.zenodo.json
+data-raw
+inst
+man
+media
+tests
+vignettes
+SpatialMethodsWorkbench.Rcheck
+SpatialMethodsWorkbench_0.2.1.tar.gz
+LOCAL_DEVELOPMENT_HANDOFF.md
+SESSION_LOG.md
+SOFTWARE_PUBLICATION.md
+ZENODO_METADATA_UPDATE.md
