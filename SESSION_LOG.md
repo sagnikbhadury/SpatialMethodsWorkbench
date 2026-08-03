@@ -86,3 +86,5 @@ Edit `media/youtube/public_usage_slides.json` or `media/youtube/interpretation_s
 - Added package manuals, a package-safe MIT license stub plus full `LICENSE.md`, package build exclusions, and continuous-integration vignette building.
 - Verified 51 source tests with no failures, warnings, or skips.
 - Built all five HTML vignettes and completed `R CMD check --no-manual` with `Status: OK`.
+- Added a Shiny-specific deployment exclusion file, reducing the hosted bundle from approximately 526 MB to 95 KB while retaining all runtime code and manuals.
+- Redeployed the public shinyapps.io instance and verified in a browser that the vignette tab, fork-representation table, no-interpretation boundary, and all four CSV links are visible.
