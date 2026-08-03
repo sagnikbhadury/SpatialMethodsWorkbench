@@ -56,3 +56,17 @@ New public modules should enter through `analysis_registry()`, `run_analysis()`,
 ### Video source of truth
 
 Edit `media/youtube/public_usage_slides.json` or `media/youtube/interpretation_slides.json`, then run `media/youtube/build_videos.ps1`. Generated artifacts are under `media/youtube/output/` and narration WAV files under `media/youtube/audio/`.
+
+## 2026-08-02 — complete method and upstream attribution
+
+### Completed
+
+- Added method-specific citations for all 12 Workbench workflows to the runtime registry and reproducibility bundles.
+- Added `REFERENCES.md` as the complete public bibliography and provenance record.
+- Added explicit upstream-project and development-fork credit for AI for Beginners, ML for Beginners, Deep Understanding of Deep Learning, SV-NN, STCAR, and SBLF.
+- Distinguished exact computational engines from related publications, curriculum sources, and screening implementations so the public claims remain accurate.
+- Updated the README with analysis-to-method attribution and public-fork provenance tables.
+- Updated and published the existing Zenodo v0.2.1 record with 19 references, eight keywords, the University of Michigan affiliation, the expanded software description, and the method-specific citation requirement.
+- Verified that Zenodo retained DOI `10.5281/zenodo.21764196`, version `v0.2.1`, the MIT license, open access, repository relation, and the original archived ZIP checksum.
+- Verified the public Zenodo page exposes the updated description, required attribution statement, public upstream/fork acknowledgments, and the explicit private/working-manuscript exclusion.
+- GitHub Actions passed all 36 checks for public source commit `87cd1cb`.
