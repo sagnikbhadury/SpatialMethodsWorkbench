@@ -9,6 +9,12 @@ A functional Shiny application for guided analysis of spatial and structured bio
 
 **[Launch the live application](https://sagnikbhadury.shinyapps.io/spatial-methods-workbench/)** · **[Read the complete usage and installation guide](docs/USER_GUIDE.md)** · **[Open the function-by-function reference](docs/PIPELINE_REFERENCE.md)** · **[Cite v0.2.1](https://doi.org/10.5281/zenodo.21764196)**
 
+## Video tutorial
+
+[![Watch the Spatial Methods Workbench tutorial on YouTube](https://img.youtube.com/vi/Ft9groM2ilI/maxresdefault.jpg)](https://www.youtube.com/watch?v=Ft9groM2ilI)
+
+**[Watch the complete Spatial Methods Workbench usage tutorial on YouTube](https://www.youtube.com/watch?v=Ft9groM2ilI).** It demonstrates the live application, synthetic-data workflow, column mapping, compatibility checks, analysis selection, controls, citation requirements, reproducibility downloads, and local installation. The tutorial explains operation and statistical purpose without interpreting a user's scientific results.
+
 The public application is intentionally separated from private research code. Its method registry contains only workflows intentionally implemented here or adapters to already-public packages.
 
 ## Analyses available in the application

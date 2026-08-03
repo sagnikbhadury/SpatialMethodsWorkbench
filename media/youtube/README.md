@@ -4,6 +4,8 @@ This folder is the editable production package for two narrated courses.
 
 ## Public usage tutorial
 
+Published video: <https://www.youtube.com/watch?v=Ft9groM2ilI>
+
 - `output/SpatialMethodsWorkbench-Public-Usage-v0.2.1.mp4`: narrated 1080p video intended for YouTube
 - `output/SpatialMethodsWorkbench-Public-Usage-v0.2.1.pptx`: editable 25-slide presentation with embedded narration
 - `output/SpatialMethodsWorkbench-Public-Usage-v0.2.1.srt`: uploadable captions
