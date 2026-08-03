@@ -108,32 +108,62 @@ workbench_citation <- function() {
 
 method_citations <- function(id) {
   citations <- c(workbench_citation())
-  if (id %in% c("ispat", "ispat3d")) {
+  if (id == "spatial_qc") {
     citations <- c(citations,
-      "Bhadury, S. et al. (2026). ISPat: a flexible framework for Bayesian analysis of spatially variable tumor microenvironments. Scientific Reports. https://doi.org/10.1038/s41598-026-35341-8")
+      "Moran, P. A. P. (1950). Notes on continuous stochastic phenomena. Biometrika 37(1-2):17-23. https://doi.org/10.1093/biomet/37.1-2.17")
+  }
+  if (id == "conditional_network") {
+    citations <- c(citations,
+      "Hoerl, A. E. and Kennard, R. W. (1970). Ridge Regression: Biased Estimation for Nonorthogonal Problems. Technometrics 12(1):55-67. https://doi.org/10.1080/00401706.1970.10488634")
+  }
+  if (id == "ispat") {
+    citations <- c(citations,
+      "Bhadury, S. et al. (2026). Informed spatially aware patterns for multiplexed immunofluorescence data. Scientific Reports 16(1). https://doi.org/10.1038/s41598-026-35341-8",
+      "Bhadury, S. ISPAT software. https://github.com/sagnikbhadury/ISPAT")
   }
   if (id == "gpghs") {
     citations <- c(citations,
+      "Bhadury, S., Gaskins, J. T., and Rao, A. (2026). Spatially Varying Graphical Models for Cell-Cell Interaction Networks in Multiplexed Tissue Imaging. https://doi.org/10.64898/2026.04.01.715977",
       "Bhadury, S. GP-GHS software. https://github.com/sagnikbhadury/GP-GHS")
+  }
+  if (id == "ispat3d") {
+    citations <- c(citations,
+      "Bhadury, S. (2026). ISPAT-3D software. https://github.com/sagnikbhadury/ISPAT-3D")
+  }
+  if (id == "spatial_ml") {
+    citations <- c(citations,
+      "Roberts, D. R. et al. (2017). Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure. Ecography 40(8):913-929. https://doi.org/10.1111/ecog.02881",
+      "Microsoft. ML for Beginners curriculum. Upstream: https://github.com/microsoft/ML-For-Beginners; development fork: https://github.com/sagnikbhadury/ML-For-Beginners")
   }
   if (id == "spatial_clustering") {
     citations <- c(citations,
-      "Microsoft. ML for Beginners curriculum. https://github.com/microsoft/ML-For-Beginners")
+      "Chavent, M., Kuentz-Simonet, V., Labenne, A., and Saracco, J. (2018). ClustGeo: an R package for hierarchical clustering with spatial constraints. Computational Statistics 33(4):1799-1822. https://doi.org/10.1007/s00180-018-0791-1",
+      "Microsoft. ML for Beginners curriculum. Upstream: https://github.com/microsoft/ML-For-Beginners; development fork: https://github.com/sagnikbhadury/ML-For-Beginners")
   }
   if (id == "neural_prediction") {
     citations <- c(citations,
-      "Microsoft. AI for Beginners curriculum. https://github.com/microsoft/AI-For-Beginners",
-      "Cohen, M. X. A deep understanding of deep learning. https://github.com/mikexcohen/DeepUnderstandingOfDeepLearning",
-      "Venables, W. N. and Ripley, B. D. (2002). Modern Applied Statistics with S. Springer.")
+      "Microsoft. AI for Beginners curriculum. Upstream: https://github.com/microsoft/AI-For-Beginners; development fork: https://github.com/sagnikbhadury/AI-For-Beginners",
+      "Cohen, M. X. A Deep Understanding of Deep Learning. Upstream: https://github.com/mikexcohen/DeepUnderstandingOfDeepLearning; development fork: https://github.com/sagnikbhadury/DeepUnderstandingOfDeepLearning",
+      "Venables, W. N. and Ripley, B. D. (2002). Modern Applied Statistics with S. Springer. https://doi.org/10.1007/978-0-387-21706-2",
+      "Roberts, D. R. et al. (2017). Cross-validation strategies for structured data. Ecography 40(8):913-929. https://doi.org/10.1111/ecog.02881")
   }
   if (id == "scalar_image") {
     citations <- c(citations,
-      "Wu, B., Wu, K., and Kang, J. (2025). Bayesian Scalar-on-Image Regression with a Spatially Varying Single-layer Neural Network Prior. JMLR 26(116):1-38. https://jmlr.org/papers/v26/22-0246.html",
-      "Xu, Y. et al. (2025). Bayesian Image Regression with Soft-thresholded Conditional Autoregressive Prior. ICLR 2025. https://openreview.net/forum?id=rnL3OafDdw")
+      "Hoerl, A. E. and Kennard, R. W. (1970). Ridge Regression: Biased Estimation for Nonorthogonal Problems. Technometrics 12(1):55-67. https://doi.org/10.1080/00401706.1970.10488634",
+      "Wu, B., Wu, K., and Kang, J. (2025). Bayesian Scalar-on-Image Regression with a Spatially Varying Single-layer Neural Network Prior. JMLR 26(116):1-38. https://www.jmlr.org/papers/v26/22-0246.html. Software upstream: https://github.com/benwu233/SV-NN; development fork: https://github.com/sagnikbhadury/SV-NN",
+      "Xu, Y. and Kang, J. (2025). Bayesian Image Regression with Soft-thresholded Conditional Autoregressive Prior. ICLR 2025. https://proceedings.iclr.cc/paper_files/paper/2025/hash/f418594e90047a10f4c158f70d6701cc-Abstract-Conference.html. Software upstream: https://github.com/yuliangxu/STCAR; development fork: https://github.com/sagnikbhadury/STCAR")
   }
   if (id == "image_to_image") {
     citations <- c(citations,
-      "Guo, C., Kang, J., and Johnson, T. D. (2022). A Spatial Bayesian Latent Factor Model for Image-on-Image Regression. Biometrics 78(1):72-84. https://doi.org/10.1111/biom.13420")
+      "Guo, C., Kang, J., and Johnson, T. D. (2022). A Spatial Bayesian Latent Factor Model for Image-on-Image Regression. Biometrics 78(1):72-84. https://doi.org/10.1111/biom.13420. Software upstream: https://github.com/umich-biostatistics/SBLF; development fork: https://github.com/sagnikbhadury/SBLF")
+  }
+  if (id == "mediation") {
+    citations <- c(citations,
+      "Imai, K., Keele, L., and Tingley, D. (2010). A general approach to causal mediation analysis. Psychological Methods 15(4):309-334. https://doi.org/10.1037/a0020761")
+  }
+  if (id == "shape_pca") {
+    citations <- c(citations,
+      "Dryden, I. L. and Mardia, K. V. (2016). Statistical Shape Analysis, with Applications in R (2nd ed.). Wiley. https://doi.org/10.1002/9781119072492")
   }
   unique(citations)
 }

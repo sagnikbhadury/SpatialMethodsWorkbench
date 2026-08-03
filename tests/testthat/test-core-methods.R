@@ -100,3 +100,13 @@ test_that("result bundles contain reproducibility artifacts", {
   expect_match(workbench_citation(), "Version 0.2.1", fixed = TRUE)
   expect_match(workbench_citation(), "10.5281/zenodo.21764196", fixed = TRUE)
 })
+
+test_that("every workflow exports a method-specific source citation", {
+  ids <- names(analysis_registry())
+  citation_sets <- lapply(ids, method_citations)
+  expect_true(all(vapply(citation_sets, length, integer(1)) >= 2L))
+  expect_match(paste(method_citations("spatial_qc"), collapse = "\n"), "10.1093/biomet/37.1-2.17", fixed = TRUE)
+  expect_match(paste(method_citations("gpghs"), collapse = "\n"), "10.64898/2026.04.01.715977", fixed = TRUE)
+  expect_match(paste(method_citations("scalar_image"), collapse = "\n"), "github.com/benwu233/SV-NN", fixed = TRUE)
+  expect_match(paste(method_citations("image_to_image"), collapse = "\n"), "github.com/umich-biostatistics/SBLF", fixed = TRUE)
+})

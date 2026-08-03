@@ -112,11 +112,38 @@ All network edges are conditional associations unless a method explicitly establ
 
 Running an analysis requires acknowledgement of the citation condition. Every result bundle includes a `CITATION.txt` file and records the applicable citations in `manifest.json`. GitHub also renders the repository-level `CITATION.cff` through its **Cite this repository** interface.
 
-When using ISPat, also cite:
+### Method and source attribution
 
-> Bhadury S, et al. Informed spatially aware patterns for multiplexed immunofluorescence data. *Scientific Reports*. 2026;16:5015. https://doi.org/10.1038/s41598-026-35341-8
+Cite the Workbench **and** the sources applicable to the workflow you use. The table below is a compact map; [REFERENCES.md](REFERENCES.md) contains the complete bibliography and public repository provenance.
 
-Each advanced engine retains its own citation and license requirements.
+| Workbench workflow | Primary method/software sources to cite |
+|---|---|
+| Spatial exploration and autocorrelation | Moran (1950), [doi:10.1093/biomet/37.1-2.17](https://doi.org/10.1093/biomet/37.1-2.17) |
+| Region-aware conditional network | Hoerl & Kennard (1970), [doi:10.1080/00401706.1970.10488634](https://doi.org/10.1080/00401706.1970.10488634), for ridge regularization; report this Workbench implementation as an exploratory precision/partial-correlation screen |
+| ISPat 2D Bayesian network | Bhadury et al. (2026), [doi:10.1038/s41598-026-35341-8](https://doi.org/10.1038/s41598-026-35341-8), plus the public [`ISPAT`](https://github.com/sagnikbhadury/ISPAT) package |
+| GP–GHS network | Bhadury, Gaskins & Rao (2026), [doi:10.64898/2026.04.01.715977](https://doi.org/10.64898/2026.04.01.715977), plus the public [`GP-GHS`](https://github.com/sagnikbhadury/GP-GHS) package |
+| ISPat 3D volumetric network | Public [`ISPAT-3D`](https://github.com/sagnikbhadury/ISPAT-3D) software; the Workbench does not cite or disclose an unpublished manuscript |
+| Linear/logistic and shallow-neural prediction | Roberts et al. (2017), [doi:10.1111/ecog.02881](https://doi.org/10.1111/ecog.02881), for structured validation; Venables & Ripley (2002), [doi:10.1007/978-0-387-21706-2](https://doi.org/10.1007/978-0-387-21706-2), for `nnet` |
+| Spatial clustering | Chavent et al. (2018), [doi:10.1007/s00180-018-0791-1](https://doi.org/10.1007/s00180-018-0791-1), as related spatial-clustering methodology; the Workbench path is a distinct weighted-coordinate k-means adaptation |
+| Wide-image scalar regression screen | Hoerl & Kennard (1970) for the implemented ridge screen; Wu, Wu & Kang (2025), [JMLR 26(116)](https://www.jmlr.org/papers/v26/22-0246.html), and Xu & Kang (2025), [ICLR 2025](https://proceedings.iclr.cc/paper_files/paper/2025/hash/f418594e90047a10f4c158f70d6701cc-Abstract-Conference.html), as related full spatial Bayesian methods |
+| Latent image-to-image regression screen | Guo, Kang & Johnson (2022), [doi:10.1111/biom.13420](https://doi.org/10.1111/biom.13420), as the related full SBLF method; the Workbench path is a separate PCA/score-regression screen |
+| Mediation | Imai, Keele & Tingley (2010), [doi:10.1037/a0020761](https://doi.org/10.1037/a0020761) |
+| Shape PCA | Dryden & Mardia (2016), [doi:10.1002/9781119072492](https://doi.org/10.1002/9781119072492) |
+
+### Public fork provenance
+
+The following public forks informed workflows or related-method documentation. Attribution goes to the original upstream project as well as the fork used during development. A curriculum or related-method fork is **not** represented as an exact statistical engine unless the Workbench directly calls that package.
+
+| Role in the Workbench | Original upstream source | Public fork used during development |
+|---|---|---|
+| AI workflow design and educational structure | [microsoft/AI-For-Beginners](https://github.com/microsoft/AI-For-Beginners) | [sagnikbhadury/AI-For-Beginners](https://github.com/sagnikbhadury/AI-For-Beginners) |
+| ML workflow design and educational structure | [microsoft/ML-For-Beginners](https://github.com/microsoft/ML-For-Beginners) | [sagnikbhadury/ML-For-Beginners](https://github.com/sagnikbhadury/ML-For-Beginners) |
+| Shallow-neural implementation background | [mikexcohen/DeepUnderstandingOfDeepLearning](https://github.com/mikexcohen/DeepUnderstandingOfDeepLearning) | [sagnikbhadury/DeepUnderstandingOfDeepLearning](https://github.com/sagnikbhadury/DeepUnderstandingOfDeepLearning) |
+| Related scalar-on-image SV-NN method and software | [benwu233/SV-NN](https://github.com/benwu233/SV-NN) | [sagnikbhadury/SV-NN](https://github.com/sagnikbhadury/SV-NN) |
+| Related soft-thresholded CAR image-regression method and software | [yuliangxu/STCAR](https://github.com/yuliangxu/STCAR) | [sagnikbhadury/STCAR](https://github.com/sagnikbhadury/STCAR) |
+| Related spatial Bayesian latent-factor method and software | [umich-biostatistics/SBLF](https://github.com/umich-biostatistics/SBLF) | [sagnikbhadury/SBLF](https://github.com/sagnikbhadury/SBLF) |
+
+Only the public sources above are claimed as informing the shipped Workbench workflows. Other repositories are not implied dependencies merely because they exist in the account.
 
 Citation acknowledgement is a strong research-norm and provenance mechanism, not a technical guarantee about a later publication's bibliography. A tagged release can be archived with Zenodo to add a persistent DOI.
 

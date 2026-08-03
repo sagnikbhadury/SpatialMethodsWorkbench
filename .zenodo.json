@@ -1,0 +1,54 @@
+{
+  "title": "Spatial Methods Workbench",
+  "upload_type": "software",
+  "publication_date": "2026-08-02",
+  "version": "v0.2.1",
+  "description": "<p>Spatial Methods Workbench is a citation-aware R Shiny environment with 12 guided workflows for spatial autocorrelation, conditional networks, spatially adjusted 2D and 3D networks, prediction, clustering, image-regression screening, mediation, and statistical shape analysis.</p><p>The release contains complete usage and installation guidance, function-level pipeline documentation, direct adapters to the public ISPAT, GP-GHS, and ISPAT-3D engines, reproducibility bundles, and 36 automated checks. The application reports statistical output without automatically assigning biological, clinical, or causal meaning.</p><h3>Required attribution</h3><p>Users must cite this software release and the method-specific publications or software applicable to the workflow used. The complete bibliography is included in <code>REFERENCES.md</code> and in result bundles. Public forks used during development are credited to both their upstream projects and Sagnik Bhadury's forks: Microsoft AI for Beginners, Microsoft ML for Beginners, Deep Understanding of Deep Learning, SV-NN, STCAR, and SBLF. Curriculum and related-method repositories are not presented as exact statistical engines.</p><p>No private repository, working manuscript, or unpublished method idea is described by this record.</p>",
+  "creators": [
+    {
+      "name": "Bhadury, Sagnik",
+      "affiliation": "University of Michigan"
+    }
+  ],
+  "access_right": "open",
+  "license": "MIT",
+  "keywords": [
+    "spatial statistics",
+    "spatial biology",
+    "biostatistics",
+    "multiplex imaging",
+    "graphical models",
+    "image regression",
+    "reproducible research",
+    "R Shiny"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/sagnikbhadury/SpatialMethodsWorkbench/tree/v0.2.1",
+      "relation": "isSupplementTo",
+      "resource_type": "software"
+    }
+  ],
+  "references": [
+    "Moran, P. A. P. (1950). Notes on continuous stochastic phenomena. Biometrika 37(1-2):17-23. https://doi.org/10.1093/biomet/37.1-2.17",
+    "Hoerl, A. E. and Kennard, R. W. (1970). Ridge Regression: Biased Estimation for Nonorthogonal Problems. Technometrics 12(1):55-67. https://doi.org/10.1080/00401706.1970.10488634",
+    "Bhadury, S., Peruzzi, M., Acharyya, S., et al. (2026). Informed spatially aware patterns for multiplexed immunofluorescence data. Scientific Reports 16(1). https://doi.org/10.1038/s41598-026-35341-8; software: https://github.com/sagnikbhadury/ISPAT",
+    "Bhadury, S., Gaskins, J. T., and Rao, A. (2026). Spatially Varying Graphical Models for Cell-Cell Interaction Networks in Multiplexed Tissue Imaging. https://doi.org/10.64898/2026.04.01.715977; software: https://github.com/sagnikbhadury/GP-GHS",
+    "Bhadury, S. (2026). ISPAT-3D software. https://github.com/sagnikbhadury/ISPAT-3D",
+    "Roberts, D. R., Bahn, V., Ciuti, S., et al. (2017). Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure. Ecography 40(8):913-929. https://doi.org/10.1111/ecog.02881",
+    "Chavent, M., Kuentz-Simonet, V., Labenne, A., and Saracco, J. (2018). ClustGeo: an R package for hierarchical clustering with spatial constraints. Computational Statistics 33(4):1799-1822. https://doi.org/10.1007/s00180-018-0791-1",
+    "Venables, W. N. and Ripley, B. D. (2002). Modern Applied Statistics with S (4th ed.). Springer. https://doi.org/10.1007/978-0-387-21706-2",
+    "Wu, B., Wu, K., and Kang, J. (2025). Bayesian Scalar-on-Image Regression with a Spatially Varying Single-layer Neural Network Prior. Journal of Machine Learning Research 26(116):1-38. https://www.jmlr.org/papers/v26/22-0246.html",
+    "Xu, Y. and Kang, J. (2025). Bayesian Image Regression with Soft-thresholded Conditional Autoregressive Prior. ICLR 2025. https://proceedings.iclr.cc/paper_files/paper/2025/hash/f418594e90047a10f4c158f70d6701cc-Abstract-Conference.html",
+    "Guo, C., Kang, J., and Johnson, T. D. (2022). A Spatial Bayesian Latent Factor Model for Image-on-Image Regression. Biometrics 78(1):72-84. https://doi.org/10.1111/biom.13420",
+    "Imai, K., Keele, L., and Tingley, D. (2010). A general approach to causal mediation analysis. Psychological Methods 15(4):309-334. https://doi.org/10.1037/a0020761",
+    "Dryden, I. L. and Mardia, K. V. (2016). Statistical Shape Analysis, with Applications in R (2nd ed.). Wiley. https://doi.org/10.1002/9781119072492",
+    "Microsoft. AI for Beginners. Upstream: https://github.com/microsoft/AI-For-Beginners; development fork: https://github.com/sagnikbhadury/AI-For-Beginners",
+    "Microsoft. ML for Beginners. Upstream: https://github.com/microsoft/ML-For-Beginners; development fork: https://github.com/sagnikbhadury/ML-For-Beginners",
+    "Cohen, M. X. A Deep Understanding of Deep Learning. Upstream: https://github.com/mikexcohen/DeepUnderstandingOfDeepLearning; development fork: https://github.com/sagnikbhadury/DeepUnderstandingOfDeepLearning",
+    "SV-NN software. Upstream: https://github.com/benwu233/SV-NN; development fork: https://github.com/sagnikbhadury/SV-NN",
+    "STCAR software. Upstream: https://github.com/yuliangxu/STCAR; development fork: https://github.com/sagnikbhadury/STCAR",
+    "SBLF software. Upstream: https://github.com/umich-biostatistics/SBLF; development fork: https://github.com/sagnikbhadury/SBLF"
+  ],
+  "notes": "If you use this software, cite the versioned Workbench DOI and every method-specific publication or software source applicable to the selected workflow."
+}

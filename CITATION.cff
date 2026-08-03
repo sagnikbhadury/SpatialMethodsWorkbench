@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite it and the method references supplied in its result bundle."
+message: "If you use this software, cite it and the applicable method and upstream-software references in REFERENCES.md and the result bundle."
 title: "Spatial Methods Workbench"
 type: software
 authors:
