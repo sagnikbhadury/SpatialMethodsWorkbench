@@ -8,12 +8,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN R -q -e "install.packages(c('shiny','bslib','DT','ggplot2','jsonlite','markdown','zip','testthat','remotes'), repos='https://cloud.r-project.org')"
 
+COPY . /srv/shiny-server/spatial-methods-workbench
+
 ARG INSTALL_ADVANCED_ENGINES=false
 RUN if [ "$INSTALL_ADVANCED_ENGINES" = "true" ]; then \
-      R -q -e "remotes::install_github(c('sagnikbhadury/ISPAT','sagnikbhadury/GP-GHS','sagnikbhadury/ISPAT-3D'), upgrade='never')"; \
+      R -q -e "remotes::install_local('/srv/shiny-server/spatial-methods-workbench/vendor/engines/GP-GHS', dependencies=TRUE, upgrade='never'); remotes::install_local('/srv/shiny-server/spatial-methods-workbench/vendor/engines/ISPAT-3D', dependencies=TRUE, upgrade='never'); remotes::install_local('/srv/shiny-server/spatial-methods-workbench/vendor/engines/ISPAT', dependencies=TRUE, upgrade='never')"; \
     fi
 
-COPY . /srv/shiny-server/spatial-methods-workbench
 RUN chown -R shiny:shiny /srv/shiny-server/spatial-methods-workbench
 
 EXPOSE 3838

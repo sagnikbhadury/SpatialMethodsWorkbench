@@ -31,5 +31,7 @@ jobs:
         run: Rscript -e "files <- c('app.R', list.files('R', full.names=TRUE, pattern='[.]R$')); invisible(lapply(files, parse))"
       - name: Run tests
         run: Rscript tests/testthat.R
+      - name: Audit complete release contents
+        run: Rscript audit-release.R
       - name: Build package and all vignettes
         run: R CMD build .

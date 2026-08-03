@@ -1,0 +1,10 @@
+GSL_CFLAGS = -I/usr/local/include  -lgsl -lgslcblas -lm
+GSL_LIBS   = -L/usr/local/lib -lgsl -lgslcblas -lm
+
+#FFTW_CFLAGS = -I/usr/local/include
+FFTW_CFLAGS = -lfftw3
+FFTW_LIBS   = -L/usr/local/lib -lfftw3
+
+# combine to standard arguments for R
+PKG_CPPFLAGS =  $(FFTW_CFLAGS) $(GSL_CFLAGS) -I.
+PKG_LIBS = $(GSL_LIBS) $(FFTW_LIBS)

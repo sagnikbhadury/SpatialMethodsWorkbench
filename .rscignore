@@ -26,3 +26,7 @@ LOCAL_DEVELOPMENT_HANDOFF.md
 SESSION_LOG.md
 SOFTWARE_PUBLICATION.md
 ZENODO_METADATA_UPDATE.md
+vendor
+install-complete.R
+verify-installation.R
+audit-release.R

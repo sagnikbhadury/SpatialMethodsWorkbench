@@ -52,7 +52,7 @@ Those conclusions require study design, domain expertise, sensitivity analysis, 
 
 14
 00:02:09,086 --> 00:02:19,719
-Working manuscripts, private repository ideas, language-model research, and sparse-autoencoder research are not exposed in this software.
+Only public, release-scoped material is included in this software.
 
 15
 00:02:20,069 --> 00:02:28,259

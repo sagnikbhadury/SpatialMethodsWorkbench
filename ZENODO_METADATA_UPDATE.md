@@ -13,4 +13,4 @@ The repository-root `.zenodo.json` is the source of truth for future GitHub-inte
 
 Public verification confirmed DOI `10.5281/zenodo.21764196`, the unchanged release archive checksum, all 19 references, the expanded description, and the upstream/fork acknowledgments.
 
-The references intentionally credit exact engines, scholarly sources, upstream public repositories, and Sagnik Bhadury's development forks. They do not disclose private repositories, working manuscripts, or unpublished method ideas.
+The references intentionally credit exact engines, scholarly sources, upstream public repositories, and Sagnik Bhadury's development forks. They are limited to public, release-scoped sources.

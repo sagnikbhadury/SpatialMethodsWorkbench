@@ -4,7 +4,7 @@
 
 Build a guided spatial-methods workbench, not another monolithic spatial-omics platform. The useful gap is a low-friction path from a researcher's own table to a defensible analysis: validate the data, expose only compatible methods, explain assumptions, run a selected method, and export complete provenance and citations.
 
-This direction matches Sagnik Bhadury's public research identity—statistical methods for structure in cancer data—while keeping unpublished manuscripts, private repositories, and private method ideas outside the application. The public interface does not enumerate source repositories or expose implementation provenance beyond the software and scholarly citations needed for responsible reuse.
+This direction matches Sagnik Bhadury's public research identity—statistical methods for structure in cancer data—while keeping all non-public material outside the application. The public interface exposes only the software and scholarly citations needed for responsible reuse.
 
 ## Evidence from existing tools
 
@@ -34,7 +34,7 @@ The resulting application has four layers:
 3. **Analysis.** Offer fast exploratory modules and opt-in public advanced engines. Expensive Bayesian or 3D models remain server-side and are gated by installed dependencies.
 4. **Responsible export.** Download results, plots, parameters, an R result object, runtime metadata, required citations, and a collaboration contact—without automated result interpretation.
 
-Public AI and machine-learning educational material informs the guided prediction design, but the deployed app does not expose unpublished LLM/SAE research or upload raw study data to a language model. It does not generate explanations or export prompts for explaining results. Researchers are invited to contact Sagnik Bhadury for interpretation, methodological guidance, or collaboration.
+Public AI and machine-learning educational material informs the guided prediction design. The deployed app does not transmit uploaded study data to an external interpretation service, generate scientific explanations, or export interpretation prompts. Researchers are invited to contact Sagnik Bhadury for interpretation, methodological guidance, or collaboration.
 
 ## Deployment conclusion
 
@@ -43,7 +43,7 @@ GitHub should be the public source of record, issue tracker, citation entry poin
 ## Scope and disclosure policy
 
 - Only already-public methods and intentionally reimplemented generic workflows may appear.
-- No working manuscript, private repository, private benchmark, experimental result, or unpublished method name may be copied into documentation, examples, UI text, logs, or images.
+- No non-public or confidential material may be copied into documentation, examples, UI text, logs, or images.
 - Synthetic demonstration data are the default. Public deployments must prohibit protected health information and configure host-level retention and logging accordingly.
 - Forked educational repositories are design references, not evidence that every tutorial is a production statistical engine. A workflow is exposed only when its input contract, statistical meaning, license, and runtime behavior can be made explicit and tested.
 

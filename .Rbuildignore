@@ -1,6 +1,7 @@
 ^\.git$
 ^\.github$
 ^\.gitignore$
+^\.rscignore$
 ^\.zenodo\.json$
 ^CITATION\.cff$
 ^Dockerfile$
@@ -15,5 +16,9 @@
 ^SESSION_LOG\.md$
 ^SOFTWARE_PUBLICATION\.md$
 ^ZENODO_METADATA_UPDATE\.md$
+^vendor$
+^install-complete\.R$
+^verify-installation\.R$
+^audit-release\.R$
 ^SpatialMethodsWorkbench_[0-9.]+\.tar\.gz$
 ^SpatialMethodsWorkbench\.Rcheck$

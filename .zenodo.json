@@ -1,9 +1,9 @@
 {
   "title": "Spatial Methods Workbench",
   "upload_type": "software",
-  "publication_date": "2026-08-02",
-  "version": "v0.2.1",
-  "description": "<p>Spatial Methods Workbench is a citation-aware R Shiny environment with 12 guided workflows for spatial autocorrelation, conditional networks, spatially adjusted 2D and 3D networks, prediction, clustering, image-regression screening, mediation, and statistical shape analysis.</p><p>The release contains complete usage and installation guidance, function-level pipeline documentation, direct adapters to the public ISPAT, GP-GHS, and ISPAT-3D engines, reproducibility bundles, and 36 automated checks. The application reports statistical output without automatically assigning biological, clinical, or causal meaning.</p><h3>Required attribution</h3><p>Users must cite this software release and the method-specific publications or software applicable to the workflow used. The complete bibliography is included in <code>REFERENCES.md</code> and in result bundles. Public forks used during development are credited to both their upstream projects and Sagnik Bhadury's forks: Microsoft AI for Beginners, Microsoft ML for Beginners, Deep Understanding of Deep Learning, SV-NN, STCAR, and SBLF. Curriculum and related-method repositories are not presented as exact statistical engines.</p><p>No private repository, working manuscript, or unpublished method idea is described by this record.</p>",
+  "publication_date": "2026-08-03",
+  "version": "v0.3.0",
+  "description": "<p>Spatial Methods Workbench is a citation-aware R Shiny environment with 12 guided workflows for spatial autocorrelation, conditional networks, spatially adjusted 2D and 3D networks, prediction, clustering, image-regression screening, mediation, and statistical shape analysis.</p><p>This corrected complete source distribution contains the installable Workbench package, Shiny application, five executable vignettes, four compact simulated datasets, complete documentation, 51 automated checks, and locally bundled package sources for the exact public ISPAT, GP-GHS, and ISPAT-3D engines. <code>install-complete.R</code> installs those local engine copies without cloning their repositories.</p><p>A curated public-source bundle also preserves license-safe regression, clustering, neural, SV-NN, STCAR, and SBLF source connected to the Workbench adaptations and related-method provenance. Exact engine calls, built-in adaptations, and related screening workflows remain explicitly distinguished. Large curriculum translations, media, demonstration datasets, Git history, and platform-specific compiled objects are omitted because they do not execute a Workbench analysis.</p><h3>Installation</h3><p>Download and extract the release, then run <code>Rscript install-complete.R</code>, <code>Rscript verify-installation.R</code>, and <code>Rscript tests/testthat.R</code>. The README contains platform prerequisites, advanced and related-engine options, verification, local launch, Docker, privacy, and troubleshooting guidance. Missing CRAN dependencies may be downloaded; the three direct method repositories do not need to be downloaded separately.</p><h3>Required attribution</h3><p>Users must cite this software release and the method-specific publications or software applicable to the workflow used. The complete bibliography is included in <code>REFERENCES.md</code> and in result bundles. Public sources are identified by repository, commit, license, retained scope, and role in <code>vendor/manifest.json</code>.</p><p>Only public, release-scoped material is included in this record.</p>",
   "creators": [
     {
       "name": "Bhadury, Sagnik",
@@ -24,7 +24,7 @@
   ],
   "related_identifiers": [
     {
-      "identifier": "https://github.com/sagnikbhadury/SpatialMethodsWorkbench/tree/v0.2.1",
+      "identifier": "https://github.com/sagnikbhadury/SpatialMethodsWorkbench/tree/v0.3.0",
       "relation": "isSupplementTo",
       "resource_type": "software"
     }

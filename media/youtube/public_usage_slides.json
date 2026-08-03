@@ -16,7 +16,7 @@
     "kicker": "COMPUTATION IS NOT SCIENTIFIC INTERPRETATION",
     "body": "The Workbench provides\n• workflow compatibility checks\n• numerical tables and figures\n• fitted objects and provenance\n\nIt does not provide\n• biological or clinical conclusions\n• causal claims from association\n• automated manuscript language",
     "image": "captures/03_restrictions.png",
-    "narration": "The Workbench deliberately separates computation from scientific interpretation. It checks structural compatibility, performs the selected calculation, and returns numerical tables, figures, fitted objects, software details, and citations. It does not convert an edge into a signaling claim, a cluster into a cell state, a coefficient into a clinical conclusion, or an indirect effect into causality. Those conclusions require study design, domain expertise, sensitivity analysis, and often collaboration. Working manuscripts, private repository ideas, language-model research, and sparse-autoencoder research are not exposed in this software."
+    "narration": "The Workbench deliberately separates computation from scientific interpretation. It checks structural compatibility, performs the selected calculation, and returns numerical tables, figures, fitted objects, software details, and citations. It does not convert an edge into a signaling claim, a cluster into a cell state, a coefficient into a clinical conclusion, or an indirect effect into causality. Those conclusions require study design, domain expertise, sensitivity analysis, and often collaboration. Only public, release-scoped material is included in this software."
   },
   {
     "title": "What data can enter the Workbench?",

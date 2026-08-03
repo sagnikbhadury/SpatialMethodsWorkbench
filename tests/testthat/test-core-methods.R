@@ -95,10 +95,10 @@ test_that("result bundles contain reproducibility artifacts", {
   expect_true(file.exists(path))
   files <- utils::unzip(path, list = TRUE)$Name
   expect_true(all(c("results.csv", "manifest.json", "CITATION.txt", "COLLABORATION.txt", "figure.png", "result_object.rds") %in% files))
-  expect_false(any(c("interpretation.md", "optional_llm_prompt.txt") %in% files))
+  expect_false("interpretation.md" %in% files)
   expect_match(workbench_citation(), "SpatialMethodsWorkbench", fixed = TRUE)
-  expect_match(workbench_citation(), "Version 0.2.1", fixed = TRUE)
-  expect_match(workbench_citation(), "10.5281/zenodo.21764196", fixed = TRUE)
+  expect_match(workbench_citation(), "Version 0.3.0", fixed = TRUE)
+  expect_match(workbench_citation(), "10.5281/zenodo.21763606", fixed = TRUE)
 })
 
 test_that("every workflow exports a method-specific source citation", {

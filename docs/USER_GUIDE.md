@@ -114,6 +114,20 @@ git clone https://github.com/sagnikbhadury/SpatialMethodsWorkbench.git
 cd SpatialMethodsWorkbench
 ```
 
+### Install from a Zenodo release instead
+
+Download the newest source ZIP from the [Zenodo concept record](https://doi.org/10.5281/zenodo.21763606), extract it, and open a terminal in the extracted directory. The complete distribution includes the exact public ISPAT, GP-GHS, and ISPAT-3D package sources, so Zenodo users can run:
+
+```text
+Rscript install-complete.R
+Rscript verify-installation.R
+Rscript tests/testthat.R
+```
+
+Use `Rscript install-complete.R --include-related` to compile the bundled STCAR package and, on Linux, SBLF. SV-NN and the selected public AI/ML/deep-learning sources are archived under `vendor/reference-workflows` for reproducibility and attribution; they are not silently substituted for the explicitly labelled built-in screening and adaptation paths. See `vendor/manifest.json` for exact commits, licenses, retained scope, and role.
+
+The installer may obtain missing CRAN dependencies, but it does not clone the three direct advanced-engine repositories. A source archive cannot provide one portable compiled R library for Windows, macOS, and Linux.
+
 ### Install the interface and built-in workflow packages
 
 Run in R:
@@ -182,7 +196,7 @@ Pin image and package revisions before a production analysis. Do not mount sensi
 
 ## Reproducibility bundle
 
-The downloaded ZIP contains the results table, figure where applicable, `manifest.json`, an R result object, `CITATION.txt`, and `COLLABORATION.txt`. It deliberately contains no automated interpretation or LLM prompt. Preserve the original input separately under the study's approved governance plan; the bundle does not duplicate the uploaded dataset.
+The downloaded ZIP contains the results table, figure where applicable, `manifest.json`, an R result object, `CITATION.txt`, and `COLLABORATION.txt`. It deliberately contains no automated scientific interpretation. Preserve the original input separately under the study's approved governance plan; the bundle does not duplicate the uploaded dataset.
 
 ## Public-host limitations
 
@@ -190,6 +204,6 @@ The shinyapps.io service is appropriate for demonstrations and moderate public r
 
 ## Citation and collaboration
 
-Use the workbench citation included in the bundle and the method-specific citations added for the selected pipeline. The current v0.2.1 software DOI is [10.5281/zenodo.21764196](https://doi.org/10.5281/zenodo.21764196), and the all-versions DOI is [10.5281/zenodo.21763606](https://doi.org/10.5281/zenodo.21763606).
+Use the workbench citation included in the bundle and the method-specific citations added for the selected pipeline. Cite the version-specific DOI shown on the downloaded record. The all-versions DOI is [10.5281/zenodo.21763606](https://doi.org/10.5281/zenodo.21763606).
 
 For method selection, scientific interpretation, a production deployment, or collaboration, email [bhadury@umich.edu](mailto:bhadury@umich.edu?subject=Spatial%20Methods%20Workbench%20collaboration).

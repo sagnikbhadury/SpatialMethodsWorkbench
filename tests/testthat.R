@@ -1,7 +1,7 @@
 library(testthat)
-if (requireNamespace("SpatialMethodsWorkbench", quietly = TRUE)) {
+if (dir.exists("tests/testthat")) {
+  test_dir("tests/testthat")
+} else {
   library(SpatialMethodsWorkbench)
   test_check("SpatialMethodsWorkbench")
-} else {
-  test_dir("tests/testthat")
 }

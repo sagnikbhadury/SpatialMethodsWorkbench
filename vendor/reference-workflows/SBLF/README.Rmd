@@ -1,0 +1,48 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures"
+)
+```
+
+# R package `SBLF`
+
+`r badger::badge_devel("umich-biostatistics/SBLF", "blue")` `r badger::badge_code_size("umich-biostatistics/SBLF")`
+
+## Overview
+
+This `R` package provides a user-friendly interface for fitting spatial Bayesian latent factor models. Uncover the latent brain image structure using image on image regression.
+
+## Installation
+
+The package is currently only runnable on Linux. Windows or Mac users can run a virtual Linux distribution on their machine or use a cluster.  
+
+To install, open `R` and run:
+
+If the devtools package is not yet installed, install it first:
+```{r, eval=FALSE}
+install.packages('devtools')
+library(devtools)
+```
+
+```{r, eval = FALSE}
+# install SBLF from Github:
+install_github('umich-biostatistics/SBLF') 
+library(SBLF)
+```
+
+## Example usage
+
+### Quick example: 
+
+```{r, eval = FALSE}
+?SBLF
+mod = SBLF(xtrain, xtest, ztrain, ztest, voxel_loc, seed = 1234, burnin = 250, iter = 500)
+```

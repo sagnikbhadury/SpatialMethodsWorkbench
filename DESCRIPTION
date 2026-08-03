@@ -1,7 +1,7 @@
 Package: SpatialMethodsWorkbench
 Type: Package
 Title: Spatial Methods Workbench
-Version: 0.2.1
+Version: 0.3.0
 Authors@R: person("Sagnik", "Bhadury", email = "bhadury@umich.edu", role = c("aut", "cre"))
 Description: Interactive Shiny workbench that validates uploaded spatial and
     structured biomedical data, recommends compatible analyses, runs selected
@@ -23,7 +23,5 @@ Suggests:
     nnet,
     ISPAT,
     ISPAT3D,
-    GPGHS,
-    GOV,
-    FunctionalDepth
+    GPGHS
 VignetteBuilder: knitr

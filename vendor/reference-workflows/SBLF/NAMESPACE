@@ -1,0 +1,4 @@
+useDynLib('SBLF')
+export(SBLF)
+export(mse)
+S3method(print, SBLF_mse)

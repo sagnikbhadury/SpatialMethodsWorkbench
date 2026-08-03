@@ -1,0 +1,26 @@
+Package: GPGHS
+Type: Package
+Title: Gaussian Process Group Horseshoe for Spatial Cell-Cell Interactions
+Version: 0.1.0
+Authors@R: person("Sagnik", "Bhadury", email = "bhadury@umich.edu", role = c("aut", "cre"))
+Description: Estimates spatially varying cell-cell interaction networks in
+    tissue imaging data. Each cell type's expression is regressed on every
+    other cell type via a Hilbert Space Gaussian Process (HSGP) basis
+    expansion with Matern smoothness, combined with a group horseshoe prior
+    across neighbors for edge sparsity and a global half-Cauchy shrinkage
+    parameter, fit via a Gibbs sampler. A faster backfitting-based
+    alternative (gp_node()) is also provided for exploratory use.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports:
+    MASS,
+    parallel,
+    stats,
+    graphics,
+    grDevices
+Suggests:
+    ggplot2,
+    tidyr,
+    reshape2
+RoxygenNote: 7.3.1

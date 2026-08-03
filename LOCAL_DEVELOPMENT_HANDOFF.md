@@ -5,8 +5,8 @@ This folder is a full Git clone of the public Workbench. Use it as the durable s
 ## Non-negotiable boundaries
 
 1. Use public methods and public repositories only.
-2. Do not expose working manuscripts, private repository concepts, private code, confidential results, or undisclosed LLM/SAE work.
-3. Never send uploaded research data to an LLM or external interpretation service.
+2. Do not expose any non-public source, research direction, result, or other confidential material.
+3. Never send uploaded research data to an external interpretation service.
 4. Do not generate automated scientific interpretation. Display statistical outputs, assumptions, warnings, and provenance only.
 5. Preserve the citation acknowledgement and include both Workbench and method-specific citations in every export.
 6. Preserve privacy warnings and the prohibition on PHI in the public service.

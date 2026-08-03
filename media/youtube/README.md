@@ -37,4 +37,4 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\media\youtube\build_videos
 
 Edit `public_usage_slides.json` or `interpretation_slides.json` to change slide text or narration. The script regenerates narration WAV files, editable PowerPoints, captions, chapters, thumbnails, and MP4s. PowerPoint desktop is required for rendering and video export.
 
-The screenshots and synthetic bundle contain demonstration data only. Do not add private repositories, working manuscripts, protected health information, or undisclosed research ideas to this package.
+The screenshots and synthetic bundle contain demonstration data only. Do not add non-public or confidential material to this package.

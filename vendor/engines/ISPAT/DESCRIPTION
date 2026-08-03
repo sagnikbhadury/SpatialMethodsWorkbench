@@ -1,0 +1,31 @@
+Package: ISPAT
+Type: Package
+Title: Informed Spatially Aware Patterns for Multiplexed Immunofluorescence Data
+Version: 0.1.0
+Authors@R: person("Sagnik", "Bhadury", email = "bhadury@umich.edu", role = c("aut", "cre"))
+Description: Fits a Bayesian spatial mixed-effects model to each marker of a
+    multiplexed immunofluorescence (mIF) tissue image, de-spatialises the
+    resulting marker expression, and recovers shared and region-specific
+    cell-type interaction networks via a multi-study factor analysis of the
+    de-spatialised residuals. Supports RBF and Matern spatial covariance
+    kernels and both full Bayesian sampling and variational inference for the
+    per-marker spatial fit, and CAVI or SVI variational algorithms for the
+    factor model. Methods and application described in Bhadury et al. (2026)
+    <https://www.nature.com/articles/s41598-026-35341-8>.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports:
+    CVglasso,
+    doParallel,
+    foreach,
+    Matrix,
+    matrixcalc,
+    parallel,
+    rstan,
+    sparsepca,
+    mnormt,
+    stats
+Suggests:
+    cmdstanr
+RoxygenNote: 7.3.1

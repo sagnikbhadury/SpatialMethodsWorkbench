@@ -4,7 +4,7 @@ Use this bibliography together with the versioned Spatial Methods Workbench cita
 
 ## Workbench software
 
-Bhadury, S. (2026). *Spatial Methods Workbench* (Version 0.2.1) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.21764196
+Bhadury, S. (2026). *Spatial Methods Workbench* (Version 0.3.0) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.21763606
 
 ## Statistical and scientific method references
 
@@ -54,4 +54,4 @@ Repository presence alone is not evidence that a source was used. Forks not list
 - Cite the Workbench version and the method(s) actually used.
 - Follow the license and citation terms of every exact external engine.
 - Do not cite a related full Bayesian method as though the Workbench screening implementation reproduced its posterior model.
-- The bibliography does not disclose private repositories, working manuscripts, or unpublished method ideas.
+- The bibliography is limited to public, release-scoped sources.

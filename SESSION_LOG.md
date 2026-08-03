@@ -8,7 +8,7 @@
 - Added 12 guided executable workflows, input readiness checks, citation acknowledgement, numerical outputs, figures, and reproducibility bundles.
 - Integrated the public ISPAT, GP-GHS, and ISPAT-3D engines; fixed and released the public ISPAT-3D `%dopar%` namespace import as ISPAT-3D v0.1.1.
 - Installed and smoke-tested the advanced R dependencies locally.
-- Enforced the interpretation boundary: no automated result explanation and no LLM prompt in exports.
+- Enforced the interpretation boundary: no automated scientific explanation in exports.
 - Added the complete `docs/USER_GUIDE.md` covering restrictions, real-data preparation, installation, Docker, deployment, privacy, citation, and collaboration.
 - Added the 669-line `docs/PIPELINE_REFERENCE.md` covering every workflow/function, input contract, controls, calls, output objects, failures, and citations.
 - Rendered both manuals inside the live Shiny application.
@@ -51,7 +51,7 @@ New public modules should enter through `analysis_registry()`, `run_analysis()`,
 - Exported both courses as narrated 1080p MP4 files with editable PowerPoint sources, SRT captions, chapter timestamps, and thumbnails.
 - Verified media durations with Windows Media Player metadata: public tutorial 20:20; local interpretation course 21:56.
 - Added `media/youtube/PUBLIC_USAGE_VIDEO_GUIDE.md`, `METHOD_INTERPRETATION_GUIDE.md`, `LITERATURE_CONTEXT.md`, `YOUTUBE_UPLOAD.md`, and rebuild instructions.
-- Kept all videos and interpretation training local. No private repository concept, working manuscript, LLM work, SAE work, or protected data was included.
+- Kept all interpretation training local and included only public, release-scoped material.
 
 ### Video source of truth
 

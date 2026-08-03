@@ -1,6 +1,6 @@
 # Function-by-function pipeline reference
 
-This manual describes every executable analysis path in Spatial Methods Workbench v0.2.1. Read the [Usage, Restrictions, and Local Installation Guide](USER_GUIDE.md) first. The toolkit produces statistical outputs but does not explain results or assign scientific meaning; interpretation requires the study design and domain context.
+This manual describes every executable analysis path in Spatial Methods Workbench v0.3.0. Read the [Usage, Restrictions, and Local Installation Guide](USER_GUIDE.md) first. The toolkit produces statistical outputs but does not explain results or assign scientific meaning; interpretation requires the study design and domain context.
 
 ## Common programmatic interface
 
@@ -71,7 +71,7 @@ result_manifest(result)
 write_result_bundle(result, "analysis-bundle.zip")
 ```
 
-`result_manifest()` produces JSON-ready provenance. `write_result_bundle()` writes the table, figure when available, manifest, R object, citation file, and collaboration contact. It does not include the uploaded dataset, automated interpretation, or an LLM prompt.
+`result_manifest()` produces JSON-ready provenance. `write_result_bundle()` writes the table, figure when available, manifest, R object, citation file, and collaboration contact. It does not include the uploaded dataset or automated scientific interpretation.
 
 ## 1. Spatial exploration and autocorrelation
 

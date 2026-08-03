@@ -1,13 +1,13 @@
 # Spatial Methods Workbench
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21763606.svg)](https://doi.org/10.5281/zenodo.21763606)
-[![Version](https://img.shields.io/badge/release-v0.2.1-176b68)](https://github.com/sagnikbhadury/SpatialMethodsWorkbench/releases/tag/v0.2.1)
+[![Version](https://img.shields.io/badge/release-v0.3.0-176b68)](https://github.com/sagnikbhadury/SpatialMethodsWorkbench/releases/tag/v0.3.0)
 [![License: MIT](https://img.shields.io/badge/License-MIT-d46245.svg)](LICENSE.md)
 [![R tests](https://github.com/sagnikbhadury/SpatialMethodsWorkbench/actions/workflows/test.yml/badge.svg)](https://github.com/sagnikbhadury/SpatialMethodsWorkbench/actions/workflows/test.yml)
 
 A functional Shiny application for guided analysis of spatial and structured biomedical data. Users upload a CSV, map its columns, see which analyses are compatible, configure a method, run it, and download a reproducibility bundle containing results, a figure, settings, citations, and the R result object.
 
-**[Launch the live application](https://sagnikbhadury.shinyapps.io/spatial-methods-workbench/)** · **[Read the complete usage and installation guide](docs/USER_GUIDE.md)** · **[Open the function-by-function reference](docs/PIPELINE_REFERENCE.md)** · **[Cite v0.2.1](https://doi.org/10.5281/zenodo.21764196)**
+**[Launch the live application](https://sagnikbhadury.shinyapps.io/spatial-methods-workbench/)** · **[Read the complete usage and installation guide](docs/USER_GUIDE.md)** · **[Open the function-by-function reference](docs/PIPELINE_REFERENCE.md)** · **[Cite the software](https://doi.org/10.5281/zenodo.21763606)**
 
 ## Video tutorial
 
@@ -42,7 +42,7 @@ The Workbench currently hosts 12 executable analysis paths. It first checks the 
 
 Every path returns numerical/statistical output rather than an automated scientific narrative. Network edges are conditional associations unless the selected method and study design establish something stronger. For interpretation, method selection, or a study collaboration, contact [Sagnik Bhadury](mailto:bhadury@umich.edu?subject=Spatial%20Methods%20Workbench%20collaboration).
 
-The application also includes synthetic demonstration data, automatic column suggestions, structural validation, compatibility gating, documented controls, and downloadable result bundles. The advanced engines are available only when their corresponding public R package is installed; the live v0.2.1 deployment includes all three.
+The application also includes synthetic demonstration data, automatic column suggestions, structural validation, compatibility gating, documented controls, and downloadable result bundles. The complete v0.3.0 source distribution includes local package sources for all three advanced engines; the live deployment includes all three.
 
 The advanced Bayesian engines are computationally intensive. Production deployments should enforce upload, memory, worker, and runtime limits and should use a job queue for large studies.
 
@@ -68,7 +68,105 @@ The spatial AI/ML workflows are deployable adaptations informed by the public Mi
 
 No uploaded values or analysis results are sent to a third-party AI interpretation service. Automated result explanation remains outside the application by policy.
 
-## Run locally
+## Install from the Zenodo release
+
+The Zenodo/GitHub source ZIP is the complete distribution of record. It
+contains the Shiny application, installable R package API, documentation,
+tests, five vignettes, four compact simulated datasets, and the curated public
+source bundle under `vendor/`.
+
+### 1. Prerequisites
+
+- R 4.5.x or a compatible current R release;
+- a working compiler toolchain for source packages: Rtools on Windows, Xcode
+  Command Line Tools on macOS, or standard build tools plus GSL development
+  libraries on Linux;
+- Git is optional when installing from Zenodo because the exact engine sources
+  are already included;
+- sufficient memory and runtime for Bayesian, Stan, image, and 3D workflows.
+
+On Windows, install the Rtools generation matching the first two digits of R
+(for example, R 4.5.x requires Rtools 4.5). The complete installer detects a
+standard `C:\\rtools45` installation and adds its compiler directories to the
+active R process.
+
+Download the newest ZIP from the [Zenodo concept
+record](https://doi.org/10.5281/zenodo.21763606), extract it, and make the
+extracted directory the working directory in R or a terminal. Do not run the
+installer from inside the ZIP preview.
+
+### 2. Install the complete executable Workbench
+
+From a terminal in the extracted release directory:
+
+```text
+Rscript install-complete.R
+```
+
+The installer obtains missing CRAN dependencies and installs the bundled local
+copies of `ISPAT`, `GPGHS`, and `ISPAT3D`; it does not clone those method
+repositories. It then installs the `SpatialMethodsWorkbench` package and its
+vignettes. Use `--skip-vignettes` when LaTeX/Pandoc is unavailable:
+
+```text
+Rscript install-complete.R --skip-vignettes
+```
+
+The release includes source snapshots for the related SV-NN, STCAR, and SBLF
+workflows. To compile the related R packages as well, where supported:
+
+```text
+Rscript install-complete.R --include-related
+```
+
+SBLF's upstream package is Linux-only. SV-NN is a Python research-code
+snapshot and has its own Python requirements under
+`vendor/reference-workflows/SV-NN`; it is not silently used by the built-in
+ridge screen. The interactive image workflows remain explicitly labelled as
+screening implementations rather than the full SV-NN, STCAR, or SBLF
+posteriors.
+
+### 3. Verify the installation
+
+```text
+Rscript verify-installation.R
+Rscript tests/testthat.R
+```
+
+The first command checks the Workbench plus all three direct advanced engines
+and prints the 12 registered paths. The second runs the automated package and
+Shiny-server tests.
+
+### 4. Launch the local application
+
+In R, with the extracted release as the working directory:
+
+```r
+shiny::runApp(".", host = "127.0.0.1", port = 3838)
+```
+
+Open `http://127.0.0.1:3838`. Binding to `127.0.0.1` keeps the service on the
+local machine. Do not upload protected data to an unsecured public service.
+
+### What “complete distribution” means
+
+Users do not need to download the ISPAT, GP–GHS, or ISPAT-3D repositories
+separately. License-safe public source connected to the AI/ML, neural,
+SV-NN, STCAR, and SBLF provenance is also archived under `vendor/`; exact
+revisions and retained scope are recorded in
+[`vendor/manifest.json`](vendor/manifest.json). Large curriculum translations,
+media, public demonstration datasets, Git history, and platform-specific
+compiled objects are intentionally omitted because they do not execute a
+Workbench analysis.
+
+Like normal source-distributed R software, the installer may download missing
+CRAN dependencies. A source ZIP cannot contain a portable compiled R library
+for every operating system. The Docker build below provides the most isolated
+installation path and installs the bundled direct engines inside the image.
+
+## Minimal built-in installation
+
+For only the fast built-in workflows, without the advanced Bayesian engines:
 
 ```r
 install.packages(c("shiny", "bslib", "DT", "ggplot2", "jsonlite", "markdown", "zip"))
@@ -83,7 +181,7 @@ Rscript run-local.R
 
 Open `http://127.0.0.1:3838`.
 
-## Install as an R package and open the vignettes
+## Install the package API from GitHub and open the vignettes
 
 ```r
 install.packages(c("remotes", "knitr", "rmarkdown"))
@@ -99,7 +197,10 @@ vignette("app-walkthrough", package = "SpatialMethodsWorkbench")
 
 The installed package exports the four deterministic data generators, validation and readiness functions, all 12 workflow runners, the common `run_analysis()` dispatcher, citation helpers, and reproducibility-bundle functions. The Shiny app and package call the same analysis implementation.
 
-## Install public advanced engines
+## Install public advanced engines directly from GitHub
+
+This alternative is for a GitHub checkout. Zenodo users should use the bundled
+installer above.
 
 ```r
 install.packages("remotes")
@@ -173,14 +274,14 @@ Only the public sources above are claimed as informing the shipped Workbench wor
 
 Citation acknowledgement is a strong research-norm and provenance mechanism, not a technical guarantee about a later publication's bibliography. A tagged release can be archived with Zenodo to add a persistent DOI.
 
-- Cite the current `v0.2.1` release using [DOI 10.5281/zenodo.21764196](https://doi.org/10.5281/zenodo.21764196).
-- Use the [concept DOI 10.5281/zenodo.21763606](https://doi.org/10.5281/zenodo.21763606) when referring to the workbench across all versions.
+- Cite the version-specific DOI shown on the downloaded Zenodo record.
+- Use the [concept DOI 10.5281/zenodo.21763606](https://doi.org/10.5281/zenodo.21763606) when referring to the Workbench across all versions.
 
 ## License and software publication
 
 The Workbench source code is published under the [MIT License](LICENSE.md). The MIT License allows reuse, modification, redistribution, sublicensing, and commercial use, provided the copyright and permission notice are retained. The software is supplied without warranty.
 
-The archived software release is a citable software publication on Zenodo: [v0.2.1, DOI 10.5281/zenodo.21764196](https://doi.org/10.5281/zenodo.21764196). The MIT License governs reuse of this repository's code; it does **not** replace scholarly attribution, method-specific citations, data-use obligations, or licenses attached to external packages. The application requires citation acknowledgement and writes the applicable references into every result bundle, but no open-source license can technically guarantee what a later manuscript includes.
+The archived software releases are citable software publications under the [Zenodo concept DOI 10.5281/zenodo.21763606](https://doi.org/10.5281/zenodo.21763606). The MIT License governs reuse of this repository's code; it does **not** replace scholarly attribution, method-specific citations, data-use obligations, or licenses attached to external packages. Bundled third-party source remains under the license retained with that source. The application requires citation acknowledgement and writes the applicable references into every result bundle, but no open-source license can technically guarantee what a later manuscript includes.
 
 ## Design evidence
 

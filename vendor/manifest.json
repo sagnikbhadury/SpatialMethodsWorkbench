@@ -1,0 +1,80 @@
+{
+  "bundle_schema": "1.0",
+  "workbench_release": "0.3.0",
+  "generated_date": "2026-08-03",
+  "privacy_boundary": "Only public, release-scoped software is included.",
+  "sources": [
+    {
+      "name": "ISPAT",
+      "repository": "https://github.com/sagnikbhadury/ISPAT",
+      "commit": "d775f2cc252561c45eff8acb5397101f73b7f7d8",
+      "license": "MIT",
+      "scope": "complete package source",
+      "role": "directly executed exact engine"
+    },
+    {
+      "name": "GP-GHS",
+      "repository": "https://github.com/sagnikbhadury/GP-GHS",
+      "commit": "89215a43c57dca66fdf0268f9e304bc4770e077b",
+      "license": "MIT",
+      "scope": "complete package source",
+      "role": "directly executed exact engine"
+    },
+    {
+      "name": "ISPAT-3D",
+      "repository": "https://github.com/sagnikbhadury/ISPAT-3D",
+      "commit": "2abedd22a29cf0d002a3623173552f2bacc8a4b2",
+      "license": "MIT",
+      "scope": "complete package source",
+      "role": "directly executed exact engine"
+    },
+    {
+      "name": "AI-For-Beginners",
+      "repository": "https://github.com/sagnikbhadury/AI-For-Beginners",
+      "commit": "33e781bf7bfb9b39fd27c4e4a3e592669b52cb4b",
+      "license": "MIT",
+      "scope": "selected English neural-network source and documentation",
+      "role": "reference source for a built-in adaptation"
+    },
+    {
+      "name": "ML-For-Beginners",
+      "repository": "https://github.com/sagnikbhadury/ML-For-Beginners",
+      "commit": "d0d0ea2b2d22cddca31f9c6d108df7daa87a1b46",
+      "license": "MIT",
+      "scope": "selected R regression and k-means source and documentation",
+      "role": "reference source for built-in adaptations"
+    },
+    {
+      "name": "DeepUnderstandingOfDeepLearning",
+      "repository": "https://github.com/sagnikbhadury/DeepUnderstandingOfDeepLearning",
+      "commit": "f0d0dd7f1587a73a4d85029f807c5a709b34940a",
+      "license": "MIT",
+      "scope": "selected ANN and feed-forward-network notebooks",
+      "role": "reference source for a built-in adaptation"
+    },
+    {
+      "name": "SV-NN",
+      "repository": "https://github.com/sagnikbhadury/SV-NN",
+      "commit": "84df3e4aa3f9ae69cb0a507801864504b52ac392",
+      "license": "MIT",
+      "scope": "Python source and notebooks; large public demonstration datasets omitted",
+      "role": "related exact method; Workbench path is a separate ridge screen"
+    },
+    {
+      "name": "STCAR",
+      "repository": "https://github.com/sagnikbhadury/STCAR",
+      "commit": "000fa722c8b90480ab6be77586bc6dcbf52b2180",
+      "license": "GPL-2.0-or-later (declared in DESCRIPTION)",
+      "scope": "R and C++ package source; generated platform binaries omitted",
+      "role": "related exact method; Workbench path is a separate ridge screen"
+    },
+    {
+      "name": "SBLF",
+      "repository": "https://github.com/sagnikbhadury/SBLF",
+      "commit": "6bb0533192a2e68270d5c93a178fcebaa7ba6d6d",
+      "license": "MIT",
+      "scope": "complete R/C/C++ package source and small package data; generated platform binaries omitted",
+      "role": "related exact method; Workbench path is a separate latent-factor screen"
+    }
+  ]
+}
