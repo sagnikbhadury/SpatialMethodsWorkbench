@@ -11,3 +11,5 @@ __pycache__/
 SpatialMethodsWorkbench.Rcheck/
 SpatialMethodsWorkbench_*.tar.gz
 *.Rproj
+media/youtube/
+SpatialMethodsWorkbench-v*-source.zip
