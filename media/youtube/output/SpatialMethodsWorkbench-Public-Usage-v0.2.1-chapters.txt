@@ -1,0 +1,25 @@
+0:00 Spatial Methods Workbench
+0:49 What this tutorial will accomplish
+1:30 The application has a deliberate boundary
+2:20 What data can enter the Workbench?
+3:08 Complete upstream processing first
+3:55 Choose the workflow from the estimand
+4:48 Map every scientific variable explicitly
+5:38 Treat readiness as a technical contract
+6:24 Spatial exploration with Moran's I
+7:17 Fast conditional-network screening
+8:01 ISPat: shared and zone-specific networks
+8:54 GP-GHS: edges that vary over continuous space
+9:41 ISPat 3D: networks in registered volumes
+10:32 Linear and logistic prediction
+11:19 Spatial clustering and shallow neural prediction
+12:07 Scalar-image and image-to-image screens
+12:57 Mediation and shape PCA
+13:44 Controls are analysis decisions
+14:40 Run only after citation acknowledgement
+15:23 Audit the output before downloading
+16:17 Download the complete reproducibility bundle
+17:07 Install the core interface locally
+17:57 Install and validate the advanced engines
+18:43 A minimum real-study audit trail
+19:34 Use, cite, and collaborate

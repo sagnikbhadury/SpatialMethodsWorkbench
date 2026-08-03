@@ -1,0 +1,178 @@
+[
+  {
+    "title": "Interpreting Spatial Methods Workbench outputs",
+    "kicker": "DETAILED LOCAL TRAINING · v0.2.1",
+    "body": "Design → estimand → uncertainty → biological hypothesis → evidence boundary\n\nA publication-grounded interpretation framework for all 12 workflows",
+    "narration": "This detailed local training course explains how to discuss Spatial Methods Workbench outputs with scientific collaborators. It is not an automated interpretation service, clinical guidance, or a substitute for the full publications. For every workflow, we will identify the statistical estimand, the quantities reported by the Workbench or source method, the uncertainty or validation needed, the kind of biological hypothesis the result may motivate, and the claims the result cannot establish. Always begin with the observational unit, sampling hierarchy, preprocessing, coordinate system, and scientific question."
+  },
+  {
+    "title": "Use five layers in every explanation",
+    "kicker": "INTERPRETATION DISCIPLINE",
+    "body": "1  Design and preprocessing\n2  Statistical estimand\n3  Uncertainty, validation, or stability\n4  Biologically plausible hypothesis\n5  Alternatives and required follow-up",
+    "narration": "Use five layers in this order. First, state what one observation represents, how observations are nested, and how raw measurements became the analysis table. Second, name the estimand in plain language. Third, describe uncertainty, permutation, posterior selection, bootstrap, held-out error, or stability. Fourth, state a biological hypothesis using cautious language such as consistent with or may motivate. Fifth, name technical and biological alternatives and the replication, perturbation, orthogonal assay, or prospective design needed for a stronger claim."
+  },
+  {
+    "title": "First reconstruct the data-generating process",
+    "kicker": "BEFORE READING ANY NUMBER",
+    "body": "Unit: cell, spot, voxel, contour, subject, slide, or volume?\nHierarchy: what is nested within patient, specimen, site, or time?\nProcessing: segmentation, registration, normalization, masks, exclusions?\nGeometry: coordinate units, boundaries, anisotropy, section spacing?",
+    "narration": "Interpretation fails when the analyst starts from the result table rather than the data-generating process. Identify the unit represented by a row and the independent biological replicate. Describe nesting within patients, specimens, slides, sites, times, or volumes. Reconstruct segmentation, registration, normalization, transformations, masks, and exclusions. For spatial and volumetric data, record coordinate units, tissue boundaries, anisotropy, section spacing, and missing regions. A statistically correct calculation can still answer the wrong scientific question if the sampling hierarchy or geometry is misunderstood."
+  },
+  {
+    "title": "Moran's I: what quantity is being estimated?",
+    "kicker": "WORKFLOW 1 · I, WEIGHTS, AND EXPECTATION",
+    "body": "I compares weighted cross-products of centered values with total variation\nW defines which locations are neighbors and how strongly\nExpected I under randomization depends on sample size\nGlobal I summarizes the whole domain—not a local hotspot map",
+    "image": "captures/06_synthetic_result_figure.png",
+    "narration": "Moran's I is a global spatial autocorrelation statistic. It compares weighted cross-products of centered observations with overall squared variation, scaled by the spatial weight matrix. The graph is therefore part of the estimand: an eight-neighbor result is not the same quantity as a distance-band result. Positive I indicates neighboring similarity under that graph, negative I indicates neighboring dissimilarity, and values near the randomization expectation indicate little global structure. It summarizes the full domain and does not locate the specific region creating the pattern."
+  },
+  {
+    "title": "Moran's I: uncertainty and biological framing",
+    "kicker": "PERMUTATION p IS CONDITIONAL ON EXCHANGEABILITY",
+    "body": "Report: I, graph construction, n, permutations, seed, p-value\nCheck: alternate k or distance bands, boundaries, density, technical gradients\nRespect: patient, slide, specimen, region, or time blocks\nSay: spatially structured under the specified graph",
+    "narration": "The permutation p-value measures how extreme the observed statistic is under the chosen label-exchange scheme. Its credibility depends on exchangeability. If rows share a patient, slide, specimen, batch, region, or time point, unrestricted permutation can create a false reference distribution. Report the statistic, graph, sample count, number of permutations, seed, and p-value. Repeat plausible graphs and examine boundaries and sampling density. A biologically disciplined statement is that the feature is spatially structured under the specified graph. Do not infer a cellular mechanism from global autocorrelation alone."
+  },
+  {
+    "title": "Partial-correlation networks: matrix quantities",
+    "kicker": "WORKFLOW 2 · COVARIANCE, PRECISION, PARTIAL r",
+    "body": "Covariance Σ describes marginal co-variation\nPrecision Ω = Σ⁻¹ describes conditional structure\nPartial rᵢⱼ = −Ωᵢⱼ / √(ΩᵢᵢΩⱼⱼ)\nRidge penalty stabilizes inversion\nThreshold converts a continuous matrix into a displayed graph",
+    "narration": "The conditional-network screen estimates a covariance matrix, applies a ridge penalty, inverts it to obtain a precision matrix, and standardizes the off-diagonal precision entries as partial correlations. A partial correlation is the residual linear association between two included variables after conditioning on the other included variables. The ridge penalty is not merely numerical housekeeping; it changes the estimate, especially with correlated features or limited observations. The graph threshold is a decision applied to a continuous matrix. Preserve and inspect the matrix rather than interpreting only the displayed edges."
+  },
+  {
+    "title": "Partial networks: from an edge to a hypothesis",
+    "kicker": "CONDITIONAL ASSOCIATION IS NOT MECHANISM",
+    "body": "Positive edge → conditional coordination\nNegative edge → conditional opposition\nNo displayed edge → below threshold, not proven absence\nPossible hypotheses: shared niche, exclusion, coordinated state\nAlternatives: composition, omitted variables, batch, transformation, instability",
+    "narration": "A positive edge describes conditional coordination and a negative edge conditional opposition under the fitted linear model. An absent displayed edge means the estimate fell below the chosen rule, not that biology is absent. An edge may motivate hypotheses about a shared niche, exclusion, or coordinated state. It does not establish physical contact, signaling, regulation, direction, or causation. Review transformations, outliers, feature panel composition, ridge sensitivity, sample size, zone sizes, thresholds, and omitted variables. Report the continuous estimate with the exact model and threshold used."
+  },
+  {
+    "title": "ISPat 2D: quantities in the publication",
+    "kicker": "WORKFLOW 3 · SPATIAL INTENSITIES AND MULTI-STUDY FACTORS",
+    "body": "Marker or cell-type spatial intensity surfaces\nShared covariance/loading structure across regions\nRegion-specific covariance/loading deviations\nPartial correlations and positive/negative edge signs\nAcross-sample proportions carrying each edge sign",
+    "narration": "The ISPat publication first characterizes spatial intensity surfaces and then uses multi-study factor structure to separate shared from region-specific covariance patterns. Publication-level summaries include shared and zone-specific covariance or loading quantities, partial-correlation matrices, thresholded positive and negative edges, and proportions of samples in which an edge sign occurs. In simulations, recovery is also summarized with an RV coefficient comparing matrices. These quantities address spatially adjusted conditional organization; they are richer than a separate network fit within each zone."
+  },
+  {
+    "title": "ISPat 2D: explain shared versus zone-specific",
+    "kicker": "THE DECOMPOSITION DEFINES THE SCIENTIFIC LANGUAGE",
+    "body": "Shared pattern → modeled organization conserved across zones\nZone-specific pattern → deviation associated with a prespecified domain\nEdge proportion → reproducibility across modeled samples\nThresholded sign → a summary of a continuous estimate",
+    "narration": "Explain a shared pattern as conditional organization conserved across the modeled zones, and a zone-specific pattern as a deviation associated with a prespecified domain. An across-sample edge proportion summarizes how often a sign is recovered under the paper's aggregation rule; it is not the posterior probability of a universal biological law. Thresholded edge signs summarize continuous estimates. In the pancreatic application, tumor-intensity zones and epithelial, APC, CTL, T-helper, and Treg features provided the biological context. For a new assay, those labels and zones must be independently justified."
+  },
+  {
+    "title": "ISPat 2D: checks before biological discussion",
+    "kicker": "SPATIAL ADJUSTMENT DOES NOT REMOVE EVERY CONFOUNDER",
+    "body": "Verify phenotype definitions and measurement scales\nJustify zones independently of the desired network result\nInspect intensity surfaces, matrices, edge signs, and thresholds\nReview priors, chains, convergence, and observations per zone\nSeek replication and functional validation",
+    "narration": "Before interpreting ISPat biology, verify phenotype or marker definitions, normalization, and spatial units. Ensure zones were defined independently of the desired result and have adequate observations across biological replicates. Inspect the fitted intensity surfaces, continuous matrices, thresholded signs, and sample-level heterogeneity. Review prior choices, chain behavior, effective sample size, convergence, and sensitivity to thresholds and bandwidths. The ISPat authors describe the networks as conditional dependencies. Functional validation, orthogonal assays, and replication remain necessary for mechanistic claims."
+  },
+  {
+    "title": "GP-GHS: what the model selects",
+    "kicker": "WORKFLOW 4 · SPATIAL EDGE FIELDS AND GROUPED SHRINKAGE",
+    "body": "Each candidate edge is represented over space with basis coefficients\nGrouped horseshoe shrinkage acts on the edge as a group\nAdjacency summarizes a posterior selection rule\nThe fitted object retains location-specific edge behavior",
+    "narration": "GP-GHS represents a candidate conditional-dependence edge as a spatially varying field through basis coefficients. Grouped horseshoe shrinkage acts jointly on the coefficients for an edge, allowing the method to suppress unsupported edge functions while retaining spatially structured ones. A Workbench adjacency is a compact summary of the configured posterior selection rule. It does not fully describe the edge's sign, magnitude, uncertainty, or spatial variation. Those properties live in the detailed fitted object and must be inspected at locations or regions relevant to the scientific question."
+  },
+  {
+    "title": "GP-GHS: uncertainty, sensitivity, and wording",
+    "kicker": "SELECTED EDGE ≠ UNIFORM EDGE",
+    "body": "Review basis dimension, smoothness, coordinate scaling, chains, ESS, R-hat\nCheck threshold and symmetry rules\nMap posterior edge fields with tissue boundaries and uncertainty\nSay: evidence for a spatially structured conditional relationship",
+    "narration": "A selected GP-GHS edge does not imply the same sign or magnitude everywhere. Review basis dimension, smoothness, coordinate scaling, tissue boundaries, chain mixing, effective sample sizes, convergence statistics, selection threshold, and symmetry rule. Map the detailed posterior edge field with uncertainty and compare results across reasonable settings and biological specimens. Appropriate language is that the model found evidence for a spatially structured conditional relationship. Regional biological labels should be applied only after independent annotation and should not turn a conditional association into a direction or mechanism."
+  },
+  {
+    "title": "ISPat 3D: volumetric quantities",
+    "kicker": "WORKFLOW 5 · 3D TREND, SHARED MATRIX, ZONE MATRIX",
+    "body": "Marker-specific 3D spatial adjustment\nMulti-study factor decomposition\nShared and zone-specific covariance or partial-correlation structure\nPer-volume fitted objects and edge summaries",
+    "narration": "ISPat 3D extends marker-specific spatial adjustment and multi-study network estimation to registered volumes or serial sections. Its scientific quantities include three-dimensional spatial trends and shared or zone-specific covariance and partial-correlation structure, retained within per-volume fitted objects. A shared volumetric edge describes conditional organization conserved across the modeled domains, while a zone-specific edge describes a modeled deviation in a domain. The z axis and volume identifiers are scientific variables, not merely columns needed to pass readiness."
+  },
+  {
+    "title": "ISPat 3D: registration is part of inference",
+    "kicker": "A 3D NETWORK IS ONLY AS CREDIBLE AS ITS GEOMETRY",
+    "body": "Check orientation, section order, thickness, spacing, and anisotropy\nReview registration error, missing sections, masks, and tissue deformation\nAssess staining drift and volume-to-volume heterogeneity\nDistinguish depth biology from reconstruction artifacts",
+    "narration": "Three-dimensional interpretation begins with geometry. Verify orientation, section order, thickness, spacing, anisotropy, registration error, missing sections, masks, deformations, and coordinate units. Examine staining drift and heterogeneity across volumes. A depth-dependent edge can arise from real volumetric organization, but also from misregistration, discontinuous sampling, or technical drift. Review the spatial adjustment and full matrices within each volume, and replicate across independent volumes. State a volumetric conditional pattern before proposing a biological mechanism."
+  },
+  {
+    "title": "Linear and logistic prediction: performance quantities",
+    "kicker": "WORKFLOW 6 · ERROR, PROBABILITY, CALIBRATION",
+    "body": "Continuous: RMSE, MAE, held-out R², residuals\nBinary: predicted probability, accuracy, sensitivity/specificity as added analyses\nCoefficients: conditional predictive associations under the model\nPerformance is conditional on the validation split",
+    "narration": "For continuous outcomes, RMSE emphasizes large errors, MAE reports average absolute error, and held-out R squared compares predictive variation under the test design. For binary outcomes, predicted probabilities are primary; accuracy depends on the cutoff and prevalence and should be supplemented with discrimination and calibration where appropriate. Coefficients are conditional predictive associations under the fitted model, not causal effects. Every metric is conditional on the test population and split. Report its denominator, uncertainty, prevalence, and any preprocessing learned exclusively from training data."
+  },
+  {
+    "title": "Prediction: structured validation comes first",
+    "kicker": "RANDOM ROW SPLITS CAN LEAK BIOLOGY AND SPACE",
+    "body": "Block by patient, specimen, slide, site, time, or spatial region\nKeep preprocessing, feature selection, and tuning inside training folds\nCompare simple baselines and assess calibration\nPrefer external replication for generalization claims",
+    "narration": "Spatial and biomedical records are structured. If neighboring locations or observations from one patient or slide occur in both training and test sets, the model can appear to generalize while memorizing shared context. Use patient, specimen, slide, site, time, or spatial blocks appropriate to deployment. Perform normalization, feature selection, and tuning inside the training folds. Compare with transparent baselines, quantify calibration and subgroup performance, and seek an external cohort. Predictive accuracy does not explain why the outcome occurs."
+  },
+  {
+    "title": "Spatial clustering: understand the constructed geometry",
+    "kicker": "WORKFLOW 7 · FEATURES + WEIGHTED COORDINATES",
+    "body": "Standardized biological features define one distance component\nScaled coordinates define another\nSpatial weight controls their trade-off\nAssignments, centers, and between/total ratio summarize k-means",
+    "narration": "The spatial clustering path performs k-means in a constructed space containing standardized biological features and coordinates multiplied by the selected spatial weight. The weight changes the question: zero emphasizes feature similarity, while larger values favor geographic compactness. Assignments and centers describe the algorithmic partition, and the between-to-total sum-of-squares ratio is an internal separation measure. It does not validate the cluster count or biological identity. Study stability across seeds, feature sets, transformations, cluster counts, and spatial weights before assigning any biological label."
+  },
+  {
+    "title": "Shallow neural prediction: what can be claimed",
+    "kicker": "WORKFLOW 8 · NONLINEAR SCREENING",
+    "body": "Outputs: held-out predictions, errors or probabilities, fitted network\nControls: hidden units, weight decay, seed, split\nWeights are distributed parameters—not direct effects\nCompare with linear/logistic baselines under the same blocked validation",
+    "narration": "The shallow neural workflow asks whether a compact nonlinear predictor improves held-out performance. Hidden units control representation capacity, weight decay regularizes parameters, and the seed influences initialization and splitting. Individual network weights are distributed across layers and should not be narrated as direct biological effects. Compare the model with linear or logistic baselines under identical grouped validation, repeat seeds, assess calibration, and use separate attribution methods only with their own stability checks. A performance gain supports nonlinear predictive structure, not a learned mechanism."
+  },
+  {
+    "title": "Scalar-image screen: Workbench quantities",
+    "kicker": "WORKFLOW 9 · RIDGE COEFFICIENTS AND HELD-OUT ERROR",
+    "body": "Standardized ridge coefficients rank conditional predictive contributions\nRMSE and MAE evaluate scalar prediction\nPenalty distributes weight across correlated aligned features\nCoefficient maps depend on scaling, mask, alignment, and penalty",
+    "narration": "The Workbench scalar-image path is a ridge screen. It relates aligned high-dimensional image or voxel features to a scalar outcome, reports standardized penalized coefficients, and evaluates held-out RMSE and MAE. A coefficient is a contribution to the penalized linear predictor conditional on the other included features and chosen scaling. Correlated pixels can divide or redistribute signal, and magnitude ranking is not a posterior probability. Inspect coefficient stability, residuals, masks, alignment, site effects, and penalty selection."
+  },
+  {
+    "title": "Scalar-image publications: do not conflate quantities",
+    "kicker": "SV-NN AND ST-CAR ARE FULL SPATIAL MODELS",
+    "body": "Publication quantities may include spatial effect surfaces\nActive regions or voxels\nPosterior inclusion or selection measures\nSpatial uncertainty and structured priors\n\nA Workbench ridge rank is not posterior-selected evidence",
+    "narration": "The related SV-NN and ST-CAR publications estimate spatially structured effect surfaces, active regions, posterior selection or inclusion quantities, and uncertainty under explicit spatial models. Those are not the same as the Workbench ridge coefficients. Do not describe a ranked ridge feature as posterior-selected, spatially smoothed, or causal. Use the screen to identify predictive structure and motivate a fuller analysis. When the scientific target is spatial selection with posterior uncertainty, fit the appropriate publication-level model and report its priors, posterior summaries, diagnostics, and sensitivity."
+  },
+  {
+    "title": "Image-to-image screen: latent quantities",
+    "kicker": "WORKFLOW 10 · SCORES, LOADINGS, RECONSTRUCTION",
+    "body": "Separate PCA bases summarize source and target variation\nRegression links subject-level latent scores\nLoadings map factors back to aligned features\nHeld-out RMSE measures reconstructed target error",
+    "narration": "The Workbench image-to-image screen constructs separate PCA bases for aligned source and target images, regresses target scores on source scores, reconstructs target features, and reports held-out reconstruction error. Scores position subjects along variance directions and loadings map those directions to features. A factor is a mathematical direction of variation, not automatically a pathway or anatomical process. Interpret factors only after visualizing loadings and reconstructions, checking sign conventions and stability, and relating patterns to independently established anatomy or biology."
+  },
+  {
+    "title": "Image-to-image publications: SBLF distinction",
+    "kicker": "SCREENING PCA IS NOT A SPATIAL BAYESIAN LATENT FACTOR MODEL",
+    "body": "SBLF uses spatial Bayesian latent factors\nIt estimates spatially varying regression structure and posterior uncertainty\nWorkbench uses separate PCA plus score regression\nUse identical masks, resolution, registration, and leakage-free factor tuning",
+    "narration": "The SBLF publication uses spatial Bayesian latent factors and spatially varying regression coefficients with posterior uncertainty. The Workbench screen uses separate principal component bases and score regression. These are different inferential objects. Use the Workbench result as a fast reconstruction and prediction screen, not as an SBLF posterior. Confirm identical masks, resolution, orientation, registration, feature order, and subject alignment. Choose factor counts without test leakage, inspect residual images and per-feature error, and use the full SBLF method when spatial posterior inference is required."
+  },
+  {
+    "title": "Mediation: define the three reported effects",
+    "kicker": "WORKFLOW 11 · INDIRECT, DIRECT, TOTAL",
+    "body": "Indirect = a × b in the fitted linear models\nDirect = exposure coefficient with mediator included\nTotal = exposure coefficient without mediator\nBootstrap interval describes resampling variability",
+    "narration": "The mediation screen fits an exposure-to-mediator model and outcome models with and without the mediator. The indirect effect is the product a times b in the fitted linear specification. The direct effect is the exposure coefficient with the mediator included, and the total effect is the exposure coefficient without it. A percentile bootstrap interval summarizes resampling variability under the observed design. It does not prove that the pathway is causally identified or that the mediator transmits a physical mechanism."
+  },
+  {
+    "title": "Mediation: identification before causal language",
+    "kicker": "SEQUENTIAL IGNORABILITY IS NOT TESTED BY THE APP",
+    "body": "Require temporal ordering, consistency, positivity, and defensible confounding control\nAddress clustering, exposure–mediator interaction, and model form\nPerform sensitivity analysis for unmeasured confounding\nSay: model-based indirect association unless identification is justified",
+    "narration": "Causal mediation requires more than a nonzero product. Exposure must precede mediator and mediator precede outcome; consistency and positivity must be plausible; exposure-outcome, exposure-mediator, and mediator-outcome confounding must be addressed; and model form, clustering, and exposure-mediator interaction may matter. Use sensitivity analysis for unmeasured confounding. Without these conditions, say the data are consistent with a model-based indirect association. Reserve causal mediation language for a design and analysis that explicitly support identification."
+  },
+  {
+    "title": "Shape PCA: quantities after geometric preprocessing",
+    "kicker": "WORKFLOW 12 · SCORES, LOADINGS, EXPLAINED VARIANCE",
+    "body": "Contours are resampled, centered, and size-normalized\nPC scores place contours along modes\nLoadings describe coordinated landmark movement\nExplained variance describes sample geometry—not biological importance",
+    "narration": "The shape path resamples ordered contours, removes translation and scale, and applies PCA to the landmark-coordinate vectors. A component score positions a contour along a geometric mode. A loading describes coordinated landmark movement, and explained variance measures geometric variability within the processed sample. It does not measure aggressiveness, prognosis, or biological importance. Interpret each mode by plotting mean shape plus and minus component multiples, and report the preprocessing choices that define the shape space."
+  },
+  {
+    "title": "Shape PCA: correspondence and rotation checks",
+    "kicker": "GEOMETRIC ARTIFACTS CAN DOMINATE COMPONENTS",
+    "body": "Verify contour direction and starting-point correspondence\nAssess segmentation repeatability and missing boundaries\nState whether rotation was standardized\nSeparate acquisition orientation from intrinsic morphology\nValidate any outcome association in a new model and cohort",
+    "narration": "Shape components can be dominated by technical correspondence. Verify clockwise or counterclockwise contour direction, starting-point alignment, landmark correspondence, segmentation repeatability, and treatment of incomplete boundaries. State whether rotation was standardized; the Workbench does not automatically remove every rotational difference. Decide whether orientation is a biological feature or an acquisition artifact. Any link between a shape score and disease or outcome belongs in a separate model with grouped validation and independent replication."
+  },
+  {
+    "title": "A collaborator-ready reporting template",
+    "kicker": "USE THE SAME LOGIC FOR EVERY WORKFLOW",
+    "body": "We analyzed [unit] using [workflow] to estimate [quantity].\nUnder [settings/design], the estimate was [value + uncertainty].\nThis supports [statistical statement].\nIt is consistent with—but does not establish—[hypothesis].\nA stronger claim requires [specific validation].",
+    "narration": "Use this structure in meetings, reports, and manuscripts. We analyzed the stated observational unit using the named workflow to estimate a specific quantity. Under the recorded settings and validation design, the estimate was the reported value with uncertainty. This supports a precise statistical statement. It is consistent with, but does not establish, a named biological hypothesis. Then list the main alternative explanations and the exact independent cohort, blocked validation, perturbation, orthogonal assay, functional experiment, or prospective design required for a stronger claim."
+  },
+  {
+    "title": "Red-flag phrases and disciplined replacements",
+    "kicker": "LANGUAGE IS PART OF STATISTICAL QUALITY CONTROL",
+    "body": "Avoid: proves interaction → Prefer: conditional association\nAvoid: causal voxel → Prefer: screening coefficient or posterior-selected region\nAvoid: true cell state → Prefer: algorithmic cluster\nAvoid: learned mechanism → Prefer: held-out predictive structure\nAvoid: mediated pathway → Prefer: model-based indirect effect",
+    "narration": "Language can overstate evidence even when the computation is correct. Replace proves interaction with conditional association. Replace causal voxel with screening coefficient, or with posterior-selected region only when a full posterior method supports that term. Replace true cell state with algorithmic cluster until externally validated. Replace learned mechanism with held-out predictive structure. Replace mediated pathway with model-based indirect effect unless causal assumptions are defended. These substitutions retain scientific value while making the evidence boundary explicit."
+  },
+  {
+    "title": "Final interpretation checklist",
+    "kicker": "PRESERVE THE CHAIN FROM DATA TO CLAIM",
+    "body": "Design and preprocessing documented\nEstimand and method quantity named correctly\nUncertainty, diagnostics, and sensitivity reviewed\nBiological hypothesis separated from mechanism\nAlternative explanations and follow-up stated\nBundle, fitted object, code version, and citations archived",
+    "image": "captures/10_collaboration_boundary.png",
+    "narration": "Before presenting a result, verify that design and preprocessing are documented, the estimand and method-specific quantity are named correctly, and uncertainty, diagnostics, sensitivity, and sampling hierarchy have been reviewed. Separate a biologically plausible hypothesis from mechanism or causation. State competing explanations and the follow-up needed to distinguish them. Archive the result bundle, fitted object, code and package versions, data checksum, and method citations. For study-specific interpretation, return to the full local guide and source publication and involve experts who understand the assay, tissue, disease, and design."
+  }
+]

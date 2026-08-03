@@ -1,0 +1,160 @@
+[
+  {
+    "title": "Spatial Methods Workbench",
+    "kicker": "DETAILED PUBLIC USAGE TUTORIAL · v0.2.1",
+    "body": "A statistically motivated, biologically grounded workflow\n\n12 guided analysis paths\nPublic Shiny application\nCitation-ready reproducibility bundles",
+    "narration": "Welcome to the detailed public tutorial for Spatial Methods Workbench, version zero point two point one. This video shows how to prepare analysis-ready spatial or imaging data, choose among twelve workflows, configure an analysis, run a synthetic example, and preserve results with provenance and citations. The Workbench combines built-in exploratory methods with direct adapters to the public ISPat, GP-GHS, and ISPat 3D engines. It reports numerical outputs and fitted objects, but it does not automatically assign biological, clinical, or causal meaning. Every value shown in the demonstration is synthetic and contains no patient information."
+  },
+  {
+    "title": "What this tutorial will accomplish",
+    "kicker": "LEARNING OBJECTIVES",
+    "body": "1  Identify the correct data contract\n2  Match a scientific question to a workflow\n3  Configure controls without silent defaults\n4  Run and audit a synthetic analysis\n5  Download a citation-ready result bundle\n6  Install the full suite for controlled local use",
+    "narration": "By the end, you should be able to determine whether a dataset satisfies a workflow's input contract, distinguish the spatial scales represented by the network methods, configure an analysis without overlooking major controls, and preserve the run as a reproducible bundle. You will also see which jobs belong on the public demonstration service and which require a controlled local installation. This is an operational tutorial. A separate, local interpretation course connects reported quantities to the respective publications and should be used together with subject-matter review."
+  },
+  {
+    "title": "The application has a deliberate boundary",
+    "kicker": "COMPUTATION IS NOT SCIENTIFIC INTERPRETATION",
+    "body": "The Workbench provides\n• workflow compatibility checks\n• numerical tables and figures\n• fitted objects and provenance\n\nIt does not provide\n• biological or clinical conclusions\n• causal claims from association\n• automated manuscript language",
+    "image": "captures/03_restrictions.png",
+    "narration": "The Workbench deliberately separates computation from scientific interpretation. It checks structural compatibility, performs the selected calculation, and returns numerical tables, figures, fitted objects, software details, and citations. It does not convert an edge into a signaling claim, a cluster into a cell state, a coefficient into a clinical conclusion, or an indirect effect into causality. Those conclusions require study design, domain expertise, sensitivity analysis, and often collaboration. Working manuscripts, private repository ideas, language-model research, and sparse-autoencoder research are not exposed in this software."
+  },
+  {
+    "title": "What data can enter the Workbench?",
+    "kicker": "ANALYSIS-READY TABLES",
+    "body": "• Cell, spot, subcellular, or location-level coordinates\n• mIF, mIHC, IMC, MIBI, and CODEX-derived tables\n• Spatial transcriptomic or proteomic features\n• Registered serial sections and 3D volumes\n• Aligned pixel, voxel, MRI, fMRI, or derived-image matrices\n• Paired images, contours, exposures, mediators, and outcomes",
+    "narration": "The common input is a CSV containing processed measurements and the variables required by the chosen method. Applicable units can include cells, spots, subcellular locations, pixels, voxels, subjects, contours, sections, or volumes. Examples include coordinates paired with phenotypes or marker intensities from multiplex imaging, processed spatial transcriptomic or proteomic features, registered three-dimensional serial sections, aligned neuroimaging features, and tabular exposures, mediators, or outcomes. The method's statistical sampling unit must be explicit; a row is not automatically an independent biological replicate."
+  },
+  {
+    "title": "Complete upstream processing first",
+    "kicker": "THE WORKBENCH DOES NOT PROCESS RAW INSTRUMENT DATA",
+    "body": "Document before upload\n• segmentation and phenotype rules\n• registration and coordinate system\n• normalization and transformations\n• batch handling and quality control\n• missingness, exclusions, and sampling unit\n• feature names, units, and data provenance",
+    "narration": "The application does not segment raw microscopy, register serial sections, read raw DICOM, process whole-slide images, or transform raw sequencing reads. Complete those steps first and retain the preprocessing record. Before uploading, document segmentation and phenotype rules, coordinate units and origin, registration quality, normalization and transformations, batch handling, missingness, exclusions, and the biological sampling unit. Confirm that feature columns are numeric where required and that repeated cells, spots, slides, or subjects are represented honestly in the design."
+  },
+  {
+    "title": "Choose the workflow from the estimand",
+    "kicker": "SCIENTIFIC QUESTION → DATA ROLES → METHOD",
+    "body": "Spatial pattern? → Moran's I\nConditional association? → precision/network methods\nShared versus zone-specific network? → ISPat\nContinuously varying edges? → GP-GHS\nRegistered volumetric network? → ISPat 3D\nPrediction, partitioning, imaging, mediation, or shape? → dedicated paths",
+    "image": "captures/04_pipeline_reference.png",
+    "narration": "Start with the quantity the study aims to estimate. Use Moran's I for global spatial autocorrelation under a defined neighbor graph. Use conditional-network methods for associations that remain after conditioning on other measured features. Use ISPat for shared and discrete zone-specific network structure, GP-GHS when edges may vary continuously across coordinates, and ISPat 3D for registered volumes. Separate paths cover held-out prediction, exploratory spatial clustering, shallow neural prediction, wide scalar-image screening, image-to-image latent screening, mediation, and shape principal components. Method complexity should follow the question and design, not the other way around."
+  },
+  {
+    "title": "Map every scientific variable explicitly",
+    "kicker": "STEP 1 · LIVE APPLICATION",
+    "body": "Confirm coordinates, zone, sample or volume ID, outcome, class, exposure, mediator, and feature columns.\n\nThe synthetic data map x, y, tissue zone, sample ID, disease label, and five cell-type features.",
+    "image": "captures/01_home_and_mapping.png",
+    "narration": "Open the live application and load the synthetic demonstration or a non-sensitive CSV. In the mapping panel, assign x and y coordinates, optional z, zone, sample or volume identifier, outcome or class, exposure, mediator, and the numeric feature set. The demonstration uses epithelial, antigen-presenting cell, cytotoxic T cell, regulatory T cell, and helper T cell labels to provide a biologically recognizable context, but the measurements are entirely simulated. On real data, compare every mapping with a data dictionary and check units, transformations, factor levels, identifiers, and repeated sampling."
+  },
+  {
+    "title": "Treat readiness as a technical contract",
+    "kicker": "STEP 2 · COMPATIBILITY BEFORE COMPUTATION",
+    "body": "READY = minimum roles and software are present\nBLOCKED = a required role or engine is absent\n\nReadiness does not establish adequate power, independence, exchangeability, preprocessing quality, or scientific validity.",
+    "image": "captures/02_readiness.png",
+    "narration": "Open the Readiness tab after mapping. Each workflow is marked ready or blocked, with the missing roles or package named. Two-dimensional ISPat needs x, y, a zone, multiple numeric features, and its public engine. ISPat 3D additionally needs z and a volume or spot identifier. Imaging paths require aligned feature matrices, mediation requires exposure, mediator, and outcome roles, and classification requires a valid class outcome. A ready badge confirms only the minimum interface contract. It is not a power calculation or scientific endorsement."
+  },
+  {
+    "title": "Spatial exploration with Moran's I",
+    "kicker": "WORKFLOW 1 · GLOBAL SPATIAL AUTOCORRELATION",
+    "body": "Required: x, y, numeric feature\nControls: feature, k neighbors, permutations, seed\nReturned: Moran's I, permutation reference, p-value, neighbor graph metadata\nSensitivity: plausible graph definitions and design-respecting permutations",
+    "image": "captures/06_synthetic_result_figure.png",
+    "narration": "The first workflow asks whether nearby observations have similar values under a specified spatial graph. Select a numeric feature, choose the number of nearest neighbors, set the permutation count and seed, and run the analysis. The synthetic example uses a symmetrized eight-nearest-neighbor graph and one hundred ninety-nine label permutations. Its Moran statistic is approximately zero point seven eight two with a permutation p-value of zero point zero zero five because the pattern was intentionally generated. This tutorial records the calculation only; it does not assign a biological mechanism. Real studies should compare plausible graphs and use permutations that respect patients, slides, regions, or other dependence."
+  },
+  {
+    "title": "Fast conditional-network screening",
+    "kicker": "WORKFLOW 2 · RIDGE-STABILIZED PRECISION MATRIX",
+    "body": "Required: multiple numeric features\nOptional: zone for stratified screens\nControls: ridge penalty, display threshold\nReturned: covariance, precision, partial-correlation matrix, edge table\nPurpose: rapid exploratory screening—not a replacement for ISPat or GP-GHS",
+    "narration": "The fast conditional-network path estimates a covariance matrix, adds a ridge penalty for stability, inverts it to obtain a precision matrix, and standardizes off-diagonal terms as partial correlations. It can produce an overall screen and exploratory zone-specific screens. Record the selected features, ridge penalty, threshold, and group sizes. The visible graph is a thresholded view of a continuous matrix, so preserve the full matrix and edge table. This screen does not perform the spatial adjustment or hierarchical Bayesian estimation of ISPat or GP-GHS and is labeled accordingly."
+  },
+  {
+    "title": "ISPat: shared and zone-specific networks",
+    "kicker": "WORKFLOW 3 · SPATIALLY ADJUSTED 2D NETWORKS",
+    "body": "Required: x, y, zone, multiple features, ISPAT engine\nModel role: spatial intensity adjustment plus shared/region-specific structure\nReturned through adapter: engine summaries and fitted object\nReview: continuous matrices, edge signs, thresholds, zones, sampling settings",
+    "narration": "ISPat is the dedicated two-dimensional spatial network engine. It is designed for spatially adjusted intensity surfaces together with shared and region-specific covariance or loading structure. A typical biological use is to compare conditional association patterns across prespecified tissue zones while retaining information shared across zones. The Workbench validates roles and passes the controls to the public ISPAT package; it does not substitute a simplified algorithm when that engine is unavailable. Preserve the continuous matrices, edge signs, threshold choices, zone definitions, sampler settings, convergence evidence, and fitted object. Network edges remain conditional associations rather than causal or physical-interaction claims."
+  },
+  {
+    "title": "GP-GHS: edges that vary over continuous space",
+    "kicker": "WORKFLOW 4 · GAUSSIAN-PROCESS GRAPHICAL HORSESHOE",
+    "body": "Required: coordinates, multiple features, GPGHS engine\nModel role: spatial basis representation plus grouped horseshoe shrinkage\nControls: basis, shrinkage, edge threshold, MCMC settings\nReturned through adapter: spatial edge summaries, selections, fitted object",
+    "narration": "GP-GHS is appropriate when network relationships may change continuously across a tissue or spatial domain instead of only between discrete zones. The public method uses a spatial basis representation together with grouped horseshoe shrinkage over edge functions. The Workbench exposes engine controls and returns spatial edge summaries, selection information, and the fitted object supplied by the package. Record the basis construction, coordinate scaling, shrinkage and threshold settings, chain configuration, and convergence checks. The public tutorial identifies these outputs but leaves study-specific interpretation to the researcher and collaborators."
+  },
+  {
+    "title": "ISPat 3D: networks in registered volumes",
+    "kicker": "WORKFLOW 5 · VOLUMETRIC SPATIAL ADJUSTMENT",
+    "body": "Required: x, y, z, volume or spot ID, zone, features, ISPAT3D engine\nInput condition: registered sections or a coherent 3D coordinate system\nModel role: marker-specific 3D adjustment plus multi-study factors\nReturned: shared and zone-specific volumetric network objects",
+    "narration": "ISPat 3D adds volumetric structure. It requires x, y, and z coordinates, a volume or spot identifier, a zone, multiple numeric features, and the public ISPAT3D engine. Its pipeline combines marker-specific three-dimensional spatial adjustment with multi-study factor analysis to estimate shared and zone-specific network structure. Registration is not performed inside the Workbench; serial sections or volumes must already share a scientifically defensible coordinate system. Record voxel or cell spacing, section order, registration procedures, zones, feature scales, factor settings, and the returned volumetric objects."
+  },
+  {
+    "title": "Linear and logistic prediction",
+    "kicker": "WORKFLOW 6 · HELD-OUT PERFORMANCE",
+    "body": "Required: outcome plus numeric predictors\nMode: continuous or binary outcome\nReturned: predictions, residual/error summaries or probabilities, coefficients\nCritical design: split by patient, specimen, slide, site, or spatial block when needed",
+    "narration": "The prediction path fits a linear model for continuous outcomes or logistic model for binary outcomes and reports held-out performance, predictions, and coefficients. Select predictors before examining the test set, document transformations, and verify the outcome coding. Random row splitting is often optimistic when nearby observations or records from the same patient appear in both sets. For confirmatory use, create patient-level, specimen-level, site-level, slide-level, or spatially blocked validation outside the convenience demonstration, and retain calibration and uncertainty alongside a single performance number."
+  },
+  {
+    "title": "Spatial clustering and shallow neural prediction",
+    "kicker": "WORKFLOWS 7–8 · EXPLORATORY DISCOVERY",
+    "body": "Spatial clustering: standardized features + weighted coordinates + k-means\nNeural prediction: compact feed-forward model with held-out evaluation\nControls: clusters, coordinate weight, seed, hidden units, weight decay\nReturned: assignments or predictions, diagnostics, fitted objects",
+    "narration": "Spatial clustering augments standardized features with weighted coordinates and applies k-means. The coordinate weight explicitly changes the compromise between molecular similarity and spatial compactness, so explore stability across prespecified values and seeds. The output is an exploratory partition, not a validated cell state or tissue compartment. The shallow neural workflow provides a compact nonlinear predictor with controls for hidden units, weight decay, seed, and evaluation. It is an educational or screening path, not a claim that generic neural networks solve spatial dependence. Use grouped validation and compare against simpler baselines."
+  },
+  {
+    "title": "Scalar-image and image-to-image screens",
+    "kicker": "WORKFLOWS 9–10 · ALIGNED HIGH-DIMENSIONAL FEATURES",
+    "body": "Scalar-image ridge: aligned image features → scalar outcome\nImage-image latent: source image → latent scores → target image\nControls: penalty, retained components or factors, split, seed\nReturned: coefficients, scores/loadings, predictions, reconstruction error\nClearly labeled as screens—not full SV-NN, ST-CAR, or SBLF implementations",
+    "narration": "The scalar-image ridge screen relates aligned high-dimensional image or voxel features to a scalar outcome using regularization. The image-to-image latent screen compresses an aligned source image, predicts latent target scores, and reconstructs the target image. Both return numerical coefficients or factors, predictions, and error summaries. Alignment, a common mask, scaling, and leakage-free preprocessing are essential. These are intentionally labeled screens. They do not claim to reproduce the full posterior selection, spatial priors, uncertainty, or varying-coefficient structure of the cited SV-NN, ST-CAR, or SBLF publications."
+  },
+  {
+    "title": "Mediation and shape PCA",
+    "kicker": "WORKFLOWS 11–12 · STRUCTURE BEYOND PREDICTION",
+    "body": "Mediation required roles: exposure, mediator, outcome\nReturned: model-based indirect, direct, and total effects; optional bootstrap uncertainty\n\nShape PCA required input: consistently ordered contour coordinates\nReturned: aligned shape scores, loadings, explained variation",
+    "narration": "The mediation workflow fits the component models and reports model-based indirect, direct, and total effects, with optional bootstrap uncertainty. Causal language requires temporal ordering, appropriate treatment of exposure, and strong assumptions about confounding and model form; the application does not certify those conditions. Shape PCA requires consistently defined and ordered landmark or contour coordinates. After centering and scaling, it summarizes geometric variation through principal component scores and loadings. Check correspondence, orientation, missing landmarks, and preprocessing before treating shapes as comparable."
+  },
+  {
+    "title": "Controls are analysis decisions",
+    "kicker": "STEP 3 · PRESPECIFY AND RECORD",
+    "body": "Neighborhoods · permutations · seeds\nRidge and display thresholds\nCoordinate weights · cluster count\nHidden units · weight decay\nImage penalties · components · factors\nBootstrap replicates · basis choices · MCMC settings",
+    "image": "captures/05_controls_and_citation.png",
+    "narration": "Before running, review every visible control. Neighborhood size defines the spatial graph. Permutation strategy defines the reference distribution. Penalties stabilize estimates but change coefficients. Display thresholds change only the rendered network if the continuous matrix is retained, whereas model thresholds may affect selection. Coordinate weights change clustering geometry. Hidden units and decay alter neural complexity. Components and factors control compression. Bayesian basis and sampler settings affect approximation and computation. Prespecify primary settings where possible, justify them scientifically, and plan sensitivity analyses rather than selecting a visually appealing result."
+  },
+  {
+    "title": "Run only after citation acknowledgement",
+    "kicker": "STEP 4 · SOFTWARE AND METHOD CREDIT",
+    "body": "Each run records\n• Spatial Methods Workbench citation and DOI\n• method-specific publication citations\n• workflow identifier and version\n• parameters and mapped roles\n\nCite both the interface and the scientific method.",
+    "narration": "The run button becomes available after citation acknowledgement. This is not a substitute for scholarly practice; it is a reminder that the interface and the underlying method are distinct contributions. Cite Spatial Methods Workbench using its versioned Zenodo DOI, and cite every method-specific publication listed for the selected workflow. The downloaded citation file and manifest preserve the relevant entries, workflow identifier, software version, mapped variables, parameters, runtime, and session information. Review the final bibliography rather than copying citations without checking their applicability."
+  },
+  {
+    "title": "Audit the output before downloading",
+    "kicker": "NUMERICAL RESULTS · FIGURE · FITTED OBJECT",
+    "body": "Check\n• sample and feature counts\n• units, labels, and reference levels\n• parameter values and seed\n• warnings, convergence, and failed assumptions\n• continuous outputs behind thresholded figures\n• validation split and leakage risks",
+    "narration": "After computation, audit the output rather than reading only the headline number. Confirm sample and feature counts, labels, reference levels, coordinate units, parameters, and seed. Inspect warnings and, for Bayesian engines, convergence diagnostics and sampling adequacy. Preserve continuous network matrices behind thresholded graphs, prediction vectors behind performance summaries, and latent scores behind reconstructions. Verify that no preprocessing or validation step leaked information across test groups. The Workbench exposes reproducibility artifacts, but researchers remain responsible for assessing whether the analysis is scientifically and statistically defensible."
+  },
+  {
+    "title": "Download the complete reproducibility bundle",
+    "kicker": "STEP 5 · PORTABLE RUN RECORD",
+    "body": "results.csv\nfigure.png\nmanifest.json\nresult_object.rds\nCITATION.txt\nCOLLABORATION.txt\n\nStore the frozen input, preprocessing record, and protocol separately under study governance.",
+    "narration": "Download the ZIP bundle from the Reproducibility tab. It contains the result table, figure, machine-readable JSON manifest, complete R result object, software and method citations, and collaboration contact. The manifest records the workflow, mappings, selected features, controls, runtime, summaries, package version, and R session. The input dataset is not duplicated into the result bundle. Under study governance, store the bundle with a checksum of the frozen analysis input, data dictionary, preprocessing log, protocol, and any deviations. This creates a traceable run without placing sensitive source data in the public artifact."
+  },
+  {
+    "title": "Install the core interface locally",
+    "kicker": "STEP 6 · REPRODUCIBLE CONTROLLED COMPUTATION",
+    "body": "git clone https://github.com/sagnikbhadury/SpatialMethodsWorkbench.git\nRscript scripts/install_dependencies.R\nRscript tests/testthat.R\nR -e \"shiny::runApp('.')\"\n\nUse Docker when a pinned containerized environment fits local governance.",
+    "image": "captures/09_installation.png",
+    "narration": "For real data, clone the public repository and follow the complete installation guide. Install the core interface dependencies, run all thirty-one automated checks, and launch with shiny run App from the repository root. The included Docker configuration can help pin the environment, but production use still needs authentication, resource limits, logging, job management, backups, retention rules, and institutional security review. Use a controlled local or institutional deployment for protected information, long computations, or analyses governed by data-use agreements. Never upload protected health information to the public demonstration service."
+  },
+  {
+    "title": "Install and validate the advanced engines",
+    "kicker": "ISPAT · GP-GHS · ISPAT 3D",
+    "body": "Install each public engine from its documented repository\nConfirm compiled dependencies and package versions\nRun an engine-specific synthetic smoke test\nArchive logs, sessionInfo(), and fitted objects\nBudget separately for Bayesian compilation and sampling",
+    "narration": "Install ISPAT, GP-GHS, and ISPAT 3D from the public repositories named in the guide. ISPAT relies on Stan, so compilers, package compilation, and the first run can take additional time. Confirm exact package versions and run a small synthetic smoke test through each Workbench adapter before a formal analysis. Archive installation logs, session info, adapter output, and fitted objects. For Bayesian jobs, plan memory, chains, warmup, sampling iterations, convergence review, and job persistence explicitly. The public host is not designed as a durable high-performance queue."
+  },
+  {
+    "title": "A minimum real-study audit trail",
+    "kicker": "DESIGN · SENSITIVITY · REPLICATION",
+    "body": "1  Frozen input checksum and data dictionary\n2  Prespecified primary workflow and controls\n3  Group-aware validation or permutation plan\n4  Sensitivity analyses for graphs, thresholds, penalties, or factors\n5  Diagnostics and complete fitted objects\n6  Independent or external replication where possible",
+    "narration": "A defensible study record extends beyond the application download. Freeze and checksum the analysis data, retain the data dictionary and preprocessing provenance, prespecify the primary estimand and controls, and define how dependence is handled in permutations or validation. Evaluate sensitivity to scientifically plausible neighbor graphs, thresholds, penalties, factor counts, spatial basis choices, or sampler settings as appropriate. Keep diagnostics and complete fitted objects, document deviations, and seek independent or external replication where possible. These steps are what connect a reproducible computation to a credible scientific analysis."
+  },
+  {
+    "title": "Use, cite, and collaborate",
+    "kicker": "OPEN SOURCE · DOI ARCHIVED · MIT LICENSE",
+    "body": "Live app: sagnikbhadury.shinyapps.io/spatial-methods-workbench/\nGuide: sagnikbhadury.github.io/workbench-guide/\nSource: github.com/sagnikbhadury/SpatialMethodsWorkbench\nVersion DOI: 10.5281/zenodo.21764196",
+    "image": "captures/10_collaboration_boundary.png",
+    "narration": "Spatial Methods Workbench is open-source under the MIT License and archived as version zero point two point one on Zenodo. Use the live app for synthetic demonstrations and moderate non-sensitive jobs, the website guide for complete installation and restrictions, and the repository documentation for function-level contracts. Cite DOI ten point five two eight one slash Zenodo dot two one seven six four one nine six together with the underlying method publications recorded in each bundle. For method selection, study-specific interpretation, deployment planning, or collaborative analysis, contact Sagnik Bhadury through the application."
+  }
+]

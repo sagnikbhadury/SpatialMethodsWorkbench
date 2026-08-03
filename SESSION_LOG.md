@@ -39,3 +39,20 @@ New public modules should enter through `analysis_registry()`, `run_analysis()`,
 - Embedded the live Shiny application directly in the academic website page with a full-screen fallback.
 - Updated the website catalog to state the input and output of every analysis and linked the latest v0.2.1 installation guide and complete function reference.
 - Synchronized this local development clone with public source commit `a750fcd`; the local handoff commit remains intentionally local and is not pushed to the public repository.
+
+## 2026-08-02 — narrated training and documentation package
+
+### Completed
+
+- Created a detailed 25-slide public usage tutorial covering all 12 workflows, data contracts, preprocessing, readiness, controls, output auditing, local installation, advanced engines, privacy, citation, and reproducibility.
+- Created a separate 29-slide local interpretation course grounded in the public method literature.
+- The interpretation course distinguishes the quantities used by each method: Moran's I and permutation reference; covariance, precision, and partial correlations; ISPat spatial intensity, shared/zone matrices, edge signs, sample proportions, and RV recovery; GP-GHS spatial edge fields and grouped shrinkage; ISPAT3D volumetric trends and matrices; predictive errors and calibration; clustering geometry; image coefficients or latent factors; mediation effects; and shape PCA scores/loadings.
+- Preserved the public no-interpretation boundary. The public tutorial explains operation, statistical purpose, controls, and reproducibility but does not assign biological, clinical, or causal meaning to a user's results.
+- Exported both courses as narrated 1080p MP4 files with editable PowerPoint sources, SRT captions, chapter timestamps, and thumbnails.
+- Verified media durations with Windows Media Player metadata: public tutorial 20:20; local interpretation course 21:56.
+- Added `media/youtube/PUBLIC_USAGE_VIDEO_GUIDE.md`, `METHOD_INTERPRETATION_GUIDE.md`, `LITERATURE_CONTEXT.md`, `YOUTUBE_UPLOAD.md`, and rebuild instructions.
+- Kept all videos and interpretation training local. No private repository concept, working manuscript, LLM work, SAE work, or protected data was included.
+
+### Video source of truth
+
+Edit `media/youtube/public_usage_slides.json` or `media/youtube/interpretation_slides.json`, then run `media/youtube/build_videos.ps1`. Generated artifacts are under `media/youtube/output/` and narration WAV files under `media/youtube/audio/`.

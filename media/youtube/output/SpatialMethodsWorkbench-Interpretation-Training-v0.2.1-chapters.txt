@@ -1,0 +1,29 @@
+0:00 Interpreting Spatial Methods Workbench outputs
+0:46 Use five layers in every explanation
+1:34 First reconstruct the data-generating process
+2:27 Moran's I: what quantity is being estimated?
+3:09 Moran's I: uncertainty and biological framing
+3:57 Partial-correlation networks: matrix quantities
+4:42 Partial networks: from an edge to a hypothesis
+5:30 ISPat 2D: quantities in the publication
+6:15 ISPat 2D: explain shared versus zone-specific
+7:02 ISPat 2D: checks before biological discussion
+7:53 GP-GHS: what the model selects
+8:36 GP-GHS: uncertainty, sensitivity, and wording
+9:24 ISPat 3D: volumetric quantities
+10:06 ISPat 3D: registration is part of inference
+10:55 Linear and logistic prediction: performance quantities
+11:42 Prediction: structured validation comes first
+12:25 Spatial clustering: understand the constructed geometry
+13:11 Shallow neural prediction: what can be claimed
+13:56 Scalar-image screen: Workbench quantities
+14:38 Scalar-image publications: do not conflate quantities
+15:25 Image-to-image screen: latent quantities
+16:09 Image-to-image publications: SBLF distinction
+16:59 Mediation: define the three reported effects
+17:35 Mediation: identification before causal language
+18:19 Shape PCA: quantities after geometric preprocessing
+18:59 Shape PCA: correspondence and rotation checks
+19:39 A collaborator-ready reporting template
+20:23 Red-flag phrases and disciplined replacements
+21:05 Final interpretation checklist
