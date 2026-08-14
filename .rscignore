@@ -23,6 +23,8 @@ tests
 vignettes
 SpatialMethodsWorkbench.Rcheck
 SpatialMethodsWorkbench_0.2.1.tar.gz
+SpatialMethodsWorkbench*.tar.gz
+SpatialMethodsWorkbench*.zip
 LOCAL_DEVELOPMENT_HANDOFF.md
 SESSION_LOG.md
 SOFTWARE_PUBLICATION.md
