@@ -21,6 +21,7 @@ jobs:
             any::bslib
             any::DT
             any::ggplot2
+            any::igraph
             any::jsonlite
             any::markdown
             any::zip
