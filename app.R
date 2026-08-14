@@ -81,7 +81,13 @@ ui <- fluidPage(
           nav_panel("Usage & restrictions", div(class = "usage-guide", includeMarkdown(file.path(app_root, "docs", "USER_GUIDE.md")))),
           nav_panel("Pipeline reference", div(class = "usage-guide", includeMarkdown(file.path(app_root, "docs", "PIPELINE_REFERENCE.md")))),
           nav_panel("Reproducible vignettes", div(class = "usage-guide", includeMarkdown(file.path(app_root, "docs", "VIGNETTES.md")))),
-          nav_panel("Figure", div(class = "plot-wrap", plotOutput("result_plot", height = "610px"))),
+          nav_panel("Figure",
+            div(class = "figure-intro",
+              strong("Analysis figures"),
+              span("Every successful pipeline run generates a figure from that analysis and displays it here.")),
+            uiOutput("figure_status"),
+            div(class = "plot-wrap", plotOutput("result_plot", height = "610px"))
+          ),
           nav_panel("Table", DTOutput("result_table")),
           nav_panel("Discuss results", div(class = "collaboration-panel",
             h3("Interpretation requires scientific context."),
@@ -232,7 +238,29 @@ server <- function(input, output, session) {
     })
   }, ignoreInit = TRUE)
 
-  output$result_plot <- renderPlot({ req(result()); validate(need(is.null(result()$error), result()$error), need(!is.null(result()$plot), "This result has no figure.")); result()$plot })
+  output$result_plot <- renderPlot({
+    current <- result()
+    req(current)
+    validate(need(is.null(current$error), current$error),
+             need(!is.null(current$plot), "This result has no figure."))
+    print(current$plot)
+  }, res = 110)
+  outputOptions(output, "result_plot", suspendWhenHidden = FALSE)
+
+  output$figure_status <- renderUI({
+    current <- result()
+    req(current)
+    if (!is.null(current$error)) return(div(class = "figure-status figure-status--error", current$error))
+    div(class = "figure-status",
+        sprintf("Figure generated from the %s analysis.", current$method))
+  })
+
+  observeEvent(result(), {
+    current <- result()
+    if (is.null(current$error) && !is.null(current$plot)) {
+      bslib::nav_select("results_tabs", selected = "Figure", session = session)
+    }
+  }, ignoreInit = TRUE)
   output$result_table <- renderDT({ req(result()); validate(need(is.null(result()$error), result()$error)); datatable(result()$table, filter = "top", options = list(pageLength = 12, scrollX = TRUE)) })
   output$manifest <- renderText({ req(result()); if (!is.null(result()$error)) return(result()$error); jsonlite::toJSON(result_manifest(result()), auto_unbox = TRUE, pretty = TRUE, null = "null") })
   output$download_bundle <- downloadHandler(filename = function() paste0("spatial-workbench-", Sys.Date(), ".zip"),

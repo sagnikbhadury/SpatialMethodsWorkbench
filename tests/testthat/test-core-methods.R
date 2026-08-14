@@ -30,6 +30,31 @@ test_that("conditional networks are returned overall and by zone", {
                                     list(threshold = .1, ridge = .05, by_zone = TRUE))
   expect_gte(length(result$matrices), 2)
   expect_true(all(c("source", "target", "weight") %in% names(result$table)))
+  expect_s3_class(result$plot, "ggplot")
+  expect_true(any(vapply(result$plot$layers, function(layer) inherits(layer$geom, "GeomSegment"), logical(1))))
+})
+
+test_that("network figures include nodes and estimated edges", {
+  mat <- matrix(c(0, .7, -.4, .7, 0, .2, -.4, .2, 0), 3, 3,
+                dimnames = list(c("A", "B", "C"), c("A", "B", "C")))
+  figure <- network_figure(list(Shared = mat), threshold = .1, top_n = 10)
+  expect_s3_class(figure, "ggplot")
+  expect_true(any(vapply(figure$layers, function(layer) inherits(layer$geom, "GeomSegment"), logical(1))))
+  expect_true(any(vapply(figure$layers, function(layer) inherits(layer$geom, "GeomPoint"), logical(1))))
+})
+
+test_that("GP-GHS graph weights come from selected coefficient fields", {
+  adjacency <- matrix(c(0, 1, 0, 1, 0, 0, 0, 0, 0), 3, 3,
+                      dimnames = list(LETTERS[1:3], LETTERS[1:3]))
+  edge_maps <- list(
+    cbind(c(1, -1, 1), c(9, 9, 9)),
+    cbind(c(2, 2, 2), c(8, 8, 8)),
+    cbind(c(7, 7, 7), c(6, 6, 6))
+  )
+  signal <- gpghs_coefficient_matrix(list(adj = adjacency, edge_maps = edge_maps))
+  expect_equal(signal[1, 2], 1)
+  expect_equal(signal[1, 3], 0)
+  expect_equal(unname(diag(signal)), rep(0, 3))
 })
 
 test_that("prediction and mediation complete", {
@@ -41,6 +66,7 @@ test_that("prediction and mediation complete", {
   mediation <- run_mediation(data, list(exposure = "epithelial", mediator = "APC", outcome = "CTL"),
                              features, list(bootstrap = 20, seed = 3))
   expect_equal(nrow(mediation$table), 5)
+  expect_s3_class(mediation$plot, "ggplot")
 })
 
 test_that("spatial AI workflows complete with held-out outputs", {
@@ -67,10 +93,12 @@ test_that("wide-image regression workflows complete", {
   scalar_features <- paste0("pixel_", seq_len(p))
   scalar <- run_scalar_image(data, list(outcome = "outcome"), scalar_features, list(image_ridge = 5, seed = 3))
   expect_equal(nrow(scalar$table), p)
+  expect_s3_class(scalar$plot, "ggplot")
   paired <- c(paste0("input__", seq_len(p)), paste0("output__", seq_len(p)))
   latent <- run_image_to_image(data, list(), paired, list(latent_factors = 4, seed = 3))
   expect_equal(nrow(latent$table), p)
   expect_true(is.finite(unname(latent$summary["overall_heldout_rmse"])))
+  expect_s3_class(latent$plot, "ggplot")
 })
 
 test_that("shape PCA resamples multiple contours", {
@@ -202,4 +230,6 @@ test_that("vignette sources and app navigation are present", {
   expect_true(file.exists(file.path(root, "docs", "VIGNETTES.md")))
   expect_match(paste(readLines(file.path(root, "app.R"), warn = FALSE), collapse = "\n"),
                "Reproducible vignettes", fixed = TRUE)
+  expect_match(paste(readLines(file.path(root, "app.R"), warn = FALSE), collapse = "\n"),
+               "Every successful pipeline run generates a figure", fixed = TRUE)
 })

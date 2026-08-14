@@ -55,7 +55,7 @@ Successful workflows return a list containing most of:
 | Field | Contents |
 |---|---|
 | `method` | Human-readable engine/workflow name |
-| `plot` | `ggplot2` object, when the workflow defines a figure |
+| `plot` | `ggplot2` figure produced by every registered workflow |
 | `table` | Primary numerical output table |
 | `summary` | Named compact numerical/administrative summary |
 | `model` or `raw` | Fitted R object or exact advanced-engine result |
@@ -141,7 +141,7 @@ Estimate ridge-regularized precision matrices and convert them to partial correl
 
 ### Output
 
-- first network as a partial-correlation heat map;
+- faceted partial-correlation network graph for the overall or zone-specific estimates;
 - edge table with network, source, target, weight, and sign;
 - all partial-correlation matrices in `matrices`.
 
@@ -190,7 +190,7 @@ The adapter forms `Y` as markers × observations and `S` as x, y, integer-encode
 ### Output
 
 - shared and cluster-specific matrices converted to partial correlations;
-- heat map and thresholded edge table;
+- ISPAT3D-style shared/zone network graph and thresholded edge table;
 - exact ISPAT object in `raw`.
 
 ### Boundaries
@@ -242,13 +242,13 @@ Call the public Gaussian-process group-horseshoe engine for spatially varying no
 
 ### Output
 
-- adjacency heat map;
-- selected edge table;
+- selected network graph whose topology follows the symmetric fitted adjacency and whose edge widths are the smaller directional RMS values from the posterior mean coefficient fields;
+- selected edge table containing the same coefficient-field RMS weights;
 - exact GPGHS fit in `raw`, including package-provided spatial edge information.
 
 ### Boundaries
 
-Use sufficient MCMC iterations for formal work and inspect posterior behavior. Basis dimension, length scale, shrinkage, threshold, and symmetry rule can materially change selection. The low UI defaults are for interactive feasibility, not universal production settings.
+Use sufficient MCMC iterations for formal work and inspect posterior behavior. Basis dimension, length scale, shrinkage, threshold, and symmetry rule can materially change selection. A coefficient field may change sign over space, so the global graph intentionally uses unsigned RMS width and does not claim a single positive or negative direction. The low UI defaults are for interactive feasibility, not universal production settings.
 
 ### Example
 
@@ -292,6 +292,7 @@ The adapter forms `Y` as markers × locations and `S` as x, y, z, integer zone.
 ### Output
 
 - first volume's shared and zone-specific partial-correlation matrices in the display;
+- ISPAT3D-style faceted network graph for those displayed matrices;
 - thresholded edge table;
 - complete multi-volume ISPAT3D fit in `raw` and therefore in the R result object.
 

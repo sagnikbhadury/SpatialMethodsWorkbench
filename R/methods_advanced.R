@@ -4,11 +4,9 @@ network_result <- function(method, matrices, notes = character(), raw = NULL, th
     out <- -precision / sqrt(outer(diag(precision), diag(precision))); diag(out) <- 1; out
   })
   edges <- do.call(rbind, Map(function(mat, name) matrix_edges(mat, name, threshold), pcor, names(pcor)))
-  first <- pcor[[1]]; heat <- expand.grid(row = rownames(first), column = colnames(first), stringsAsFactors = FALSE); heat$weight <- as.vector(first)
-  plot <- ggplot2::ggplot(heat, ggplot2::aes(column, row, fill = weight)) + ggplot2::geom_tile(color = "white", linewidth = .3) +
-    ggplot2::scale_fill_gradient2(low = "#d46245", mid = "#fffdf8", high = "#176b68", limits = c(-1, 1)) +
-    ggplot2::coord_equal() + ggplot2::theme_minimal(base_size = 12) + ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)) +
-    ggplot2::labs(title = paste(names(pcor)[1], "partial correlations"), x = NULL, y = NULL)
+  plot <- network_figure(pcor, threshold = threshold, title = method,
+                         top_n = 30L, signed = TRUE,
+                         weight_label = "|Partial correlation|")
   list(method = method, plot = plot, table = edges, matrices = pcor, raw = raw,
        summary = c(networks = length(pcor), visible_edges = nrow(edges), threshold = threshold), notes = notes)
 }
@@ -37,14 +35,22 @@ run_gpghs <- function(data, mapping, features, params) {
     nmc = params$nmc %||% 1200L, burn = params$burn %||% 400L, thin = params$thin %||% 4L,
     edge_threshold = params$threshold %||% .15, symmetry = params$symmetry %||% "AND", n_cores = params$cores %||% 1L)
   adj <- fit$adj; storage.mode(adj) <- "numeric"
+  coefficient_rms <- gpghs_coefficient_matrix(fit)
   edges <- matrix_edges(adj, "Selected edges", .5)
-  plot_data <- expand.grid(row = rownames(adj), column = colnames(adj), stringsAsFactors = FALSE); plot_data$value <- as.vector(adj)
-  plot <- ggplot2::ggplot(plot_data, ggplot2::aes(column, row, fill = value)) + ggplot2::geom_tile(color = "white") +
-    ggplot2::scale_fill_gradient(low = "#fffdf8", high = "#176b68") + ggplot2::coord_equal() + ggplot2::theme_minimal(base_size = 12) +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)) + ggplot2::labs(title = "GP-GHS selected network", x = NULL, y = NULL)
+  edge_index <- cbind(match(edges$source, rownames(coefficient_rms)),
+                      match(edges$target, colnames(coefficient_rms)))
+  edges$weight <- coefficient_rms[edge_index]
+  edges$sign <- rep("Spatially varying", nrow(edges))
+  plot_weights <- coefficient_rms
+  plot_weights[adj != 0 & plot_weights == 0] <- .Machine$double.eps
+  plot <- network_figure(list(`Selected spatial network` = plot_weights), threshold = 0,
+                         title = "GP-GHS selected spatial network", top_n = 30L,
+                         signed = FALSE, weight_label = "Coefficient-field RMS")
   list(method = "Spatially varying GP-horseshoe network", plot = plot, table = edges, raw = fit,
        summary = c(cell_types = ncol(Y), selected_edges = nrow(edges)),
-       notes = c("The adjacency matrix summarizes edges selected by the configured posterior shrinkage rule.", "Inspect spatial edge maps before drawing region-specific biological conclusions."))
+       notes = c("The graph topology is the fitted symmetric adjacency; edge width is the smaller directional RMS of the posterior mean coefficient fields.",
+                 "A coefficient field may change sign over space, so the global graph intentionally does not assign a positive or negative edge direction.",
+                 "Inspect spatial edge maps before drawing region-specific biological conclusions."))
 }
 
 run_ispat3d <- function(data, mapping, features, params) {

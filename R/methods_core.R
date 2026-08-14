@@ -82,14 +82,10 @@ run_conditional_network <- function(data, mapping, features, params) {
   }
   if (!length(matrices)) stop("No group has enough complete observations for the selected features.")
   edge_table <- do.call(rbind, edges)
-  first <- matrices[[1]]
-  heat <- expand.grid(row = rownames(first), column = colnames(first), stringsAsFactors = FALSE)
-  heat$weight <- as.vector(first)
-  plot <- ggplot2::ggplot(heat, ggplot2::aes(column, row, fill = weight)) +
-    ggplot2::geom_tile(color = "white", linewidth = .3) +
-    ggplot2::scale_fill_gradient2(low = "#d46245", mid = "#fffdf8", high = "#176b68", limits = c(-1, 1)) +
-    ggplot2::coord_equal() + ggplot2::labs(title = paste(names(matrices)[1], "partial-correlation network"), x = NULL, y = NULL) +
-    ggplot2::theme_minimal(base_size = 12) + ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+  plot <- network_figure(matrices, threshold = threshold,
+                         title = "Region-aware partial-correlation networks",
+                         top_n = 30L, signed = TRUE,
+                         weight_label = "|Partial correlation|")
   list(method = "Region-aware conditional network", plot = plot, table = edge_table,
        summary = c(networks = length(matrices), visible_edges = nrow(edge_table), threshold = threshold, ridge = ridge),
        matrices = matrices,

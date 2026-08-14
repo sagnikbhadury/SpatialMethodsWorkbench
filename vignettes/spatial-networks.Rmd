@@ -81,6 +81,7 @@ ispat <- run_analysis(
 )
 ispat$summary
 head(ispat$table)
+ispat$plot
 ```
 
 ### GP-GHS
@@ -99,6 +100,9 @@ gpghs <- run_analysis(
 )
 gpghs$summary
 head(gpghs$table)
+gpghs$plot
 ```
+
+The GP-GHS graph uses the fitted symmetric adjacency for topology and the smaller directional RMS of the posterior mean coefficient fields for edge width. It does not use kappa as a visual weight, and it does not assign a single sign to a field that can change sign across space.
 
 Use `method_citations("ispat")` and `method_citations("gpghs")` to retrieve the required software and method references.

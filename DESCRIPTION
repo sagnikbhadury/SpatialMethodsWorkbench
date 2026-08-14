@@ -11,6 +11,7 @@ Encoding: UTF-8
 Imports:
     shiny,
     ggplot2,
+    igraph,
     jsonlite,
     zip
 Suggests:
