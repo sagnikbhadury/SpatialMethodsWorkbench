@@ -12,12 +12,13 @@ The Workbench includes five executable vignettes built from deterministic, delib
 
 ## Small demonstration files
 
+- [Complete advisor-ready CSV — 128 rows](https://raw.githubusercontent.com/sagnikbhadury/SpatialMethodsWorkbench/master/inst/extdata/advisor_complete_demo.csv) — the recommended shareable file; see its [mapping guide](../inst/extdata/README.md)
 - [Spatial cell/spot CSV — 72 rows](https://raw.githubusercontent.com/sagnikbhadury/SpatialMethodsWorkbench/master/inst/extdata/spatial_demo.csv)
 - [Aligned image-feature CSV — 48 subjects](https://raw.githubusercontent.com/sagnikbhadury/SpatialMethodsWorkbench/master/inst/extdata/image_demo.csv)
 - [Ordered contour CSV — 6 contours × 16 points](https://raw.githubusercontent.com/sagnikbhadury/SpatialMethodsWorkbench/master/inst/extdata/contour_demo.csv)
 - [Volumetric spatial CSV — 72 rows across 2 volumes](https://raw.githubusercontent.com/sagnikbhadury/SpatialMethodsWorkbench/master/inst/extdata/spatial_3d_demo.csv)
 
-Download a CSV, turn off **Use synthetic spatial demonstration**, upload the file, and follow the mapping table in the relevant vignette. All files can also be regenerated from their fixed seeds with `demo_spatial_data()`, `demo_image_data()`, `demo_contour_data()`, and `demo_spatial_3d_data()`.
+Download a CSV, turn off **Use synthetic spatial demonstration**, upload the file, and follow the mapping table in the relevant vignette. All files can also be regenerated from their fixed seeds with `demo_complete_data()`, `demo_spatial_data()`, `demo_image_data()`, `demo_contour_data()`, and `demo_spatial_3d_data()`.
 
 The fast examples use 19 permutations, 25 bootstrap replicates, small neural networks, and compact feature matrices. Those settings verify software execution; they are not default recommendations for a scientific analysis. Public Bayesian engines are opt-in because their runtime depends on hardware and requested posterior sampling.
 

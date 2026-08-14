@@ -94,7 +94,7 @@ test_that("result bundles contain reproducibility artifacts", {
   write_result_bundle(result, path)
   expect_true(file.exists(path))
   files <- utils::unzip(path, list = TRUE)$Name
-  expect_true(all(c("results.csv", "manifest.json", "CITATION.txt", "COLLABORATION.txt", "figure.png", "result_object.rds") %in% files))
+  expect_true(all(c("results.csv", "manifest.json", "CITATION.txt", "FUNDING.txt", "COLLABORATION.txt", "figure.png", "result_object.rds") %in% files))
   expect_false("interpretation.md" %in% files)
   expect_match(workbench_citation(), "SpatialMethodsWorkbench", fixed = TRUE)
   expect_match(workbench_citation(), "Version 0.3.0", fixed = TRUE)
@@ -109,6 +109,17 @@ test_that("every workflow exports a method-specific source citation", {
   expect_match(paste(method_citations("gpghs"), collapse = "\n"), "10.64898/2026.04.01.715977", fixed = TRUE)
   expect_match(paste(method_citations("scalar_image"), collapse = "\n"), "github.com/benwu233/SV-NN", fixed = TRUE)
   expect_match(paste(method_citations("image_to_image"), collapse = "\n"), "github.com/umich-biostatistics/SBLF", fixed = TRUE)
+})
+
+test_that("funding acknowledgement is preserved in exported provenance", {
+  expect_match(funding_acknowledgement(), "R37CA214955-01A1", fixed = TRUE)
+  data <- demo_spatial_data(70)
+  result <- run_spatial_qc(data, list(x = "x", y = "y"), "APC",
+                           list(feature = "APC", neighbors = 5, permutations = 9, seed = 1))
+  result$analysis_id <- "spatial_qc"; result$started_at <- "2026-08-14 UTC"; result$elapsed_seconds <- 0.1
+  result$params <- list(); result$mapping <- list(x = "x", y = "y"); result$features <- "APC"
+  result$citations <- method_citations("spatial_qc")
+  expect_match(result_manifest(result)$funding, "National Cancer Institute", fixed = TRUE)
 })
 
 test_that("small vignette datasets are deterministic and workflow-ready", {
@@ -128,6 +139,35 @@ test_that("small vignette datasets are deterministic and workflow-ready", {
   expect_identical(volume, demo_spatial_3d_data(72, volumes = 2, seed = 2026))
   expect_equal(nrow(volume), 72)
   expect_equal(length(unique(volume$volume_id)), 2)
+})
+
+test_that("complete advisor dataset supports every built-in workflow", {
+  data <- demo_complete_data(seed = 2026)
+  expect_identical(data, demo_complete_data(seed = 2026))
+  expect_gte(nrow(data), 120L)
+  mapping <- list(x = "x", y = "y", z = "z", zone = "zone", id = "contour_id",
+                  outcome = "outcome", exposure = "exposure", mediator = "mediator")
+  marker_features <- c("epithelial", "APC", "CTL", "Treg", "T_helper")
+  image_features <- grep("^pixel_", names(data), value = TRUE)
+  paired_features <- grep("^(input__|output__)", names(data), value = TRUE)
+  expect_true(all(vapply(recommend_methods(data, mapping, marker_features)[c(
+    "spatial_qc", "conditional_network", "spatial_ml", "spatial_clustering",
+    "neural_prediction", "mediation", "shape_pca"
+  )], `[[`, logical(1), "compatible")))
+  expect_true(method_compatibility(analysis_registry()$scalar_image, data, mapping, image_features)$compatible)
+  expect_true(method_compatibility(analysis_registry()$image_to_image, data, mapping, paired_features)$compatible)
+})
+
+test_that("compatibility catches mappings that would fail after being labelled ready", {
+  data <- demo_spatial_data(72)
+  mapping <- list(x = "x", y = "y", z = NULL, zone = "zone", id = "sample_id",
+                  outcome = "disease", exposure = "epithelial", mediator = "APC")
+  features <- c("epithelial", "APC", "CTL", "Treg", "T_helper")
+  recommendations <- recommend_methods(data, mapping, features)
+  expect_false(recommendations$scalar_image$compatible)
+  expect_match(recommendations$scalar_image$reason, "numeric outcome", fixed = TRUE)
+  expect_false(recommendations$shape_pca$compatible)
+  expect_match(recommendations$shape_pca$reason, "five contours", fixed = TRUE)
 })
 
 test_that("small specialized vignette datasets execute fast workflows", {

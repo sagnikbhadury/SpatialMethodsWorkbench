@@ -17,7 +17,7 @@ A functional Shiny application for guided analysis of spatial and structured bio
 
 ## Reproducible vignettes
 
-**[Open the simulated-data vignette index](docs/VIGNETTES.md).** Five executable vignettes reproduce the Shiny workflow and every analysis family using small deterministic datasets. Upload-ready CSV files are included under [`inst/extdata`](inst/extdata), and every dataset can be regenerated from a fixed seed with the exported simulation functions.
+**[Open the simulated-data vignette index](docs/VIGNETTES.md).** Five executable vignettes reproduce the Shiny workflow and every analysis family using small deterministic datasets. The recommended advisor-ready file is [`inst/extdata/advisor_complete_demo.csv`](inst/extdata/advisor_complete_demo.csv), with exact mappings in the [`inst/extdata` data guide](inst/extdata/README.md). Every dataset can be regenerated from a fixed seed with the exported simulation functions.
 
 The public application is intentionally separated from private research code. Its method registry contains only workflows intentionally implemented here or adapters to already-public packages.
 
@@ -238,6 +238,10 @@ All network edges are conditional associations unless a method explicitly establ
 ## Citation
 
 Running an analysis requires acknowledgement of the citation condition. Every result bundle includes a `CITATION.txt` file and records the applicable citations in `manifest.json`. GitHub also renders the repository-level `CITATION.cff` through its **Cite this repository** interface.
+
+## Funding acknowledgement
+
+Research reported in this software was supported by the National Cancer Institute of the National Institutes of Health under Award Number **R37CA214955-01A1**. The content is solely the responsibility of the author and does not necessarily represent the official views of the National Institutes of Health.
 
 ### Method and source attribution
 

@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use this software, cite it and the applicable method and upstream-software references in REFERENCES.md and the result bundle."
+message: "If you use this software, cite it and the applicable method and upstream-software references in REFERENCES.md and the result bundle. Research reported in this software was supported by the National Cancer Institute of the National Institutes of Health under Award Number R37CA214955-01A1."
 title: "Spatial Methods Workbench"
 type: software
 authors:

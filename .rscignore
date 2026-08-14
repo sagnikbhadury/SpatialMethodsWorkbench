@@ -15,6 +15,7 @@ Dockerfile
 docker-compose.yml
 run-local.R
 data-raw
+synthetic data
 inst
 man
 media

@@ -28,6 +28,15 @@ demo_spatial_data <- function(n = 180L, seed = 2026L) {
              Treg = treg, T_helper = helper, check.names = FALSE)
 }
 
+funding_acknowledgement <- function() {
+  paste(
+    "Research reported in this software was supported by the National Cancer Institute",
+    "of the National Institutes of Health under Award Number R37CA214955-01A1.",
+    "The content is solely the responsibility of the author and does not necessarily",
+    "represent the official views of the National Institutes of Health."
+  )
+}
+
 demo_spatial_3d_data <- function(n = 72L, volumes = 2L, seed = 2026L) {
   n <- max(40L, as.integer(n))
   volumes <- max(1L, min(as.integer(volumes), floor(n / 20L)))
@@ -83,6 +92,70 @@ demo_contour_data <- function(contours = 6L, points = 16L, seed = 2026L) {
       y = radial * (1 - i / 45) * sin(theta)
     )
   }))
+}
+
+demo_complete_data <- function(contours = 8L, points = 16L, image_features = 6L,
+                               seed = 2026L) {
+  contours <- max(6L, as.integer(contours))
+  points <- max(10L, as.integer(points))
+  image_features <- max(5L, min(as.integer(image_features), 20L))
+  set.seed(seed)
+
+  theta <- rep(seq(0, 2 * pi, length.out = points + 1L)[-1L], contours)
+  contour_index <- rep(seq_len(contours), each = points)
+  point_order <- rep(seq_len(points), contours)
+  contour_id <- sprintf("C%02d", contour_index)
+  volume_index <- 1L + (contour_index > ceiling(contours / 2L))
+  volume_id <- sprintf("V%02d", volume_index)
+  center_x <- rep(seq(-3, 3, length.out = contours), each = points)
+  center_y <- rep(c(-1.8, 1.8), length.out = contours)[contour_index]
+  radial <- 1 + .07 * sin(3 * theta + contour_index / 7) +
+    stats::rnorm(length(theta), sd = .015)
+  x <- center_x + radial * (1 + contour_index / 45) * cos(theta)
+  y <- center_y + radial * (1 - contour_index / 55) * sin(theta)
+  z <- (volume_index - 1L) * 1.2 + point_order / points * .25
+
+  exposure <- scale(sin(x / 2) + cos(y / 2.5) + .2 * z +
+                      stats::rnorm(length(x), sd = .45))[, 1]
+  mediator <- scale(.6 * exposure + sin(y / 2) +
+                      stats::rnorm(length(x), sd = .65))[, 1]
+  outcome <- scale(.45 * exposure + .55 * mediator - .15 * z +
+                     stats::rnorm(length(x), sd = .6))[, 1]
+  epithelial <- scale(exposure + stats::rnorm(length(x), sd = .35))[, 1]
+  apc <- scale(mediator + stats::rnorm(length(x), sd = .4))[, 1]
+  ctl <- scale(outcome - .25 * exposure + stats::rnorm(length(x), sd = .5))[, 1]
+  treg <- scale(-.35 * ctl + .3 * epithelial + stats::rnorm(length(x), sd = .65))[, 1]
+  helper <- scale(.4 * apc + .25 * treg + stats::rnorm(length(x), sd = .65))[, 1]
+  disease <- ifelse(outcome + stats::rnorm(length(x), sd = .45) > 0,
+                    "Condition_B", "Condition_A")
+  spatial_score <- x + y + z
+  zone <- cut(spatial_score,
+    breaks = stats::quantile(spatial_score, probs = seq(0, 1, length.out = 4)),
+    include.lowest = TRUE, labels = c("Low", "Intermediate", "High")
+  )
+
+  input <- matrix(stats::rnorm(length(x) * image_features),
+                  nrow = length(x), ncol = image_features)
+  input[, 1] <- scale(epithelial + stats::rnorm(length(x), sd = .35))[, 1]
+  input[, 2] <- scale(apc + stats::rnorm(length(x), sd = .35))[, 1]
+  loading <- matrix(stats::rnorm(image_features^2, sd = .2),
+                    image_features, image_features)
+  output <- input %*% loading +
+    matrix(stats::rnorm(length(x) * image_features, sd = .6),
+           nrow = length(x), ncol = image_features)
+
+  result <- data.frame(
+    volume_id = volume_id, contour_id = contour_id,
+    sample_id = sprintf("S%03d", seq_along(x)), order = point_order,
+    x = x, y = y, z = z, zone = zone, disease = disease,
+    outcome = outcome, exposure = exposure, mediator = mediator,
+    epithelial = epithelial, APC = apc, CTL = ctl, Treg = treg,
+    T_helper = helper, check.names = FALSE
+  )
+  result[paste0("pixel_", seq_len(image_features))] <- input
+  result[paste0("input__", seq_len(image_features))] <- input
+  result[paste0("output__", seq_len(image_features))] <- output
+  result
 }
 
 numeric_columns <- function(data) names(data)[vapply(data, is.numeric, logical(1))]

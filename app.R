@@ -42,8 +42,16 @@ ui <- fluidPage(
       tags$aside(class = "control-panel",
         div(class = "step-label", "01 · DATA"),
         checkboxInput("use_demo", "Use synthetic spatial demonstration", TRUE),
+        selectInput("demo_dataset", "Synthetic dataset",
+          choices = c(
+            "Complete advisor-ready example (recommended)" = "complete",
+            "Spatial / prediction / mediation" = "spatial",
+            "Aligned image features" = "image",
+            "Ordered contours" = "contour",
+            "Volumetric spatial data" = "volume"
+          ), selected = "complete"),
         fileInput("file", "Or upload CSV", accept = c(".csv", "text/csv"), buttonLabel = "Choose CSV"),
-        helpText("One row per observation. Coordinates, annotations, outcomes, and numeric marker/feature columns may be combined."),
+        helpText("The recommended example is pre-mapped and runs immediately after citation acknowledgement. One row per observation; uploaded coordinates, annotations, outcomes, and numeric features may be combined."),
         hr(),
         div(class = "step-label", "02 · COLUMN MAP"),
         selectInput("x_col", "X coordinate", choices = character()),
@@ -89,6 +97,7 @@ ui <- fluidPage(
     ),
     tags$footer(class = "app-footer",
       p("Static guidance and fast exploratory modules run in-session. Intensive Bayesian engines appear only when installed on the deployment."),
+      p(strong("Funding acknowledgement: "), funding_acknowledgement()),
       p(a(href = "https://doi.org/10.1038/s41598-026-35341-8", "ISPat publication ↗"), " · ", a(href = "https://github.com/sagnikbhadury/SpatialMethodsWorkbench", "Application source ↗"))
     )
   )
@@ -96,7 +105,11 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   uploaded <- reactive({
-    if (isTRUE(input$use_demo) || is.null(input$file)) demo_spatial_data() else read_uploaded_csv(input$file$datapath)
+    if (!isTRUE(input$use_demo) && !is.null(input$file)) return(read_uploaded_csv(input$file$datapath))
+    switch(input$demo_dataset %||% "complete",
+      complete = demo_complete_data(), spatial = demo_spatial_data(),
+      image = demo_image_data(), contour = demo_contour_data(),
+      volume = demo_spatial_3d_data(), demo_complete_data())
   })
 
   observeEvent(input$file, { if (!is.null(input$file)) updateCheckboxInput(session, "use_demo", value = FALSE) })
@@ -113,7 +126,13 @@ server <- function(input, output, session) {
     updateSelectInput(session, "outcome_col", choices = c(none, all_cols), selected = guess("outcome|response|disease|class|label", all_cols))
     updateSelectInput(session, "exposure_col", choices = c(none, all_cols), selected = guess("exposure|treatment|group", all_cols))
     updateSelectInput(session, "mediator_col", choices = c(none, nums), selected = guess("mediator", nums))
-    excluded <- unique(c(guess("^(x|coord_x|x_coord)$", nums), guess("^(y|coord_y|y_coord)$", nums), guess("^(z|section|depth|coord_z)$", nums)))
+    excluded <- unique(c(
+      guess("^(x|coord_x|x_coord)$", nums), guess("^(y|coord_y|y_coord)$", nums),
+      guess("^(z|section|depth|coord_z)$", nums),
+      guess("outcome|response|disease|class|label", all_cols),
+      guess("exposure|treatment|group", all_cols), guess("mediator", nums),
+      guess("^order$", nums)
+    ))
     defaults <- head(setdiff(nums, excluded), 8)
     updateSelectizeInput(session, "feature_cols", choices = nums, selected = defaults, server = TRUE)
   }, ignoreInit = FALSE)

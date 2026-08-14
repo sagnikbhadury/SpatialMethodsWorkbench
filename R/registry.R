@@ -89,6 +89,64 @@ method_compatibility <- function(method, data, mapping, features) {
       reason <- c(reason, "Select at least three input__ and three output__ image columns")
     }
   }
+  complete_n <- function(columns) {
+    columns <- unique(columns[!vapply(columns, is.null, logical(1))])
+    columns <- unlist(columns, use.names = FALSE)
+    columns <- columns[nzchar(columns) & columns %in% names(data)]
+    if (!length(columns)) return(0L)
+    sum(stats::complete.cases(data[, columns, drop = FALSE]))
+  }
+  if (method$runner == "run_spatial_qc" && length(features)) {
+    values <- data[[features[1]]]
+    if (complete_n(c(mapping$x, mapping$y, features[1])) < 10L ||
+        !is.numeric(values) || !is.finite(stats::sd(values, na.rm = TRUE)) ||
+        stats::sd(values, na.rm = TRUE) == 0) {
+      reason <- c(reason, "The mapped feature needs at least 10 complete, non-constant numeric values")
+    }
+  }
+  if (method$runner %in% c("run_spatial_ml", "run_neural_prediction") &&
+      !is.null(mapping$outcome) && mapping$outcome %in% names(data)) {
+    outcome <- data[[mapping$outcome]]
+    minimum <- if (method$runner == "run_neural_prediction") 40L else 30L
+    if (complete_n(c(mapping$outcome, mapping$x, mapping$y, mapping$z, features)) < minimum) {
+      reason <- c(reason, paste("At least", minimum, "complete observations are required"))
+    }
+    if (!is.numeric(outcome) && length(unique(stats::na.omit(outcome))) != 2L) {
+      reason <- c(reason, "The selected categorical outcome must have exactly two levels")
+    }
+  }
+  if (method$runner == "run_scalar_image" && !is.null(mapping$outcome) &&
+      mapping$outcome %in% names(data)) {
+    if (!is.numeric(data[[mapping$outcome]])) {
+      reason <- c(reason, "Select a numeric outcome for wide-image regression")
+    }
+    if (complete_n(c(mapping$outcome, features)) < 30L) {
+      reason <- c(reason, "At least 30 complete subjects are required")
+    }
+  }
+  if (method$runner == "run_image_to_image" && length(features) &&
+      complete_n(features) < 30L) {
+    reason <- c(reason, "At least 30 complete subjects are required")
+  }
+  if (method$runner == "run_mediation" &&
+      all(vapply(mapping[c("exposure", "mediator", "outcome")],
+                 function(x) !is.null(x) && x %in% names(data), logical(1)))) {
+    roles <- unlist(mapping[c("exposure", "mediator", "outcome")], use.names = FALSE)
+    if (!all(vapply(data[roles], is.numeric, logical(1)))) {
+      reason <- c(reason, "Exposure, mediator, and outcome must all be numeric")
+    }
+    if (complete_n(roles) < 30L) reason <- c(reason, "At least 30 complete observations are required")
+  }
+  if (method$runner == "run_shape_pca" && !is.null(mapping$id) &&
+      all(vapply(mapping[c("id", "x", "y")],
+                 function(x) !is.null(x) && x %in% names(data), logical(1)))) {
+    shape_data <- data[, unlist(mapping[c("id", "x", "y")]), drop = FALSE]
+    shape_data <- shape_data[stats::complete.cases(shape_data), , drop = FALSE]
+    counts <- table(shape_data[[mapping$id]])
+    if (length(counts) < 5L || any(counts < 6L)) {
+      reason <- c(reason, "Select an ID with at least five contours and six points per contour")
+    }
+  }
   package_ready <- is.null(method$package) || requireNamespace(method$package, quietly = TRUE)
   if (!package_ready) reason <- c(reason, paste(method$package, "engine is not installed on this server"))
   list(compatible = !length(reason), package_ready = package_ready, reason = paste(reason, collapse = "; "))

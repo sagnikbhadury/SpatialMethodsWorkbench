@@ -1,6 +1,7 @@
 export(analysis_registry)
 export(coerce_mapping)
 export(demo_contour_data)
+export(demo_complete_data)
 export(demo_image_data)
 export(demo_spatial_3d_data)
 export(demo_spatial_data)

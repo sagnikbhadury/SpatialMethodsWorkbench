@@ -12,6 +12,7 @@
 ^docs$
 ^media$
 ^data-raw$
+^synthetic data$
 ^LOCAL_DEVELOPMENT_HANDOFF\.md$
 ^SESSION_LOG\.md$
 ^SOFTWARE_PUBLICATION\.md$

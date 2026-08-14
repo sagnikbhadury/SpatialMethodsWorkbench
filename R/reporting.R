@@ -11,6 +11,7 @@ result_manifest <- function(result) {
     parameters = result$params,
     summary = as.list(result$summary),
     citations = result$citations,
+    funding = funding_acknowledgement(),
     session = list(R = R.version.string, platform = R.version$platform)
   )
 }
@@ -24,6 +25,7 @@ write_result_bundle <- function(result, destination) {
     "Please cite the software and method references below in work that uses these results:",
     "", paste0("- ", result$citations)
   ), file.path(bundle_dir, "CITATION.txt"), useBytes = TRUE)
+  writeLines(funding_acknowledgement(), file.path(bundle_dir, "FUNDING.txt"), useBytes = TRUE)
   writeLines(c(
     "RESULT INTERPRETATION IS NOT PROVIDED BY THIS APPLICATION",
     "",
