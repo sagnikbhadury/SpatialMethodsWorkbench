@@ -1,7 +1,7 @@
 {
   "bundle_schema": "1.0",
-  "workbench_release": "0.3.0",
-  "generated_date": "2026-08-03",
+  "workbench_release": "0.3.1",
+  "generated_date": "2026-08-14",
   "privacy_boundary": "Only public, release-scoped software is included.",
   "sources": [
     {

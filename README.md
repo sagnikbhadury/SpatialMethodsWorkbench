@@ -1,7 +1,7 @@
 # Spatial Methods Workbench
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21763606.svg)](https://doi.org/10.5281/zenodo.21763606)
-[![Version](https://img.shields.io/badge/release-v0.3.0-176b68)](https://github.com/sagnikbhadury/SpatialMethodsWorkbench/releases/tag/v0.3.0)
+[![Version](https://img.shields.io/badge/release-v0.3.1-176b68)](https://github.com/sagnikbhadury/SpatialMethodsWorkbench/releases/tag/v0.3.1)
 [![License: MIT](https://img.shields.io/badge/License-MIT-d46245.svg)](LICENSE.md)
 [![R tests](https://github.com/sagnikbhadury/SpatialMethodsWorkbench/actions/workflows/test.yml/badge.svg)](https://github.com/sagnikbhadury/SpatialMethodsWorkbench/actions/workflows/test.yml)
 
@@ -42,7 +42,7 @@ The Workbench currently hosts 12 executable analysis paths. It first checks the 
 
 Every path returns numerical/statistical output rather than an automated scientific narrative. Network edges are conditional associations unless the selected method and study design establish something stronger. For interpretation, method selection, or a study collaboration, contact [Sagnik Bhadury](mailto:bhadury@umich.edu?subject=Spatial%20Methods%20Workbench%20collaboration).
 
-The application also includes synthetic demonstration data, automatic column suggestions, structural validation, compatibility gating, documented controls, and downloadable result bundles. The complete v0.3.0 source distribution includes local package sources for all three advanced engines; the live deployment includes all three.
+The application also includes synthetic demonstration data, automatic column suggestions, structural validation, compatibility gating, documented controls, and downloadable result bundles. The complete v0.3.1 source distribution includes local package sources for all three advanced engines; the live deployment includes all three.
 
 The advanced Bayesian engines are computationally intensive. Production deployments should enforce upload, memory, worker, and runtime limits and should use a job queue for large studies.
 

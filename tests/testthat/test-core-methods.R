@@ -125,7 +125,7 @@ test_that("result bundles contain reproducibility artifacts", {
   expect_true(all(c("results.csv", "manifest.json", "CITATION.txt", "FUNDING.txt", "COLLABORATION.txt", "figure.png", "result_object.rds") %in% files))
   expect_false("interpretation.md" %in% files)
   expect_match(workbench_citation(), "SpatialMethodsWorkbench", fixed = TRUE)
-  expect_match(workbench_citation(), "Version 0.3.0", fixed = TRUE)
+  expect_match(workbench_citation(), "Version 0.3.1", fixed = TRUE)
   expect_match(workbench_citation(), "10.5281/zenodo.21763606", fixed = TRUE)
 })
 

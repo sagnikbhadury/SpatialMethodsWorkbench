@@ -4,19 +4,19 @@
 
 - Software: **SpatialMethodsWorkbench: Spatial Methods Workbench**
 - Author: Sagnik Bhadury
-- Version: **v0.3.0**
+- Version: **v0.3.1**
 - Release date: 2026-08-02
 - DOI across all versions: <https://doi.org/10.5281/zenodo.21763606>
 - All-versions DOI: <https://doi.org/10.5281/zenodo.21763606>
 - GitHub repository: <https://github.com/sagnikbhadury/SpatialMethodsWorkbench>
-- GitHub release: <https://github.com/sagnikbhadury/SpatialMethodsWorkbench/releases/tag/v0.3.0>
+- GitHub release: <https://github.com/sagnikbhadury/SpatialMethodsWorkbench/releases/tag/v0.3.1>
 - Live application: <https://sagnikbhadury.shinyapps.io/spatial-methods-workbench/>
 - Website showcase: <https://sagnikbhadury.github.io/spatial-methods-workbench/>
 - Website guide: <https://sagnikbhadury.github.io/workbench-guide/>
 
 Suggested citation:
 
-> Bhadury, S. (2026). *SpatialMethodsWorkbench: Spatial Methods Workbench* (Version 0.3.0) [Computer software]. Zenodo. <https://doi.org/10.5281/zenodo.21763606>
+> Bhadury, S. (2026). *SpatialMethodsWorkbench: Spatial Methods Workbench* (Version 0.3.1) [Computer software]. Zenodo. <https://doi.org/10.5281/zenodo.21763606>
 
 Users must also cite the method-specific publications written to `CITATION.txt` in each exported result bundle.
 
@@ -37,4 +37,4 @@ Only already-public, release-scoped methods and repositories belong in the publi
 - `DESCRIPTION`: R dependency and version metadata.
 - `tests/testthat/`: regression and Shiny server tests.
 
-The Zenodo v0.3.0 archive corresponds to GitHub release tag `v0.3.0`. The concept DOI resolves to the newest version; use the version-specific DOI displayed on the v0.3.0 record when citing that exact release.
+The Zenodo v0.3.1 archive corresponds to GitHub release tag `v0.3.1`. The concept DOI resolves to the newest version; use the version-specific DOI displayed on the v0.3.1 record when citing that exact release.

@@ -4,7 +4,7 @@ Use this bibliography together with the versioned Spatial Methods Workbench cita
 
 ## Workbench software
 
-Bhadury, S. (2026). *Spatial Methods Workbench* (Version 0.3.0) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.21763606
+Bhadury, S. (2026). *Spatial Methods Workbench* (Version 0.3.1) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.21763606
 
 ## Statistical and scientific method references
 

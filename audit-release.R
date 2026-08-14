@@ -17,8 +17,8 @@ if (length(missing)) stop("Release files missing: ", paste(missing, collapse = "
 description <- read.dcf(file.path(root, "DESCRIPTION"))[1, ]
 manifest <- jsonlite::fromJSON(file.path(root, "vendor", "manifest.json"))
 stopifnot(
-  identical(unname(description[["Version"]]), "0.3.0"),
-  identical(manifest$workbench_release, "0.3.0"),
+  identical(unname(description[["Version"]]), "0.3.1"),
+  identical(manifest$workbench_release, "0.3.1"),
   nrow(manifest$sources) == 9L,
   length(unique(manifest$sources$commit)) == 9L,
   all(nchar(manifest$sources$commit) == 40L)
