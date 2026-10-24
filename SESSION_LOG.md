@@ -103,3 +103,4 @@ Edit `media/youtube/public_usage_slides.json` or `media/youtube/interpretation_s
 - Zenodo deposit is created automatically by the GitHub integration when the v0.4.0 release is published; the version DOI is recorded below once minted.
 - GitHub release v0.4.0 published 2026-10-24 with asset SpatialMethodsWorkbench-v0.4.0-source.zip; Zenodo minted version DOI 10.5281/zenodo.23627817 (record 23627817) under concept DOI 10.5281/zenodo.21763606.
 - Local verification: 118 tests, audit passed, R CMD build OK, five vignette PDFs re-rendered with xelatex for the website.
+- shinyapps.io deployment of v0.4.0 completed 2026-10-24 18:12 (bundle 12734833; server built GPGHS, gpboost, ISPAT3D). Live page verified: HTTP 200, manual text "Workbench v0.4.0", ispat3d_fit_2d and GPGHS 1.0 controls present. GitHub Pages rebuilt with the v0.4.0 showcase/guide and re-rendered vignette PDFs.
