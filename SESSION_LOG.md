@@ -101,3 +101,5 @@ Edit `media/youtube/public_usage_slides.json` or `media/youtube/interpretation_s
 - Installed ISPAT3D 0.3.1 and GPGHS 1.0.1 into R 4.5.2; 118 tests pass (FAIL 0, WARN 0, SKIP 0) including real adapter smoke tests; audit-release.R passes; R CMD build with vignettes OK using RStudio pandoc (RSTUDIO_PANDOC=C:/Program Files/RStudio/resources/app/bin/quarto/bin/tools); local Shiny launch served all tabs.
 - Affiliation moved to University of Pennsylvania in .zenodo.json; contact e-mail in DESCRIPTION and README switched to bhadury@upenn.edu.
 - Zenodo deposit is created automatically by the GitHub integration when the v0.4.0 release is published; the version DOI is recorded below once minted.
+- GitHub release v0.4.0 published 2026-10-24 with asset SpatialMethodsWorkbench-v0.4.0-source.zip; Zenodo minted version DOI 10.5281/zenodo.23627817 (record 23627817) under concept DOI 10.5281/zenodo.21763606.
+- Local verification: 118 tests, audit passed, R CMD build OK, five vignette PDFs re-rendered with xelatex for the website.

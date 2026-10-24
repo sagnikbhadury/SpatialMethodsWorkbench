@@ -7,7 +7,7 @@
 - Version: **v0.4.0**
 - Release date: 2026-10-24
 - DOI across all versions (concept DOI): <https://doi.org/10.5281/zenodo.21763606>
-- Version DOI: minted by the GitHub–Zenodo integration when the v0.4.0 GitHub release is published; recorded in `SESSION_LOG.md` and on the website release table once Zenodo returns it.
+- Version DOI: <https://doi.org/10.5281/zenodo.23627817> (Zenodo record 23627817, created 2026-10-24 by the GitHub integration from release v0.4.0)
 - GitHub repository: <https://github.com/sagnikbhadury/SpatialMethodsWorkbench>
 - GitHub release: <https://github.com/sagnikbhadury/SpatialMethodsWorkbench/releases/tag/v0.4.0>
 - Live application: <https://sagnikbhadury.shinyapps.io/spatial-methods-workbench/>
