@@ -4,7 +4,7 @@ Use this bibliography together with the versioned Spatial Methods Workbench cita
 
 ## Workbench software
 
-Bhadury, S. (2026). *Spatial Methods Workbench* (Version 0.3.1) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.21763606
+Bhadury, S. (2026). *Spatial Methods Workbench* (Version 0.4.0) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.21763606
 
 ## Statistical and scientific method references
 
@@ -12,11 +12,11 @@ Bhadury, S. (2026). *Spatial Methods Workbench* (Version 0.3.1) [Computer softwa
 
 2. **Ridge regularization used in exploratory precision/network and wide-image screens.** Hoerl, A. E., & Kennard, R. W. (1970). Ridge regression: Biased estimation for nonorthogonal problems. *Technometrics, 12*(1), 55–67. https://doi.org/10.1080/00401706.1970.10488634
 
-3. **ISPat 2D.** Bhadury, S., Peruzzi, M., Acharyya, S., Eliason, J., Pasca Di Magliano, M., Frankel, T. L., Ravikumar, V., Krishnan, S., & Rao, A. (2026). Informed spatially aware patterns for multiplexed immunofluorescence data. *Scientific Reports, 16*(1). https://doi.org/10.1038/s41598-026-35341-8. Software: https://github.com/sagnikbhadury/ISPAT
+3. **ISPat method (2D and 3D paths).** Bhadury, S., Peruzzi, M., Acharyya, S., Eliason, J., Pasca Di Magliano, M., Frankel, T. L., Ravikumar, V., Krishnan, S., & Rao, A. (2026). Informed spatially aware patterns for multiplexed immunofluorescence data. *Scientific Reports, 16*(1). https://doi.org/10.1038/s41598-026-35341-8. The historical CAVI/SVI implementation remains at https://github.com/sagnikbhadury/ISPAT but is no longer executed by the Workbench.
 
-4. **GP–GHS spatially varying networks.** Bhadury, S., Gaskins, J. T., & Rao, A. (2026). Spatially varying graphical models for cell-cell interaction networks in multiplexed tissue imaging. https://doi.org/10.64898/2026.04.01.715977. Software: https://github.com/sagnikbhadury/GP-GHS
+4. **GP–GHS spatially varying networks.** Bhadury, S., Gaskins, J. T., & Rao, A. (2026). Spatially varying graphical models for cell-cell interaction networks in multiplexed tissue imaging. https://doi.org/10.64898/2026.04.01.715977. Software: *GPGHS: Spatially Varying Conditional-Dependence Networks with the Gaussian Process Group Horseshoe*, R package version 1.0.1, https://github.com/sagnikbhadury/GP-GHS
 
-5. **ISPat 3D volumetric engine.** Bhadury, S. (2026). *ISPAT-3D* [Computer software]. https://github.com/sagnikbhadury/ISPAT-3D. No unpublished manuscript is cited or disclosed by the Workbench.
+5. **ISPAT3D engine (executed by the ISPat 2D and ISPat 3D paths).** Bhadury, S. (2026). *ISPAT3D: Spatial Conditional Association Networks in Registered Tumor Volumes*. R package version 0.3.1. CRAN: https://cran.r-project.org/package=ISPAT3D; source: https://github.com/sagnikbhadury/ISPAT-3D; archived software release: https://doi.org/10.5281/zenodo.22798429. The ISPat 2D path calls `ispat3d_fit_2d` (section-wise planar Vecchia GP adjustment) and the ISPat 3D path calls `ispat3d_fit` (pooled volumetric adjustment); both use the package's shared-plus-zone covariance likelihood. No unpublished manuscript is cited or disclosed by the Workbench.
 
 6. **Structured predictive validation.** Roberts, D. R., Bahn, V., Ciuti, S., Boyce, M. S., Elith, J., Guillera-Arroita, G., Hauenstein, S., Lahoz-Monfort, J. J., Schröder, B., Thuiller, W., Warton, D. I., Wintle, B. A., Hartig, F., & Dormann, C. F. (2017). Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure. *Ecography, 40*(8), 913–929. https://doi.org/10.1111/ecog.02881
 

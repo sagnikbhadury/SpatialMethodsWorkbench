@@ -64,8 +64,8 @@ install_missing <- function(packages) {
     stop(
       "Dependency installation failed for: ", paste(still_missing, collapse = ", "),
       ". Confirm that the R version and compiler toolchain match. On Windows, ",
-      "install the Rtools version for this R release; rstan binaries built for a ",
-      "newer R patch release may require upgrading R or compiling from source."
+      "install the Rtools version for this R release; compiled binaries built for a ",
+      "newer R patch release may require upgrading R or compiling from source. gpboost (required by ISPAT3D) is compiled C++; install its CRAN binary when one exists for this R version."
     )
   }
 }
@@ -81,7 +81,7 @@ install_source <- function(relative_path, package_name) {
     dependencies = FALSE,
     upgrade = "never",
     force = TRUE,
-    build = TRUE,
+    build = FALSE,
     quiet = FALSE
   )
   if (!requireNamespace(package_name, quietly = TRUE)) {
@@ -93,10 +93,9 @@ runtime <- c(
   "shiny", "bslib", "DT", "ggplot2", "jsonlite", "markdown", "zip",
   "nnet", "knitr", "rmarkdown", "remotes", "testthat"
 )
-engine_dependencies <- c(
-  "CVglasso", "doParallel", "foreach", "Matrix", "matrixcalc", "MASS",
-  "mnormt", "rstan", "sparsepca"
-)
+# ISPAT3D 0.3.x imports gpboost (compiled C++; CRAN binaries exist for current R releases).
+# GPGHS 1.0.x is pure R and needs only base R plus the parallel package.
+engine_dependencies <- c("gpboost")
 related_dependencies <- c(
   "Rcpp", "RcppArmadillo", "BH", "BayesGPfit", "reshape2", "viridis",
   "RSpectra", "RANN", "imager", "ggpubr", "coda"
@@ -115,7 +114,10 @@ install_missing(engine_dependencies)
 
 install_source(file.path("vendor", "engines", "GP-GHS"), "GPGHS")
 install_source(file.path("vendor", "engines", "ISPAT-3D"), "ISPAT3D")
-install_source(file.path("vendor", "engines", "ISPAT"), "ISPAT")
+stopifnot(
+  utils::packageVersion("GPGHS") >= "1.0.0",
+  utils::packageVersion("ISPAT3D") >= "0.3.0"
+)
 
 if (include_related) {
   install_source(file.path("vendor", "reference-workflows", "STCAR"), "STCAR")
@@ -135,7 +137,7 @@ remotes::install_local(
   force = TRUE
 )
 
-required <- c("SpatialMethodsWorkbench", "ISPAT", "GPGHS", "ISPAT3D")
+required <- c("SpatialMethodsWorkbench", "GPGHS", "ISPAT3D")
 status <- setNames(vapply(required, requireNamespace, logical(1), quietly = TRUE), required)
 print(status)
 stopifnot(all(status))

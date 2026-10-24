@@ -91,17 +91,23 @@ volume_mapping <- list(
 validate_dataset(volume, volume_mapping)[c("ok", "n", "p")]
 ```
 
-The public ISPAT-3D engine is opt-in and is not executed during vignette builds.
+The public ISPAT3D engine (CRAN, 0.3.1 or newer) is opt-in and is not executed during vignette builds. The path calls `ISPAT3D::ispat3d_fit()`: an anisotropic Matérn-3/2 Vecchia GP per marker pooled within each zone over registered x, y, z, then the shared-plus-zone covariance likelihood. The two `volume_id` values are used as section labels for anchor balancing. The settings below are smoke values for 72 rows; omit them to use the package defaults.
 
 ```{r ispat3d, eval=FALSE}
-remotes::install_github("sagnikbhadury/ISPAT-3D")
+install.packages("ISPAT3D")
 
 ispat3d <- run_analysis(
   "ispat3d", volume, volume_mapping, volume_features,
-  list(kernel = "Matern", factor_fit = "CAVI", threshold = 0.15, cores = 1L)
+  list(
+    rank = 2L, anchor_min = 12L, anchor_max = 24L, gp_neighbors = 5L,
+    gp_maxit = 3L, factor_maxit = 60L, threads = 1L, seed = 2026L,
+    threshold = 0.05
+  )
 )
 ispat3d$summary
+names(ispat3d$matrices)    # Low, Intermediate, High
 head(ispat3d$table)
+table(ispat3d$gp_log$status)
 ```
 
 The 72-row dataset is a software demonstration. Registered coordinates, section alignment, zones, and study-specific sampling must be established before using real volumetric data.

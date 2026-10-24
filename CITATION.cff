@@ -5,8 +5,8 @@ type: software
 authors:
   - family-names: Bhadury
     given-names: Sagnik
-version: 0.3.1
-date-released: 2026-08-14
+version: 0.4.0
+date-released: 2026-10-24
 doi: 10.5281/zenodo.21763606
 repository-code: "https://github.com/sagnikbhadury/SpatialMethodsWorkbench"
 url: "https://sagnikbhadury.github.io/"
@@ -17,7 +17,7 @@ preferred-citation:
     - family-names: Bhadury
       given-names: Sagnik
   title: "Spatial Methods Workbench"
-  version: 0.3.1
+  version: 0.4.0
   year: 2026
   doi: 10.5281/zenodo.21763606
   url: "https://doi.org/10.5281/zenodo.21763606"

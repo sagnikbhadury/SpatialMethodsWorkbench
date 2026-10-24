@@ -69,24 +69,30 @@ The following calls use the same 72-row table. They are not evaluated while buil
 
 ### ISPat 2D
 
+The ISPat 2D path calls `ISPAT3D::ispat3d_fit_2d()` from the CRAN package ISPAT3D (0.3.1 or newer): a Matérn-3/2 Vecchia GP is fitted per marker within each zone-section group, and a shared-plus-zone factor covariance is fitted by Gaussian maximum likelihood. The small anchor and iteration settings below are software smoke values; the package defaults (rank 5, up to 5,000 anchors, 15 neighbors, 30 GP iterations) are the analysis settings. Because `sample_id` is unique per row it is not treated as a section label, and the result notes say so.
+
 ```{r ispat, eval=FALSE}
-remotes::install_github("sagnikbhadury/ISPAT")
+install.packages("ISPAT3D")
 
 ispat <- run_analysis(
   "ispat", d, mapping, features,
   list(
-    kernel = "Matern", spatial_fit = "VB", factor_fit = "CAVI",
-    cores = 1L, threshold = 0.15
+    rank = 2L, anchor_min = 12L, anchor_max = 24L, gp_neighbors = 5L,
+    gp_maxit = 3L, factor_maxit = 60L, threads = 1L, seed = 2026L,
+    threshold = 0.05
   )
 )
 ispat$summary
+names(ispat$matrices)      # one signed partial-correlation matrix per zone
 head(ispat$table)
+table(ispat$gp_log$status)
+ispat$notes
 ispat$plot
 ```
 
 ### GP-GHS
 
-The short chain below is a software smoke check. Increase Monte Carlo settings and perform convergence assessment for research use.
+The short chain below is a software smoke check. Increase Monte Carlo settings and perform convergence assessment for research use. GPGHS 1.0 selects a predictor when its group shrinkage factor falls below `edge_threshold` (0.5 in the article) and combines the two directed decisions with the AND rule.
 
 ```{r gpghs, eval=FALSE}
 remotes::install_github("sagnikbhadury/GP-GHS")
@@ -95,14 +101,14 @@ gpghs <- run_analysis(
   "gpghs", d, mapping, features,
   list(
     basis = 3L, nu = 1.5, nmc = 200L, burn = 50L, thin = 2L,
-    threshold = 0.15, symmetry = "AND", cores = 1L
+    edge_threshold = 0.5, symmetry = "AND", min_detect = 0, cores = 1L, seed = 1L
   )
 )
 gpghs$summary
-head(gpghs$table)
+head(gpghs$table)          # GPGHS score, sign, sign change, and RMS weight per selected edge
 gpghs$plot
 ```
 
-The GP-GHS graph uses the fitted symmetric adjacency for topology and the smaller directional RMS of the posterior mean coefficient fields for edge width. It does not use kappa as a visual weight, and it does not assign a single sign to a field that can change sign across space.
+The GP-GHS graph uses the fitted symmetric adjacency for topology and the smaller directional RMS of the posterior mean coefficient fields for edge width. It does not use kappa as a visual weight, and it does not assign a single sign to a field that can change sign across space; the edge table carries the GPGHS sign label instead.
 
 Use `method_citations("ispat")` and `method_citations("gpghs")` to retrieve the required software and method references.

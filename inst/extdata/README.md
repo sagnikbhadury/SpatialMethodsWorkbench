@@ -22,8 +22,10 @@ Use these column mappings after upload:
 | 3D volume ID | `volume_id` |
 
 For the shape workflow, change the ID mapping to `contour_id`. For the 3D
-workflow, use `volume_id`. Intensive ISPAT, GP-GHS, and ISPAT-3D analyses also
-require their corresponding engines to be installed on the server.
+workflow, use `volume_id`; its two values are treated as section labels for the
+ISPAT3D anchor balancing. Intensive ISPat 2D, GP-GHS, and ISPat 3D analyses also
+require the `ISPAT3D` (>= 0.3.0) and `GPGHS` (>= 1.0.0) engines to be installed
+on the server. Every zone must contain more rows than selected markers.
 
 The specialized `spatial_demo.csv`, `image_demo.csv`, `contour_demo.csv`, and
 `spatial_3d_demo.csv` files remain available for focused examples.

@@ -28,6 +28,10 @@ jobs:
             any::testthat
             any::knitr
             any::rmarkdown
+            any::nnet
+            any::gpboost
+            any::ISPAT3D
+            github::sagnikbhadury/GP-GHS
       - name: Parse application
         run: Rscript -e "files <- c('app.R', list.files('R', full.names=TRUE, pattern='[.]R$')); invisible(lapply(files, parse))"
       - name: Run tests

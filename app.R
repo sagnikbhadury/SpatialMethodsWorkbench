@@ -180,14 +180,34 @@ server <- function(input, output, session) {
         if (!status$compatible) tags$small(status$reason))
   })
 
+  ispat3d_controls <- function(note) {
+    tagList(
+      sliderInput("param_rank", "Factor rank (shared and zone-specific)", 1, 10, 5),
+      sliderInput("param_anchor_fraction", "GP anchor fraction of each group", .02, .5, .1, .02),
+      numericInput("param_anchor_min", "Minimum GP anchors per fit", 300, 10, 20000, 10),
+      numericInput("param_anchor_max", "Maximum GP anchors per fit", 5000, 10, 50000, 100),
+      sliderInput("param_gp_neighbors", "Vecchia neighbors", 3, 30, 15),
+      numericInput("param_gp_maxit", "GP optimizer iterations", 30, 1, 200),
+      numericInput("param_factor_maxit", "Covariance likelihood iterations", 350, 10, 2000, 10),
+      selectInput("param_use_sections", "Section identifier",
+                  c("Use mapped ID when it looks like a section label" = "auto",
+                    "Always use the mapped ID" = "id",
+                    "Pool all rows into one section" = "none")),
+      selectInput("param_threads", "GPBoost threads per GP fit", c(1, 2)),
+      numericInput("param_seed", "Random seed", 2026, 1, 999999),
+      sliderInput("param_threshold", "Display threshold on |partial correlation|", 0, .8, .15, .05),
+      helpText(paste(note, "Anchor counts are capped at the group size, so small demonstrations fit every cell as an anchor."))
+    )
+  }
+
   output$method_params <- renderUI({
     req(input$analysis)
     switch(input$analysis,
       spatial_qc = tagList(selectInput("param_feature", "Feature to map", choices = features()), sliderInput("param_neighbors", "Nearest neighbors", 3, 20, 8), sliderInput("param_permutations", "Permutations", 99, 999, 199, step = 100)),
       conditional_network = tagList(sliderInput("param_threshold", "|Partial correlation| threshold", 0, .8, .15, step = .05), sliderInput("param_ridge", "Ridge regularization", .01, .5, .05, step = .01), checkboxInput("param_by_zone", "Estimate one network per selected zone", !is.null(mapping()$zone))),
-      ispat = tagList(selectInput("param_kernel", "Spatial kernel", c("Matern", "RBF")), selectInput("param_spatial_fit", "Spatial fit", c("VB", "MLE")), selectInput("param_factor_fit", "Factor fit", c("CAVI", "SVI")), sliderInput("param_threshold", "Display threshold", 0, .8, .15, .05), numericInput("param_cores", "Cores", 1, 1, 8)),
-      gpghs = tagList(sliderInput("param_basis", "Basis functions per dimension", 2, 8, 4), selectInput("param_nu", "Matérn smoothness", c(.5, 1.5, 2.5), 1.5), numericInput("param_nmc", "MCMC iterations", 1200, 500, 10000, 100), numericInput("param_burn", "Burn-in", 400, 100, 5000, 100), sliderInput("param_threshold", "Edge threshold", 0, .8, .15, .05), selectInput("param_symmetry", "Symmetry rule", c("AND", "OR")), numericInput("param_cores", "Cores", 1, 1, 8)),
-      ispat3d = tagList(selectInput("param_kernel", "Volumetric kernel", c("Matern", "RBF")), selectInput("param_factor_fit", "Factor fit", c("CAVI", "SVI")), sliderInput("param_threshold", "Display threshold", 0, .8, .15, .05), numericInput("param_cores", "Cores", 1, 1, 8)),
+      ispat = ispat3d_controls("Planar GP adjustment is fitted separately within each zone-section group; the mapped ID is used as the section label when it looks like one."),
+      gpghs = tagList(sliderInput("param_basis", "Basis functions per dimension", 2, 8, 4), selectInput("param_nu", "Matérn smoothness", c(.5, 1.5, 2.5), 1.5), numericInput("param_nmc", "MCMC iterations", 1200, 500, 10000, 100), numericInput("param_burn", "Burn-in", 400, 100, 5000, 100), sliderInput("param_edge_threshold", "Shrinkage-factor edge threshold", .1, .9, .5, .05), selectInput("param_symmetry", "Symmetry rule", c("AND", "OR")), sliderInput("param_min_detect", "Minimum nonzero share for an estimable variable", 0, .5, 0, .05), numericInput("param_seed", "Random seed", 2026, 1, 999999), numericInput("param_cores", "Cores", 1, 1, 8), helpText("GPGHS 1.0: a predictor is selected when its group shrinkage factor is below the edge threshold (0.5 in the article); the AND rule needs both directed decisions.")),
+      ispat3d = ispat3d_controls("Volumetric GP adjustment pools all sections within a zone over registered x, y, z; the mapped ID balances anchor selection across sections."),
       spatial_ml = numericInput("param_seed", "Random seed", 2026, 1, 999999),
       spatial_clustering = tagList(sliderInput("param_clusters", "Number of clusters", 2, 12, 4), sliderInput("param_spatial_weight", "Coordinate influence", 0, 2, .5, step = .1), numericInput("param_seed", "Random seed", 2026, 1, 999999)),
       neural_prediction = tagList(sliderInput("param_hidden_units", "Hidden units", 2, 30, 6), sliderInput("param_decay", "Weight decay", 0, .2, .01, step = .01), numericInput("param_seed", "Random seed", 2026, 1, 999999)),
@@ -201,9 +221,12 @@ server <- function(input, output, session) {
   params <- reactive({
     list(feature = input$param_feature, neighbors = input$param_neighbors, permutations = input$param_permutations,
          threshold = input$param_threshold, ridge = input$param_ridge, by_zone = input$param_by_zone,
-         kernel = input$param_kernel, spatial_fit = input$param_spatial_fit, factor_fit = input$param_factor_fit,
+         rank = input$param_rank, anchor_fraction = input$param_anchor_fraction, anchor_min = input$param_anchor_min,
+         anchor_max = input$param_anchor_max, gp_neighbors = input$param_gp_neighbors, gp_maxit = input$param_gp_maxit,
+         factor_maxit = input$param_factor_maxit, use_sections = input$param_use_sections, threads = as.integer(input$param_threads),
          cores = input$param_cores, basis = input$param_basis, nu = as.numeric(input$param_nu),
          nmc = input$param_nmc, burn = input$param_burn, thin = 4L, symmetry = input$param_symmetry,
+         edge_threshold = input$param_edge_threshold, min_detect = input$param_min_detect,
          seed = input$param_seed, clusters = input$param_clusters, spatial_weight = input$param_spatial_weight,
          hidden_units = input$param_hidden_units, decay = input$param_decay, image_ridge = input$param_image_ridge,
          latent_factors = input$param_latent_factors, bootstrap = input$param_bootstrap, landmarks = input$param_landmarks)

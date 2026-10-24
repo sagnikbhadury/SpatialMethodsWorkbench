@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>A volumetric cell-density network from a small registered image</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">A volumetric cell-density network from a
+small registered image</h1>
+
+
+
+<p>This vignette starts with an illustrative three-section cell map,
+constructs a cell-type-specific kernel-density estimate (KDE) within
+each section, assigns relative tumor-density zones, and fits the current
+ISPAT3D volumetric model. All computations use a small synthetic image
+so that the vignette can be rebuilt during package checks. The real
+colorectal and breast analyses in Bhadury and Rao (2026) use registered
+experimental images and substantially larger cell rosters; the example
+here is a software demonstration, not biological evidence.</p>
+<p>The pipeline extends the planar ISPat architecture of Bhadury <em>et
+al.</em> (2026) by using registered <span class="math inline">\((x,y,z)\)</span> coordinates in an anisotropic
+spatial GP and fitting shared-plus-zone covariance to the adjusted
+cell-density variables. The current package estimates that covariance by
+Gaussian likelihood; it does not run the earlier Bayesian CAVI
+estimator.</p>
+<div id="simulate-a-registered-cell-map-and-inspect-the-image" class="section level2">
+<h2>1. Simulate a registered cell map and inspect the image</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(ISPAT3D)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>image <span class="ot">&lt;-</span> <span class="fu">ispat3d_example_image</span>(<span class="at">n_per_section =</span> <span class="dv">30</span>, <span class="at">n_sections =</span> <span class="dv">3</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>                               <span class="at">bandwidth =</span> <span class="fl">0.12</span>, <span class="at">seed =</span> <span class="dv">2026</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">ncol</span>(image<span class="sc">$</span>coords) <span class="sc">==</span> <span class="dv">3</span>, <span class="fu">nrow</span>(image<span class="sc">$</span>Y) <span class="sc">==</span> <span class="dv">90</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">table</span>(image<span class="sc">$</span>zones, image<span class="sc">$</span>sections)</span></code></pre></div>
+<pre><code>##       
+##         1  2  3
+##   Low  15 15 15
+##   High 15 15 15</code></pre>
+<p>Each row represents one annotated cell. The source phenotype
+determines which section-wise KDE surface the cell contributes to; every
+KDE surface is then evaluated at <strong>every</strong> cell position.
+The simulator returns <code>kde</code> and the transformed analysis
+matrix <code>Y = log1p(1e9 * kde)</code>. It also returns the registered
+coordinate matrix, section identifiers, source cell types, and a
+tumor-cell KDE score. Within each section, the median tumor score
+divides cells into Low and High relative tumor-density zones. Two zones
+and three cell types keep this example fast; the manuscript used five
+zones and more cell types.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>old <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>palette <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Tumor =</span> <span class="st">&quot;#C44E52&quot;</span>, <span class="at">T_cell =</span> <span class="st">&quot;#4C72B0&quot;</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>             <span class="at">Macrophage =</span> <span class="st">&quot;#55A868&quot;</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="cf">for</span> (s <span class="cf">in</span> <span class="fu">sort</span>(<span class="fu">unique</span>(image<span class="sc">$</span>sections))) {</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  at <span class="ot">&lt;-</span> image<span class="sc">$</span>sections <span class="sc">==</span> s</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  <span class="fu">plot</span>(image<span class="sc">$</span>coords[at, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;y&quot;</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">&quot;Section&quot;</span>, s),</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="fl">0.6</span>, <span class="at">col =</span> palette[image<span class="sc">$</span>cell_type[at]])</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>}</span></code></pre></div>
+<div class="float">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqAAAAEDCAMAAADdgkYqAAAApVBMVEUAAAAAADoAAGYAOmYAOpAAZrY6AAA6ADo6AGY6OpA6ZpA6ZrY6kNtMcrBVqGhmAABmADpmAGZmOgBmOjpmOmZmOpBmZjpmkJBmkLZmkNtmtv+QOgCQOjqQOmaQZjqQ27aQ29uQ2/+2ZgC2Zjq2kDq2kGa229u22/+2/7a2/9u2///ETlLbkDrbkGbbtmbbtpDb////tmb/25D/27b//7b//9v///+b88SEAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAOIUlEQVR4nO2dbWPbthWF6cRWlyWpm712cdrNztZ0jttZsqT//9MmWrEtUSTeeC/uAXCeD7Ub+to4uoeXAAiC3ZYQYDrrBhDiggYl0NCgBBoalEBDgxJoaFACDQ1KoKFBCTTqBn34U9e9/jJ2ZHP16nYi6GbyCBzx+jafF93ra91WyZGQv98WExEpaBt0c/X69uHy/H747//7cVrgw89dMQZN0Pd794/tzVkhDk3Qt1pcrEciEtE26ERTdyIcIWeLYgyaoK9n2X3UaY80afocF8dY9A3avX1U+PCp6/64+261u2S83Vx13av/9ip21bJ782X3Y69/7s72SVv/5Rc5fdok6Ou5KcegKfoeLt3nZwTqfdC7rjv78b4/E7/0l4r15cX97927/gzsT7P15asvD49fz65fTlbBE1CdFH27AlrKJT5J386uxfRBd12uRded3y+7dzuxZ9ffrm1PAh//efefXtyLLUsyaIq+1aITqzDqJOjbCvaxM0wzbf6z6D7uTsSe3dcjgY//W7ZB4/Xt/Fm1vu3jPwn99SzzoDsZTy2ur4JuY/XtOnDFXOD3xOZPchCobdBld3G/76ycf/n29f5R0LAPU6hBE/Qtu1JGSNskfbsu6kZuIlu9gv6268L009JPE76Po8D77efu1S9Ho8BCDZqg7+bxYil1CdQmXt/m3yVN1BMyCxqUQEODEmhoUAINDUqgoUEJNIEG7Yoi4WMoipb0DcUuH3/i5E5HUYXW1Vjqw8dl0M3V/k7Wm8EiwHIFHkN9BeAy6PrD7cGXyR/DxtFY6iuAkAr6h2oEHkN9BeDsg64WlfVhBlAfPk6DhsSgkzLKlW+FHk3pG2/5Sx9mbOSPjr+x1IcMK+j8kO/j/4QcrKCeGHT0E/j995YOldX3Pr0hStCg80PqqaDv38M5lAYVCbGj5Qq6vtz3qYePXNSSQOorAGcFXf8w+sBhuQIHUB8+7kv8cnQvnnIFDqE+eNgHFQmxA0PfV/lf+Q0Yg2pJxEigHhD6vn5VcyiKQdUkQiRQEQx9rKDJYCRQb7IURZ8WMAbVAiSBarebMugznRylQUVC/JRbQW1uLz19XuYG1RaPYlAtKq2gz1cca4Oqn540qESIKqPDD1ZQ0RA7StN3mm/3BI65QbUpLYGxYOs76XmPXTGdEzg0aGoIyMIfaIOOzF3Efmw0aGIIytJJaIMKzF3QoKkhGP4EN+h8aFCREDua0qduUIOq01QC1ULsyGpQi35bUwlUC7GDFXRmiHVXlAb1xKCjnEDzwTwN6olBhxVUIsQOGlQkxI7S9fnWARsZNKLuzFzJPCOB1sUxiMIN6n2SwsagET23uc+CpCfQvHsZROEGnVdBV4uzf16evi26mgrq0VeCP+foKwKXQTc/3faP/q//mmuPc43nkhyNza5Pg6b0DVq+/nDb7y2ZbY9zlSc7HY3NrU+FpvSNV9B8b4mwqaAVvQXjmPr0DVu+7CrrwwzIr0/+FMTSJw/nQUVCAlHoxEDpUyDAoBXtcT5KTn15K+ieivLHCpoaYkdT+mjQ1BA7mtJ3OkhCeBFU3HMtw4uoexCBoG8eTekbTjNBvIw0blejk2GIaxoGQt9MEPVJbvPjmag/+DL5Y9qoVVAQffMA1Ce6UVpIBa3nZaTHUJ8SuSpofS8jHUB9+HAULxJiR1P6jA0atbwtdMq7tgQOL59Q+hQ2QQUyaNQC4eCbhlAJnM/JAARJn8Y20kAGZQUNgRU0MgYdqAQK8nSCFqcv0sQ0qEhIdp67OKXpi+0GABlU5xGg0hIYSh0V1N9RwzGo0kOUxSUwkqL1BQx1cQzKCppE2fosKqjWC4ESKTuBfprSJ2FQtVeqJdJUAtVC7NCvoNz9TZUa9R1e+NX7oNYbyNSYwEMq1Hc0dNIfJAn5M/VxswoTeESN+rJWUCGSH9itMYGHNKUP2KCsoBM0pQ/ZoKk0lUC1EDtoUJEQO5rSR4OmhtjRlD4aNDXEDjR90rdpyjEoR/GjgOkTv5FYjEFT55lME5jhHoWWvtSmV15BHfLG/BngWUuD5riLpqTP+gbgM06Drr67XnY5N0CNvECEVFVXY9X1GVfQOfpA/Ok06ObTdb+vT869fSIvEPMqqIE+eZrSN2j5+sPt6m3dexdRHzrOS/zn691JuO1FTsfMRH3xqKuxCvqyL4bNrC87ToNurvq9fc4HVwhJgfrLm12NldeXf7l2Xn0zSfhwrEfxphVULuQZqAoqFyJDyukbYNCKNuEfhfqyUWAFVaekCpNCWfrib7bQoCIhdhSlL+F2oNOg1W3CP4D6ciNbQfmSgQJoSt/pRP3Bl8kfw8Y9kX3wJSgEj6b0TVRQvmQAmKb0nSwWqW0T/gEW+qTf1pldX+ZVJBzFi4QE4x/HztngVS3khdzr8GjQ6JB5CfL6c84Gr2ohB7CCyiKeQO0SAl5Bc0ODRoegLOXdU5BBk9Yp0KAiIQoEprMcfWkrvWhQkRB5QtNZkD5W0DEKSuAxxVdQmZWHNKhIiB2w+oTWbtOgIiF24OorsYIabF+Pm0AZEPRpzmscG/RjfEwMFi9YOGxsmDxsgw4n+gH0qc4MHxt0uO4lICYK4woaJg/aoCe3ShH05augCTHoIFwCJXFV0ECg9Q2hQUVC7GhKHw2aGmJHU/po0NQQO5rSR4OmhtjRlD4aNDXEjqb00aCpIXY0pW+OQXVXSab/9qYSqBZih5RBddeZz/jtTSVQLcQOVlCREDua0jfW8n4LVFcMOr7GUh82LoOuL/e79Q134S9X4DHUVwDOCrpavCvtDDxZjuJqbIH6TmhK32nL787+VZTA0wV97saWpu+UpvSNtHxzdbJzCrTAqAq6LU/fCU3p40R9akg6c/dqQtc3lwCDAu1xnoC/sab6Ul9B+gy4vtmwgoqEpMMK6oYGFQmxoyl9w5bj7XEej6ux1IePy6D17XF+DPUVgPNOUnV7nB9DfQUQUkHr2eP8GOorAM+tzsr6MAOoDx+O4kVCEhDaxAJWnxAIBh2mSvRFGKgJlNoGCFWfFAAGHaZq9s2VI2ATWHcFFdvkCMCgbVZQKTD1yW0Th2BQVTATKAeovqoqqCqgCRSjKX00aGrIFPqvrKFBPTHozE7gHI9leG8gDeqJQWduAud5jBV0LjSoLwTrxXIn0KCeGHSQEij9Ku4eJH0a0KAiIUHI3oH4BpA+FeYYFPzitwcpgayg8cwwaO5X26fRVALVQuxgBRUJycF4/a1H3zj5+6CZ35VURQL7z2yiB1uFPgfZDZr7bXM1JHD/mbGCsoImhyjj+Myq0OeA00wiIXYUr88ztUGDioRMo33BsNY3F9/kMI5BlTJpnED1LnfpBi2mgmpl0jqBgaqS5/Ct9WnjNOhq0V1ke/DfoIJm1eck/S5oGfomCBDtMmj/4P/y1S2wwAAcjUXSp1FBg/RZ3m0JOS1dBn1Utv7wK0ICk3E01kKf+O34mfps71fPraCP25uv/1zP1inHGOiTX9A0Vx/M/eqJD8bTB+0391nW8xqTAQb6clbQovI3derCjOK1aGqUqxaSgZQKugdwj/OIEb+/sYD6IsDSJ99hmFVBrfovMXOm1VSYCaD0KQy5Zq0HNRsBilZQiRA7sPRlrqC+Pc5hRoAOXNmobg/3AdXpG5mo31a1x/kx1FcA3ol66FtlAfgmsqkPm5AKWu1EPfVZEjYl7FssUlcfZgD1GRJ4U40T9SIhdpSrT6CChsSgU24Cw2hKHw2aGmJHU/po0NQQO4z15d3/lAZNDbHDVp/+zUQaVCTEDlZQTww6NKhEiB00qEiIHU3py2hQja0yR2kqgWohdhgZVGWz4VGaSqBaiB2soCIhdisPaVBPDDp5Emi3dpsG9cSgwwoaHQK1Dp0GFQmxQ14f1rsHaFCREDtYQT0x6NCgEiF20KAiISIk7e9XkL4kaFCREAnSdkgtR18aNKhIiAisoCPQoCIh88YVc+5a0KCeGHSyJHDezMys+740qCcGHVZQiRA7nAatbuuUAZH6oOYHnxDUB4nLoPVtnXJMpD6sOyxPyOnDxGXQ+rZOOSZWH6I/JfVBElJBQbdOCSOgwlAfMM4+KPTWKYG4Gkt9+HAULxJiR1P6xlvOPdyRaUofK2hqiB1N6aNBU0PsaEofJ+q9IXA0pY8T9b4QPJrSx4l6XwgeTenjRL0vBI+m9IVO1BeFQzz1FYDLoE58P4x+3Id1+6gvPka9ATmP+7BuH/XFx6g3IOdxH9bto774GPUG5Dzuw7p91Bcfo96AnMd9WLeP+uJj1BuQ87gP6/ZRX3yMegNyHvdh3T7qi48hxBQalEBDgxJoaFACDQ1KoKFBCTQ0KIGGBiXQhBl02XUfj78ZP7656roLV/x2e/fOdfzOEz9x/HkJ+UT7fFAfrL4gg65/uN6v0X7+ZuL43cXTmu7x4/2C2hGBz8dXb+6d8RPHt+vLV7eDPxQD9eHqCzJo/3s/XR9+M3G8Z+QUezm++fS3EYHPx0dPT//f3/z06/4MnDjug/pw9QUZdLkryzcfD7+ZOL4deV7r6PjduzENz8dv/r4YuwS8xK8WJ08zHP7Vifb5oD5cfdIG3RVpR/zuDHELPL93/v7l+fglIl8CqS+zPuFL/Oq7sRPk5RLQPxLluIT0jXNdYvpjy7Fe9jrTJZD6cuuTHSRN9OAPw8bOwOfjE2f4y/H+DB3r5zw9D648iKC+7Poippn6X+Kaptgdvxk/w17iXdMU/fG70fCX4zeOaQpH+3xQH6w+TtQTaGhQAg0NSqChQQk0NCiBhgYl0NCgBBoalEBDgxJoaFACDQ1KoKFBCTQ0KIGGBiXQ0KAEmv8DkQywUV0g6+gAAAAASUVORK5CYII=" alt="Three registered synthetic sections. Color denotes annotated source cell type." />
+<div class="figcaption">Three registered synthetic sections. Color
+denotes annotated source cell type.</div>
+</div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">par</span>(old)</span></code></pre></div>
+<p>A real input table must already contain registered coordinates and
+phenotypes or cell-type KDE values. ISPAT3D does not register serial
+sections, classify cells, or calculate KDE surfaces for arbitrary
+images. Those steps should be completed and checked before calling the
+network fitter.</p>
+</div>
+<div id="select-a-reproducible-roster" class="section level2">
+<h2>2. Select a reproducible roster</h2>
+<p><code>ispat3d_sample()</code> spreads selections over a 10-by-10
+in-plane grid and allocates each zone’s budget across sections according
+to available counts. The returned indices refer to rows of the original
+image and should be saved if another model will use the same cells.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>selected <span class="ot">&lt;-</span> <span class="fu">ispat3d_sample</span>(image<span class="sc">$</span>coords, image<span class="sc">$</span>zones, image<span class="sc">$</span>sections,</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>                           <span class="at">budget =</span> <span class="dv">36</span><span class="dt">L</span>, <span class="at">budget_kind =</span> <span class="st">&quot;per_zone&quot;</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>                           <span class="at">seed =</span> <span class="dv">2027</span><span class="dt">L</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">lengths</span>(selected)</span></code></pre></div>
+<pre><code>## High  Low 
+##   36   36</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>rows <span class="ot">&lt;-</span> <span class="fu">unlist</span>(selected, <span class="at">use.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">length</span>(rows) <span class="sc">==</span> <span class="dv">72</span><span class="dt">L</span>)</span></code></pre></div>
+<p>This 36-per-zone budget is only for the small demonstration. The
+manuscript’s CRC budgets are 50,000, 100,000, and 150,000 <strong>per
+zone</strong>; breast budgets are 25,000, 45,000, and 65,000
+<strong>total across all zones</strong>. For a breast-style budget, set
+<code>budget_kind = &quot;total&quot;</code>. To reproduce an analysis exactly,
+save <code>selected</code> with <code>saveRDS()</code> and reuse its
+indices.</p>
+</div>
+<div id="fit-the-volumetric-gp-and-factor-covariance" class="section level2">
+<h2>3. Fit the volumetric GP and factor covariance</h2>
+<p>The input <code>Y</code> has <strong>cells in rows and cell-type
+variables in columns</strong>. <code>coords</code> has the same row
+order and three columns <span class="math inline">\((x,y,z)\)</span>.
+The model fits a separate Matérn-3/2 GP for each variable and zone,
+using 15 Vecchia neighbors and spatially balanced anchors by default.
+The GP field is then predicted and subtracted at every selected cell.
+The adjusted rows produce a complete covariance matrix for each zone. A
+Gaussian-likelihood fit separates covariance shared across zones from
+zone-specific covariance and positive diagonal uniqueness.</p>
+<p>For this tiny example we use five neighbors, at most 24 anchors,
+three GP optimizer iterations, and rank two. These settings keep a
+vignette fast and are <strong>not</strong> the large-image settings
+reported in the manuscript.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>fit3d <span class="ot">&lt;-</span> <span class="fu">ispat3d_fit</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="at">Y =</span> image<span class="sc">$</span>Y[rows, , <span class="at">drop =</span> <span class="cn">FALSE</span>],</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="at">coords =</span> image<span class="sc">$</span>coords[rows, , <span class="at">drop =</span> <span class="cn">FALSE</span>],</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="at">zones =</span> image<span class="sc">$</span>zones[rows],</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="at">sections =</span> image<span class="sc">$</span>sections[rows],</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="at">rank =</span> <span class="dv">2</span><span class="dt">L</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="at">anchor_min =</span> <span class="dv">12</span><span class="dt">L</span>, <span class="at">anchor_max =</span> <span class="dv">24</span><span class="dt">L</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  <span class="at">neighbors =</span> <span class="dv">5</span><span class="dt">L</span>, <span class="at">gp_maxit =</span> <span class="dv">3</span><span class="dt">L</span>, <span class="at">factor_maxit =</span> <span class="dv">60</span><span class="dt">L</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>  <span class="at">threads =</span> <span class="dv">1</span><span class="dt">L</span>, <span class="at">return_residuals =</span> <span class="cn">TRUE</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>)</span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>fit3d<span class="sc">$</span>counts</span></code></pre></div>
+<pre><code>##  Low High 
+##   33   39</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">table</span>(fit3d<span class="sc">$</span>gp_log<span class="sc">$</span>status)</span></code></pre></div>
+<pre><code>## 
+## ok 
+##  6</code></pre>
+<p>Inspect <code>fit3d$gp_log</code> for each variable’s GP status,
+anchor count, fit time, and prediction time.
+<code>fit3d$covariances</code> contains sample covariances computed from
+<strong>all</strong> selected adjusted rows.
+<code>fit3d$residuals</code> is present because we requested it; omit
+<code>return_residuals = TRUE</code> if cell-level residuals are not
+needed.</p>
+</div>
+<div id="obtain-and-display-zone-networks" class="section level2">
+<h2>4. Obtain and display zone networks</h2>
+<p>The fitted decomposition is
+<code>Sigma_q = Phi Phi&#39; + Lambda_q Lambda_q&#39; + Psi_q</code>. A network
+is made from the inverse of the <strong>full</strong> fitted
+<code>Sigma_q</code>, not from the low-rank shared matrix alone.
+<code>ispat3d_partial_correlation()</code> performs that conversion, and
+<code>fit3d$partial</code> already contains the result for every
+zone.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">names</span>(fit3d<span class="sc">$</span>full)</span></code></pre></div>
+<pre><code>## [1] &quot;Low&quot;  &quot;High&quot;</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">round</span>(fit3d<span class="sc">$</span>shared, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##             Tumor T_cell Macrophage
+## Tumor       0.002 -0.029      0.010
+## T_cell     -0.029  0.455     -0.074
+## Macrophage  0.010 -0.074      0.125</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">round</span>(fit3d<span class="sc">$</span>partial[[<span class="st">&quot;High&quot;</span>]], <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##             Tumor T_cell Macrophage
+## Tumor       1.000 -0.347     -0.359
+## T_cell     -0.347  1.000     -0.104
+## Macrophage -0.359 -0.104      1.000</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>recomputed <span class="ot">&lt;-</span> <span class="fu">ispat3d_partial_correlation</span>(fit3d<span class="sc">$</span>full[[<span class="st">&quot;High&quot;</span>]])</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">isTRUE</span>(<span class="fu">all.equal</span>(recomputed, fit3d<span class="sc">$</span>partial[[<span class="st">&quot;High&quot;</span>]])))</span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="fu">ispat3d_edge_table</span>(fit3d, <span class="at">zone =</span> <span class="st">&quot;High&quot;</span>, <span class="at">threshold =</span> <span class="fl">0.02</span>)</span></code></pre></div>
+<pre><code>##     from         to partial_correlation     sign absolute_effect
+## 2  Tumor Macrophage          -0.3591541 negative       0.3591541
+## 1  Tumor     T_cell          -0.3468943 negative       0.3468943
+## 3 T_cell Macrophage          -0.1036543 negative       0.1036543</code></pre>
+<p><code>ispat3d_edge_table()</code> lists signed pairs and their
+absolute effects. The threshold here only controls which effects are
+<strong>shown</strong>; it does not calculate significance or control a
+false-discovery rate.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">ispat3d_plot_zones</span>(fit3d, <span class="at">threshold =</span> <span class="fl">0.02</span>, <span class="at">columns =</span> <span class="dv">2</span>,</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>                   <span class="at">label_cex =</span> <span class="fl">0.8</span>)</span></code></pre></div>
+<div class="float">
+<img src="data:image/png;base64,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" alt="Conditional cell-density association networks in two relative tumor-density zones." />
+<div class="figcaption">Conditional cell-density association networks in
+two relative tumor-density zones.</div>
+</div>
+<p>Red and blue lines represent positive and negative partial
+correlations. Edge width follows absolute magnitude. To draw one
+network, use
+<code>ispat3d_plot_network(fit3d, zone = &quot;High&quot;, threshold = 0.02)</code>.
+Both plotting functions use base R graphics; no graph package is
+required.</p>
+<p>A partial-correlation edge summarizes association between adjusted
+cell-type KDE variables conditional on the other measured variables. It
+does <strong>not</strong> establish direct cell contact, signaling,
+immune inhibition, or causation. Broad smooth biology can be removed by
+the GP along with technical background; results need scale sensitivity
+and independent biological validation.</p>
+</div>
+<div id="apply-the-same-path-to-a-processed-image" class="section level2">
+<h2>5. Apply the same path to a processed image</h2>
+<p>For a processed table, assemble a numeric KDE matrix, registered
+coordinates, relative tumor-burden zones, and section IDs in matching
+row order. For example:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="co"># dat has X, Y, Z, section, zone, kde_Tumor, kde_T_cell, kde_Macrophage.</span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>coords <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(dat[, <span class="fu">c</span>(<span class="st">&quot;X&quot;</span>, <span class="st">&quot;Y&quot;</span>, <span class="st">&quot;Z&quot;</span>)])</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>kde <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(dat[, <span class="fu">c</span>(<span class="st">&quot;kde_Tumor&quot;</span>, <span class="st">&quot;kde_T_cell&quot;</span>, <span class="st">&quot;kde_Macrophage&quot;</span>)])</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="fu">colnames</span>(kde) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Tumor&quot;</span>, <span class="st">&quot;T_cell&quot;</span>, <span class="st">&quot;Macrophage&quot;</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">log1p</span>(<span class="fl">1e9</span> <span class="sc">*</span> kde)</span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>selected <span class="ot">&lt;-</span> <span class="fu">ispat3d_sample</span>(coords, dat<span class="sc">$</span>zone, dat<span class="sc">$</span>section,</span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>                           <span class="at">budget =</span> <span class="dv">1000</span><span class="dt">L</span>, <span class="at">budget_kind =</span> <span class="st">&quot;per_zone&quot;</span>)</span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>rows <span class="ot">&lt;-</span> <span class="fu">unlist</span>(selected, <span class="at">use.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">ispat3d_fit</span>(Y[rows, , <span class="at">drop =</span> <span class="cn">FALSE</span>], coords[rows, , <span class="at">drop =</span> <span class="cn">FALSE</span>],</span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>                   dat<span class="sc">$</span>zone[rows], dat<span class="sc">$</span>section[rows], <span class="at">rank =</span> <span class="dv">2</span><span class="dt">L</span>)</span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a><span class="fu">ispat3d_plot_zones</span>(fit, <span class="at">threshold =</span> <span class="fl">0.05</span>)</span></code></pre></div>
+<p>The <a href="https://github.com/sagnikbhadury/ISPAT-3D#readme">package
+README</a> lists the exact processed CRC and breast input columns and
+the full application budgets.</p>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<p>Bhadury, S., Peruzzi, M., Acharyya, S., et al. (2026). “Informed
+spatially aware patterns for multiplexed immunofluorescence data.”
+<em>Scientific Reports</em> <strong>16</strong>, 5015. <a href="https://doi.org/10.1038/s41598-026-35341-8">doi:10.1038/s41598-026-35341-8</a>.</p>
+<p>Bhadury, S. and Rao, A. (2026). “Estimating Conditional Cell
+Population Associations Across Tumor Density Zones in Three Dimensional
+Tissue Images.” Manuscript submitted to <em>Scientific Reports</em>. The
+software accompanying this manuscript is archived at <a href="https://doi.org/10.5281/zenodo.22798429">doi:10.5281/zenodo.22798429</a>;
+this is a <strong>software DOI</strong>, not a publication DOI for the
+manuscript.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

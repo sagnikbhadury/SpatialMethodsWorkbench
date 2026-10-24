@@ -1,26 +1,41 @@
 Package: GPGHS
 Type: Package
-Title: Gaussian Process Group Horseshoe for Spatial Cell-Cell Interactions
-Version: 0.1.0
-Authors@R: person("Sagnik", "Bhadury", email = "bhadury@umich.edu", role = c("aut", "cre"))
-Description: Estimates spatially varying cell-cell interaction networks in
-    tissue imaging data. Each cell type's expression is regressed on every
-    other cell type via a Hilbert Space Gaussian Process (HSGP) basis
-    expansion with Matern smoothness, combined with a group horseshoe prior
-    across neighbors for edge sparsity and a global half-Cauchy shrinkage
-    parameter, fit via a Gibbs sampler. A faster backfitting-based
-    alternative (gp_node()) is also provided for exploratory use.
+Title: Spatially Varying Conditional-Dependence Networks with the Gaussian Process Group Horseshoe
+Version: 1.0.1
+Authors@R: c(
+    person("Sagnik", "Bhadury", email = "bhadury@upenn.edu", role = c("aut", "cre")),
+    person("Jeremy T.", "Gaskins", role = "aut"),
+    person("Arvind", "Rao", role = "aut"))
+Description: Estimates sparse conditional-dependence networks among p variables
+    observed at n locations of a tissue section, with an edge strength that is a
+    function of location. The variables can be the expression of genes at the spots
+    of a spatial transcriptomics array or the local abundances of cell types in a
+    multiplexed image. Each variable is regressed on the others with spatially
+    varying coefficients (neighborhood selection); every coefficient function is a
+    Hilbert space basis approximation to a Gaussian process with a Matern-3/2
+    covariance, and the amplitude of each function has a horseshoe prior with one
+    local scale shared by all basis coefficients of the function (the group
+    horseshoe of Xu et al. 2016). A predictor is selected when the shrinkage factor
+    of its group (Piironen and Vehtari 2017) is below one half, and the two
+    directed decisions of a pair are combined by the AND rule. The package also
+    provides the preprocessing used in the accompanying article (log-normalization,
+    Moran's I screen and Kruskal-Wallis ranking for genes; quadrat counts for cell
+    types), a simulator for spatially varying Gaussian graphical models, replication
+    summaries between networks, and plotting functions.
 License: MIT + file LICENSE
+URL: https://github.com/sagnikbhadury/GP-GHS
+BugReports: https://github.com/sagnikbhadury/GP-GHS/issues
 Encoding: UTF-8
-LazyData: true
+Depends: R (>= 4.1)
 Imports:
-    MASS,
     parallel,
     stats,
     graphics,
     grDevices
 Suggests:
     ggplot2,
-    tidyr,
-    reshape2
-RoxygenNote: 7.3.1
+    igraph,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)
+Config/roxygen2/version: 8.0.0

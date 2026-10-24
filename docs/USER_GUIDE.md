@@ -15,7 +15,7 @@ The Spatial Methods Workbench is a research application for guided analysis of s
 7. **Prediction requires honest validation.** Random held-out splits may be optimistic when neighboring observations, sections, fields of view, or repeated measures leak across folds. Use patient-level, slide-level, spatially blocked, temporal, or external validation as required by the design.
 8. **Imaging analyses require alignment.** Wide-image columns must represent the same registered pixels/voxels/features in the same order for every subject. Do not mix masks, resolutions, coordinate systems, or preprocessing versions.
 9. **Causal analyses require design assumptions.** Mediation output is model-based. Temporal ordering, consistency, positivity, correct specification, and control of exposure–mediator, exposure–outcome, and mediator–outcome confounding must be defended outside the app.
-10. **Advanced engines are compute intensive.** ISPat, GP–GHS, and ISPat 3D may exceed public-host memory, CPU, connection, or active-hour limits for real studies. Large analyses should run locally, on an institutional cluster, or on a controlled container/Posit Connect deployment.
+10. **Advanced engines are compute intensive.** ISPat 2D, GP–GHS, and ISPat 3D (ISPAT3D Vecchia GP fits and GPGHS MCMC) may exceed public-host memory, CPU, connection, or active-hour limits for real studies. Large analyses should run locally, on an institutional cluster, or on a controlled container/Posit Connect deployment.
 11. **Review all outputs.** Check convergence, sensitivity to tuning parameters, missing-data handling, uncertainty, multiplicity, robustness, and domain plausibility before reporting results.
 12. **Cite the software and method.** Acknowledgement is required before execution. Every download includes the workbench citation and applicable method/publication references.
 
@@ -61,7 +61,11 @@ Use one row per subject. Prefix aligned predictor-image columns with `input__` a
 
 ### ISPat 3D table
 
-Use one row per volumetric location/cell with x/y/z coordinates, a zone, a volume or spot ID, and multiple numeric markers. Serial sections must already be registered into a common 3D coordinate system. Validate section spacing, missing sections, tissue masks, orientation, and zone consistency before fitting.
+Use one row per volumetric location/cell with x/y/z coordinates, a zone, an optional section or volume ID, and multiple numeric markers. Serial sections must already be registered into a common 3D coordinate system with one spatial unit across the three axes. Validate section spacing, missing sections, tissue masks, orientation, and zone consistency before fitting. Every zone must contain more rows than the number of selected markers, and at least two zones are needed. When the mapped ID has at most one distinct value per ten rows it is used as the ISPAT3D section label for anchor balancing (and, in the 2D path, for the separate planar GP fits); otherwise rows are pooled into one section and the result says so.
+
+### ISPat 2D table
+
+Use one row per cell/location with x/y coordinates, a zone, an optional section or sample ID, and multiple numeric markers (for example log-transformed cell-type density values). The 2D path is the matched planar fit of the same ISPAT3D package: planar GPs are fitted separately within each zone-section group, so a section ID that groups cells by slide or field of view changes the adjustment.
 
 ## Pipeline requirements
 
@@ -69,9 +73,9 @@ Use one row per volumetric location/cell with x/y/z coordinates, a zone, a volum
 |---|---|---|
 | Spatial exploration and Moran's I | x, y, one numeric feature | Descriptive under a selected k-nearest-neighbor graph |
 | Region-aware conditional network | at least three numeric features; zone optional | Ridge exploratory network; edges are not causal |
-| ISPat 2D | x, y, zone, at least three markers, installed `ISPAT` | Bayesian/variational engine; intensive |
-| GP–GHS | x, y, at least three markers, installed `GPGHS` | MCMC/shrinkage settings and runtime require review |
-| ISPat 3D | x, y, z, zone, at least three markers, installed `ISPAT3D` | Registered volumetric data; intensive |
+| ISPat 2D | x, y, zone, at least three markers, installed `ISPAT3D` (>= 0.3.0) | Section-wise planar Vecchia GP adjustment plus covariance likelihood (`ispat3d_fit_2d`); every zone needs more rows than markers |
+| GP–GHS | x, y, at least three markers, installed `GPGHS` (>= 1.0.0) | MCMC/shrinkage settings and runtime require review |
+| ISPat 3D | x, y, z, zone, at least three markers, installed `ISPAT3D` (>= 0.3.0) | Registered volumetric data; pooled volumetric Vecchia GP adjustment (`ispat3d_fit`); intensive |
 | Spatial machine-learning prediction | outcome and at least three features | Random held-out split is exploratory |
 | Spatial phenotype clustering | x, y, at least three features | Cluster count and coordinate influence are user choices |
 | Shallow-neural prediction | outcome and at least three features | Binary classification or numeric regression; max 250 predictors |
@@ -116,7 +120,7 @@ cd SpatialMethodsWorkbench
 
 ### Install from a Zenodo release instead
 
-Download the newest source ZIP from the [Zenodo concept record](https://doi.org/10.5281/zenodo.21763606), extract it, and open a terminal in the extracted directory. The complete distribution includes the exact public ISPAT, GP-GHS, and ISPAT-3D package sources, so Zenodo users can run:
+Download the newest source ZIP from the [Zenodo concept record](https://doi.org/10.5281/zenodo.21763606), extract it, and open a terminal in the extracted directory. The complete distribution includes the exact CRAN ISPAT3D 0.3.1 source and the GPGHS 1.0.1 package source, so Zenodo users can run:
 
 ```text
 Rscript install-complete.R
@@ -126,7 +130,7 @@ Rscript tests/testthat.R
 
 Use `Rscript install-complete.R --include-related` to compile the bundled STCAR package and, on Linux, SBLF. SV-NN and the selected public AI/ML/deep-learning sources are archived under `vendor/reference-workflows` for reproducibility and attribution; they are not silently substituted for the explicitly labelled built-in screening and adaptation paths. See `vendor/manifest.json` for exact commits, licenses, retained scope, and role.
 
-The installer may obtain missing CRAN dependencies, but it does not clone the three direct advanced-engine repositories. A source archive cannot provide one portable compiled R library for Windows, macOS, and Linux.
+The installer may obtain missing CRAN dependencies (notably `gpboost`, the compiled dependency of ISPAT3D), but it does not clone the two direct advanced-engine repositories. A source archive cannot provide one portable compiled R library for Windows, macOS, and Linux.
 
 ### Install the interface and built-in workflow packages
 
@@ -144,12 +148,11 @@ install.packages(c(
 Run in R:
 
 ```r
-remotes::install_github("sagnikbhadury/GP-GHS", upgrade = "never")
-remotes::install_github("sagnikbhadury/ISPAT-3D", upgrade = "never")
-remotes::install_github("sagnikbhadury/ISPAT", upgrade = "never")
+install.packages("ISPAT3D")                                   # CRAN, 0.3.1 or newer; installs gpboost
+remotes::install_github("sagnikbhadury/GP-GHS", upgrade = "never")   # GPGHS 1.0.1 or newer
 ```
 
-These install `GPGHS`, `ISPAT3D`, and `ISPAT` plus their declared dependencies. ISPAT uses Stan; a first source installation or model compilation can take substantial time. Keep R, compiler, Stan, and package versions fixed for a formal analysis.
+These install `ISPAT3D` (which serves both the ISPat 2D and ISPat 3D paths) and `GPGHS` plus their declared dependencies. `gpboost` is compiled C++; use the CRAN binary for your R release where one exists. Keep R, compiler, and package versions fixed for a formal analysis. The historical standalone `ISPAT` package is no longer used by the Workbench.
 
 ### Verify the installation
 
@@ -163,9 +166,8 @@ In R:
 
 ```r
 stopifnot(
-  requireNamespace("ISPAT", quietly = TRUE),
-  requireNamespace("ISPAT3D", quietly = TRUE),
-  requireNamespace("GPGHS", quietly = TRUE)
+  packageVersion("ISPAT3D") >= "0.3.0",
+  packageVersion("GPGHS") >= "1.0.0"
 )
 ```
 

@@ -14,24 +14,36 @@ required <- c(
 missing <- required[!file.exists(file.path(root, required))]
 if (length(missing)) stop("Release files missing: ", paste(missing, collapse = ", "))
 
+release_version <- "0.4.0"
 description <- read.dcf(file.path(root, "DESCRIPTION"))[1, ]
 manifest <- jsonlite::fromJSON(file.path(root, "vendor", "manifest.json"))
 stopifnot(
-  identical(unname(description[["Version"]]), "0.3.1"),
-  identical(manifest$workbench_release, "0.3.1"),
-  nrow(manifest$sources) == 9L,
-  length(unique(manifest$sources$commit)) == 9L,
+  identical(unname(description[["Version"]]), release_version),
+  identical(manifest$workbench_release, release_version),
+  nrow(manifest$sources) == 8L,
+  length(unique(manifest$sources$commit)) == 8L,
   all(nchar(manifest$sources$commit) == 40L)
 )
 
-engine_paths <- c(
-  ISPAT = "vendor/engines/ISPAT",
-  GPGHS = "vendor/engines/GP-GHS",
-  ISPAT3D = "vendor/engines/ISPAT-3D"
+engines <- list(
+  GPGHS = list(path = "vendor/engines/GP-GHS", source = "GP-GHS", minimum = "1.0.0"),
+  ISPAT3D = list(path = "vendor/engines/ISPAT-3D", source = "ISPAT-3D", minimum = "0.3.0")
 )
-for (package_name in names(engine_paths)) {
-  fields <- read.dcf(file.path(root, engine_paths[[package_name]], "DESCRIPTION"))[1, ]
+for (package_name in names(engines)) {
+  engine <- engines[[package_name]]
+  fields <- read.dcf(file.path(root, engine$path, "DESCRIPTION"))[1, ]
   stopifnot(identical(unname(fields[["Package"]]), package_name))
+  version <- unname(fields[["Version"]])
+  if (package_version(version) < engine$minimum) {
+    stop(sprintf("Bundled %s is version %s; the Workbench requires >= %s", package_name, version, engine$minimum))
+  }
+  recorded <- manifest$sources$version[manifest$sources$name == engine$source]
+  if (!identical(recorded, version)) {
+    stop(sprintf("vendor/manifest.json records %s version %s but the bundled DESCRIPTION says %s", engine$source, recorded, version))
+  }
+}
+if ("ISPAT" %in% manifest$sources$name || dir.exists(file.path(root, "vendor", "engines", "ISPAT"))) {
+  stop("The retired standalone ISPAT package must not be bundled; the 2D path uses ISPAT3D::ispat3d_fit_2d")
 }
 
 vendor_files <- list.files(file.path(root, "vendor"), recursive = TRUE, all.files = TRUE)
@@ -50,6 +62,7 @@ cat(
   "Release audit passed:\n",
   "  Workbench version: ", description[["Version"]], "\n",
   "  Registered public sources: ", nrow(manifest$sources), "\n",
+  "  Bundled engines: ", paste(sprintf("%s %s", names(engines), vapply(engines, function(e) read.dcf(file.path(root, e$path, "DESCRIPTION"))[1, "Version"], character(1))), collapse = ", "), "\n",
   "  Vendor files: ", nrow(info), "\n",
   "  Vendor size (MiB): ", sprintf("%.2f", sum(info$size, na.rm = TRUE) / 1024^2), "\n",
   sep = ""

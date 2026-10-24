@@ -1,0 +1,2679 @@
+x,y,type
+152,329,granulocytes
+160,541,granulocytes
+385,22,granulocytes
+474,910,granulocytes
+490,1260,granulocytes
+480,930,granulocytes
+506,934,granulocytes
+555,311,granulocytes
+569,86,granulocytes
+652,1267,granulocytes
+965,664,granulocytes
+980,516,granulocytes
+995,1334,granulocytes
+1082,287,granulocytes
+1130,1296,granulocytes
+1314,282,granulocytes
+183,579,vasculature
+256,1174,vasculature
+363,1346,vasculature
+428,604,vasculature
+420,1226,vasculature
+431,1079,vasculature
+454,601,vasculature
+457,836,vasculature
+457,854,vasculature
+454,888,vasculature
+466,522,vasculature
+456,573,vasculature
+456,581,vasculature
+458,499,vasculature
+471,960,vasculature
+465,532,vasculature
+467,875,vasculature
+453,1395,vasculature
+465,851,vasculature
+481,498,vasculature
+463,937,vasculature
+485,465,vasculature
+481,844,vasculature
+488,474,vasculature
+468,1402,vasculature
+481,1103,vasculature
+498,862,vasculature
+494,880,vasculature
+499,900,vasculature
+513,1077,vasculature
+512,887,vasculature
+519,1378,vasculature
+541,855,vasculature
+536,1066,vasculature
+550,907,vasculature
+578,920,vasculature
+597,921,vasculature
+610,1338,vasculature
+620,921,vasculature
+636,1323,vasculature
+665,1308,vasculature
+701,437,vasculature
+689,1294,vasculature
+702,1287,vasculature
+757,1300,vasculature
+764,1208,vasculature
+778,1272,vasculature
+791,1240,vasculature
+808,1228,vasculature
+842,1277,vasculature
+864,1181,vasculature
+858,1099,vasculature
+867,1253,vasculature
+867,1272,vasculature
+860,1138,vasculature
+904,189,vasculature
+911,201,vasculature
+912,172,vasculature
+900,1011,vasculature
+913,1247,vasculature
+923,1116,vasculature
+921,1087,vasculature
+965,768,vasculature
+1026,1162,vasculature
+1032,791,vasculature
+1056,1115,vasculature
+1112,458,vasculature
+1107,446,vasculature
+1115,406,vasculature
+1116,421,vasculature
+1122,520,vasculature
+1121,486,vasculature
+1135,496,vasculature
+1139,453,vasculature
+1130,379,vasculature
+1134,478,vasculature
+1152,314,vasculature
+1150,283,vasculature
+1147,423,vasculature
+1162,254,vasculature
+1207,433,vasculature
+1228,493,vasculature
+1284,218,vasculature
+1294,927,vasculature
+1312,227,vasculature
+1367,180,vasculature
+1345,1311,vasculature
+1396,1430,vasculature
+1431,686,vasculature
+1440,324,vasculature
+1435,418,vasculature
+1448,636,vasculature
+1463,291,vasculature
+1510,657,vasculature
+1522,242,vasculature
+56,755,memory CD4+ T
+80,615,memory CD4+ T
+81,394,memory CD4+ T
+82,835,memory CD4+ T
+84,756,memory CD4+ T
+88,655,memory CD4+ T
+96,531,memory CD4+ T
+105,447,memory CD4+ T
+94,950,memory CD4+ T
+105,602,memory CD4+ T
+99,682,memory CD4+ T
+119,454,memory CD4+ T
+119,471,memory CD4+ T
+108,888,memory CD4+ T
+110,552,memory CD4+ T
+123,348,memory CD4+ T
+103,823,memory CD4+ T
+116,414,memory CD4+ T
+137,311,memory CD4+ T
+130,442,memory CD4+ T
+135,261,memory CD4+ T
+146,197,memory CD4+ T
+126,958,memory CD4+ T
+130,824,memory CD4+ T
+142,355,memory CD4+ T
+148,380,memory CD4+ T
+127,854,memory CD4+ T
+156,255,memory CD4+ T
+157,178,memory CD4+ T
+141,787,memory CD4+ T
+148,827,memory CD4+ T
+155,282,memory CD4+ T
+143,891,memory CD4+ T
+146,1089,memory CD4+ T
+167,321,memory CD4+ T
+157,874,memory CD4+ T
+169,396,memory CD4+ T
+171,824,memory CD4+ T
+173,1027,memory CD4+ T
+166,992,memory CD4+ T
+190,651,memory CD4+ T
+184,767,memory CD4+ T
+193,241,memory CD4+ T
+196,271,memory CD4+ T
+201,252,memory CD4+ T
+196,509,memory CD4+ T
+201,474,memory CD4+ T
+185,864,memory CD4+ T
+196,819,memory CD4+ T
+204,333,memory CD4+ T
+207,150,memory CD4+ T
+195,800,memory CD4+ T
+209,317,memory CD4+ T
+204,451,memory CD4+ T
+213,231,memory CD4+ T
+191,1009,memory CD4+ T
+210,584,memory CD4+ T
+212,373,memory CD4+ T
+205,998,memory CD4+ T
+212,533,memory CD4+ T
+215,801,memory CD4+ T
+222,297,memory CD4+ T
+225,114,memory CD4+ T
+199,1105,memory CD4+ T
+212,902,memory CD4+ T
+210,938,memory CD4+ T
+193,1212,memory CD4+ T
+211,515,memory CD4+ T
+226,541,memory CD4+ T
+226,600,memory CD4+ T
+226,625,memory CD4+ T
+211,921,memory CD4+ T
+243,199,memory CD4+ T
+244,234,memory CD4+ T
+235,281,memory CD4+ T
+242,290,memory CD4+ T
+245,325,memory CD4+ T
+236,522,memory CD4+ T
+235,665,memory CD4+ T
+245,685,memory CD4+ T
+236,753,memory CD4+ T
+253,220,memory CD4+ T
+256,260,memory CD4+ T
+240,695,memory CD4+ T
+262,240,memory CD4+ T
+236,1032,memory CD4+ T
+263,117,memory CD4+ T
+258,340,memory CD4+ T
+267,98,memory CD4+ T
+254,501,memory CD4+ T
+252,737,memory CD4+ T
+268,310,memory CD4+ T
+266,251,memory CD4+ T
+271,460,memory CD4+ T
+272,273,memory CD4+ T
+262,700,memory CD4+ T
+262,761,memory CD4+ T
+270,582,memory CD4+ T
+280,136,memory CD4+ T
+267,652,memory CD4+ T
+264,1095,memory CD4+ T
+258,1287,memory CD4+ T
+277,658,memory CD4+ T
+286,274,memory CD4+ T
+286,382,memory CD4+ T
+295,165,memory CD4+ T
+268,1163,memory CD4+ T
+299,215,memory CD4+ T
+288,641,memory CD4+ T
+291,392,memory CD4+ T
+307,154,memory CD4+ T
+308,89,memory CD4+ T
+309,277,memory CD4+ T
+305,407,memory CD4+ T
+311,600,memory CD4+ T
+317,73,memory CD4+ T
+312,910,memory CD4+ T
+291,1271,memory CD4+ T
+323,223,memory CD4+ T
+318,555,memory CD4+ T
+323,283,memory CD4+ T
+333,44,memory CD4+ T
+321,400,memory CD4+ T
+323,614,memory CD4+ T
+344,0,memory CD4+ T
+346,73,memory CD4+ T
+346,149,memory CD4+ T
+340,434,memory CD4+ T
+329,1193,memory CD4+ T
+341,614,memory CD4+ T
+344,239,memory CD4+ T
+319,1325,memory CD4+ T
+343,746,memory CD4+ T
+344,803,memory CD4+ T
+364,90,memory CD4+ T
+364,173,memory CD4+ T
+362,398,memory CD4+ T
+368,62,memory CD4+ T
+352,902,memory CD4+ T
+369,148,memory CD4+ T
+368,228,memory CD4+ T
+365,662,memory CD4+ T
+359,600,memory CD4+ T
+376,380,memory CD4+ T
+382,181,memory CD4+ T
+385,401,memory CD4+ T
+366,1090,memory CD4+ T
+390,68,memory CD4+ T
+393,158,memory CD4+ T
+379,895,memory CD4+ T
+368,761,memory CD4+ T
+391,594,memory CD4+ T
+380,1237,memory CD4+ T
+397,198,memory CD4+ T
+391,715,memory CD4+ T
+404,114,memory CD4+ T
+391,815,memory CD4+ T
+368,918,memory CD4+ T
+368,1361,memory CD4+ T
+406,368,memory CD4+ T
+412,30,memory CD4+ T
+397,748,memory CD4+ T
+417,121,memory CD4+ T
+418,52,memory CD4+ T
+402,505,memory CD4+ T
+419,0,memory CD4+ T
+403,942,memory CD4+ T
+422,352,memory CD4+ T
+426,237,memory CD4+ T
+402,1249,memory CD4+ T
+432,20,memory CD4+ T
+420,587,memory CD4+ T
+435,5,memory CD4+ T
+424,318,memory CD4+ T
+429,631,memory CD4+ T
+443,549,memory CD4+ T
+434,1324,memory CD4+ T
+465,71,memory CD4+ T
+459,230,memory CD4+ T
+470,23,memory CD4+ T
+475,240,memory CD4+ T
+479,34,memory CD4+ T
+468,676,memory CD4+ T
+478,289,memory CD4+ T
+483,444,memory CD4+ T
+478,657,memory CD4+ T
+484,682,memory CD4+ T
+492,21,memory CD4+ T
+466,1391,memory CD4+ T
+506,191,memory CD4+ T
+505,151,memory CD4+ T
+489,792,memory CD4+ T
+511,25,memory CD4+ T
+477,1250,memory CD4+ T
+513,120,memory CD4+ T
+516,87,memory CD4+ T
+507,679,memory CD4+ T
+522,2,memory CD4+ T
+517,429,memory CD4+ T
+524,39,memory CD4+ T
+523,79,memory CD4+ T
+497,1294,memory CD4+ T
+495,1171,memory CD4+ T
+532,55,memory CD4+ T
+538,34,memory CD4+ T
+542,78,memory CD4+ T
+514,1163,memory CD4+ T
+528,490,memory CD4+ T
+515,1325,memory CD4+ T
+549,65,memory CD4+ T
+547,354,memory CD4+ T
+542,698,memory CD4+ T
+542,737,memory CD4+ T
+554,0,memory CD4+ T
+533,1246,memory CD4+ T
+546,1252,memory CD4+ T
+547,1260,memory CD4+ T
+564,544,memory CD4+ T
+578,431,memory CD4+ T
+575,516,memory CD4+ T
+578,587,memory CD4+ T
+552,1354,memory CD4+ T
+590,710,memory CD4+ T
+586,658,memory CD4+ T
+597,735,memory CD4+ T
+597,994,memory CD4+ T
+612,345,memory CD4+ T
+593,1189,memory CD4+ T
+600,611,memory CD4+ T
+622,277,memory CD4+ T
+613,732,memory CD4+ T
+622,305,memory CD4+ T
+615,260,memory CD4+ T
+629,331,memory CD4+ T
+605,1293,memory CD4+ T
+633,343,memory CD4+ T
+624,474,memory CD4+ T
+632,719,memory CD4+ T
+621,420,memory CD4+ T
+633,461,memory CD4+ T
+626,972,memory CD4+ T
+608,989,memory CD4+ T
+619,1312,memory CD4+ T
+628,736,memory CD4+ T
+633,609,memory CD4+ T
+637,875,memory CD4+ T
+633,780,memory CD4+ T
+641,753,memory CD4+ T
+645,384,memory CD4+ T
+651,531,memory CD4+ T
+652,483,memory CD4+ T
+662,514,memory CD4+ T
+646,771,memory CD4+ T
+654,774,memory CD4+ T
+664,749,memory CD4+ T
+668,493,memory CD4+ T
+675,280,memory CD4+ T
+656,1411,memory CD4+ T
+686,258,memory CD4+ T
+680,794,memory CD4+ T
+677,692,memory CD4+ T
+679,885,memory CD4+ T
+698,304,memory CD4+ T
+693,244,memory CD4+ T
+696,1179,memory CD4+ T
+713,233,memory CD4+ T
+711,501,memory CD4+ T
+723,218,memory CD4+ T
+714,378,memory CD4+ T
+716,741,memory CD4+ T
+713,1261,memory CD4+ T
+724,380,memory CD4+ T
+747,209,memory CD4+ T
+736,927,memory CD4+ T
+737,1119,memory CD4+ T
+758,304,memory CD4+ T
+759,516,memory CD4+ T
+758,506,memory CD4+ T
+738,1398,memory CD4+ T
+777,292,memory CD4+ T
+773,242,memory CD4+ T
+779,328,memory CD4+ T
+770,496,memory CD4+ T
+820,315,memory CD4+ T
+820,719,memory CD4+ T
+816,599,memory CD4+ T
+836,337,memory CD4+ T
+825,1199,memory CD4+ T
+849,67,memory CD4+ T
+842,618,memory CD4+ T
+844,686,memory CD4+ T
+853,472,memory CD4+ T
+853,607,memory CD4+ T
+853,624,memory CD4+ T
+863,419,memory CD4+ T
+854,1193,memory CD4+ T
+874,536,memory CD4+ T
+874,605,memory CD4+ T
+868,559,memory CD4+ T
+887,101,memory CD4+ T
+879,787,memory CD4+ T
+877,720,memory CD4+ T
+882,507,memory CD4+ T
+908,23,memory CD4+ T
+908,104,memory CD4+ T
+901,311,memory CD4+ T
+881,992,memory CD4+ T
+896,605,memory CD4+ T
+898,660,memory CD4+ T
+893,876,memory CD4+ T
+899,631,memory CD4+ T
+923,143,memory CD4+ T
+901,1385,memory CD4+ T
+932,801,memory CD4+ T
+930,1065,memory CD4+ T
+934,1095,memory CD4+ T
+943,781,memory CD4+ T
+928,1279,memory CD4+ T
+961,562,memory CD4+ T
+971,563,memory CD4+ T
+973,241,memory CD4+ T
+968,583,memory CD4+ T
+971,786,memory CD4+ T
+970,854,memory CD4+ T
+981,230,memory CD4+ T
+975,596,memory CD4+ T
+997,172,memory CD4+ T
+981,728,memory CD4+ T
+992,876,memory CD4+ T
+985,1227,memory CD4+ T
+995,774,memory CD4+ T
+1005,709,memory CD4+ T
+1031,218,memory CD4+ T
+1029,666,memory CD4+ T
+1034,709,memory CD4+ T
+1049,92,memory CD4+ T
+1041,585,memory CD4+ T
+1061,24,memory CD4+ T
+1036,1310,memory CD4+ T
+1062,411,memory CD4+ T
+1060,709,memory CD4+ T
+1064,341,memory CD4+ T
+1069,558,memory CD4+ T
+1064,633,memory CD4+ T
+1070,716,memory CD4+ T
+1086,224,memory CD4+ T
+1086,262,memory CD4+ T
+1091,347,memory CD4+ T
+1081,647,memory CD4+ T
+1098,511,memory CD4+ T
+1091,700,memory CD4+ T
+1095,614,memory CD4+ T
+1106,159,memory CD4+ T
+1112,142,memory CD4+ T
+1104,577,memory CD4+ T
+1104,694,memory CD4+ T
+1115,535,memory CD4+ T
+1126,498,memory CD4+ T
+1136,109,memory CD4+ T
+1141,210,memory CD4+ T
+1148,42,memory CD4+ T
+1206,89,memory CD4+ T
+1209,231,memory CD4+ T
+1221,297,memory CD4+ T
+1223,284,memory CD4+ T
+1223,468,memory CD4+ T
+1235,0,memory CD4+ T
+1231,180,memory CD4+ T
+1234,64,memory CD4+ T
+1247,229,memory CD4+ T
+1255,274,memory CD4+ T
+1288,294,memory CD4+ T
+1302,123,memory CD4+ T
+1319,259,memory CD4+ T
+1306,493,memory CD4+ T
+1322,681,memory CD4+ T
+1332,285,memory CD4+ T
+1365,231,memory CD4+ T
+1443,527,memory CD4+ T
+1537,535,memory CD4+ T
+90,372,tumor cells
+112,514,tumor cells
+153,1035,tumor cells
+188,353,tumor cells
+190,904,tumor cells
+178,1064,tumor cells
+223,129,tumor cells
+218,563,tumor cells
+242,721,tumor cells
+248,795,tumor cells
+236,1171,tumor cells
+269,747,tumor cells
+263,1244,tumor cells
+296,550,tumor cells
+333,196,tumor cells
+324,841,tumor cells
+346,518,tumor cells
+353,553,tumor cells
+357,495,tumor cells
+372,416,tumor cells
+395,1257,tumor cells
+426,372,tumor cells
+421,1093,tumor cells
+444,369,tumor cells
+459,404,tumor cells
+477,579,tumor cells
+490,371,tumor cells
+491,319,tumor cells
+505,409,tumor cells
+515,177,tumor cells
+512,462,tumor cells
+524,162,tumor cells
+533,278,tumor cells
+527,954,tumor cells
+565,378,tumor cells
+565,1066,tumor cells
+576,60,tumor cells
+578,156,tumor cells
+553,1044,tumor cells
+586,147,tumor cells
+593,274,tumor cells
+586,636,tumor cells
+585,931,tumor cells
+604,17,tumor cells
+599,901,tumor cells
+605,970,tumor cells
+628,937,tumor cells
+629,1274,tumor cells
+694,211,tumor cells
+687,1217,tumor cells
+759,805,tumor cells
+801,462,tumor cells
+807,425,tumor cells
+798,809,tumor cells
+817,118,tumor cells
+813,650,tumor cells
+832,0,tumor cells
+843,163,tumor cells
+838,538,tumor cells
+837,968,tumor cells
+848,1159,tumor cells
+849,499,tumor cells
+828,1051,tumor cells
+852,956,tumor cells
+873,508,tumor cells
+853,1363,tumor cells
+890,394,tumor cells
+892,290,tumor cells
+882,771,tumor cells
+894,781,tumor cells
+896,808,tumor cells
+895,760,tumor cells
+910,562,tumor cells
+896,1113,tumor cells
+928,564,tumor cells
+931,723,tumor cells
+932,491,tumor cells
+921,652,tumor cells
+955,268,tumor cells
+966,197,tumor cells
+952,459,tumor cells
+949,1359,tumor cells
+968,1230,tumor cells
+975,951,tumor cells
+1004,812,tumor cells
+1021,1191,tumor cells
+1043,558,tumor cells
+1059,665,tumor cells
+1052,544,tumor cells
+1080,517,tumor cells
+1078,458,tumor cells
+1088,599,tumor cells
+1074,692,tumor cells
+1090,656,tumor cells
+1112,251,tumor cells
+1135,244,tumor cells
+1121,1268,tumor cells
+1215,58,tumor cells
+1366,203,tumor cells
+1373,383,tumor cells
+1447,399,tumor cells
+1481,466,tumor cells
+1513,429,tumor cells
+1626,780,tumor cells
+158,587,stroma
+233,712,stroma
+274,632,stroma
+381,478,stroma
+380,439,stroma
+420,488,stroma
+466,1313,stroma
+494,932,stroma
+594,396,stroma
+652,213,stroma
+669,775,stroma
+791,1059,stroma
+824,491,stroma
+841,767,stroma
+849,527,stroma
+852,489,stroma
+911,1125,stroma
+963,428,stroma
+953,873,stroma
+953,928,stroma
+970,907,stroma
+1040,631,stroma
+1125,468,stroma
+1133,433,stroma
+1198,244,stroma
+1305,454,stroma
+1343,256,stroma
+1402,905,stroma
+1697,562,stroma
+117,603,CD163+ macros
+136,230,CD163+ macros
+152,711,CD163+ macros
+168,550,CD163+ macros
+186,1173,CD163+ macros
+260,1182,CD163+ macros
+290,427,CD163+ macros
+313,200,CD163+ macros
+361,14,CD163+ macros
+393,1304,CD163+ macros
+421,16,CD163+ macros
+415,415,CD163+ macros
+423,413,CD163+ macros
+441,59,CD163+ macros
+440,750,CD163+ macros
+467,739,CD163+ macros
+486,409,CD163+ macros
+490,804,CD163+ macros
+482,1295,CD163+ macros
+506,739,CD163+ macros
+514,344,CD163+ macros
+508,811,CD163+ macros
+509,1263,CD163+ macros
+514,1343,CD163+ macros
+572,0,CD163+ macros
+576,10,CD163+ macros
+565,1255,CD163+ macros
+577,1021,CD163+ macros
+638,402,CD163+ macros
+667,247,CD163+ macros
+658,873,CD163+ macros
+674,296,CD163+ macros
+681,225,CD163+ macros
+708,389,CD163+ macros
+698,1270,CD163+ macros
+762,196,CD163+ macros
+761,460,CD163+ macros
+766,227,CD163+ macros
+754,1180,CD163+ macros
+770,1320,CD163+ macros
+784,563,CD163+ macros
+795,321,CD163+ macros
+796,528,CD163+ macros
+781,1232,CD163+ macros
+808,180,CD163+ macros
+801,979,CD163+ macros
+818,147,CD163+ macros
+844,0,CD163+ macros
+853,416,CD163+ macros
+853,435,CD163+ macros
+856,913,CD163+ macros
+869,106,CD163+ macros
+876,64,CD163+ macros
+864,1331,CD163+ macros
+885,444,CD163+ macros
+889,313,CD163+ macros
+908,241,CD163+ macros
+915,41,CD163+ macros
+900,701,CD163+ macros
+912,756,CD163+ macros
+924,237,CD163+ macros
+914,887,CD163+ macros
+945,171,CD163+ macros
+929,969,CD163+ macros
+929,1011,CD163+ macros
+943,356,CD163+ macros
+945,557,CD163+ macros
+947,217,CD163+ macros
+954,194,CD163+ macros
+927,1372,CD163+ macros
+963,338,CD163+ macros
+953,990,CD163+ macros
+963,482,CD163+ macros
+966,741,CD163+ macros
+971,616,CD163+ macros
+971,795,CD163+ macros
+967,648,CD163+ macros
+986,190,CD163+ macros
+975,497,CD163+ macros
+990,600,CD163+ macros
+999,594,CD163+ macros
+1006,74,CD163+ macros
+1002,407,CD163+ macros
+1012,445,CD163+ macros
+1018,435,CD163+ macros
+1030,7,CD163+ macros
+1048,495,CD163+ macros
+1063,92,CD163+ macros
+1072,374,CD163+ macros
+1069,572,CD163+ macros
+1082,244,CD163+ macros
+1093,95,CD163+ macros
+1087,437,CD163+ macros
+1087,567,CD163+ macros
+1084,1234,CD163+ macros
+1095,547,CD163+ macros
+1104,313,CD163+ macros
+1114,17,CD163+ macros
+1101,598,CD163+ macros
+1105,666,CD163+ macros
+1094,1233,CD163+ macros
+1121,129,CD163+ macros
+1092,749,CD163+ macros
+1124,17,CD163+ macros
+1102,1212,CD163+ macros
+1125,312,CD163+ macros
+1198,1183,CD163+ macros
+1222,124,CD163+ macros
+1230,245,CD163+ macros
+1271,86,CD163+ macros
+1273,112,CD163+ macros
+1280,93,CD163+ macros
+1321,631,CD163+ macros
+1318,1383,CD163+ macros
+1347,440,CD163+ macros
+1371,507,CD163+ macros
+1373,527,CD163+ macros
+1365,1184,CD163+ macros
+1379,232,CD163+ macros
+1384,208,CD163+ macros
+1385,546,CD163+ macros
+1418,275,CD163+ macros
+1440,275,CD163+ macros
+1487,606,CD163+ macros
+1498,594,CD163+ macros
+1509,513,CD163+ macros
+1515,474,CD163+ macros
+1534,840,CD163+ macros
+1607,1011,CD163+ macros
+1635,586,CD163+ macros
+523,516,adipocytes
+776,939,adipocytes
+1410,241,adipocytes
+1597,499,adipocytes
+1598,512,adipocytes
+214,1207,plasma cells
+278,1201,plasma cells
+307,444,plasma cells
+332,479,plasma cells
+355,1196,plasma cells
+468,378,plasma cells
+494,286,plasma cells
+536,387,plasma cells
+550,417,plasma cells
+566,355,plasma cells
+570,317,plasma cells
+629,1423,plasma cells
+778,177,plasma cells
+815,1434,plasma cells
+861,1201,plasma cells
+885,739,plasma cells
+875,1067,plasma cells
+935,94,plasma cells
+936,74,plasma cells
+928,366,plasma cells
+951,52,plasma cells
+962,539,plasma cells
+956,968,plasma cells
+950,1010,plasma cells
+1009,105,plasma cells
+1012,120,plasma cells
+976,1428,plasma cells
+1048,104,plasma cells
+1032,1405,plasma cells
+1087,190,plasma cells
+1092,170,plasma cells
+1125,209,plasma cells
+1137,391,plasma cells
+1129,1286,plasma cells
+1125,684,plasma cells
+1149,1338,plasma cells
+1160,1275,plasma cells
+1169,1313,plasma cells
+1219,310,plasma cells
+1202,1215,plasma cells
+1229,447,plasma cells
+1243,450,plasma cells
+1225,1184,plasma cells
+1280,659,plasma cells
+1290,657,plasma cells
+1301,471,plasma cells
+1309,303,plasma cells
+1319,422,plasma cells
+1320,586,plasma cells
+1318,837,plasma cells
+1351,397,plasma cells
+1412,314,plasma cells
+1406,623,plasma cells
+78,494,CD8+ T cells
+68,730,CD8+ T cells
+103,340,CD8+ T cells
+104,929,CD8+ T cells
+115,942,CD8+ T cells
+151,440,CD8+ T cells
+142,976,CD8+ T cells
+168,126,CD8+ T cells
+171,155,CD8+ T cells
+172,537,CD8+ T cells
+186,430,CD8+ T cells
+200,111,CD8+ T cells
+187,667,CD8+ T cells
+185,469,CD8+ T cells
+209,608,CD8+ T cells
+195,1083,CD8+ T cells
+198,958,CD8+ T cells
+234,318,CD8+ T cells
+234,569,CD8+ T cells
+219,1152,CD8+ T cells
+233,482,CD8+ T cells
+261,621,CD8+ T cells
+289,439,CD8+ T cells
+305,54,CD8+ T cells
+311,1315,CD8+ T cells
+324,738,CD8+ T cells
+348,116,CD8+ T cells
+365,482,CD8+ T cells
+383,117,CD8+ T cells
+383,140,CD8+ T cells
+382,1151,CD8+ T cells
+409,393,CD8+ T cells
+417,385,CD8+ T cells
+434,155,CD8+ T cells
+445,334,CD8+ T cells
+429,1245,CD8+ T cells
+441,1373,CD8+ T cells
+444,1254,CD8+ T cells
+470,98,CD8+ T cells
+469,318,CD8+ T cells
+490,127,CD8+ T cells
+489,92,CD8+ T cells
+546,50,CD8+ T cells
+515,1197,CD8+ T cells
+548,396,CD8+ T cells
+547,628,CD8+ T cells
+551,637,CD8+ T cells
+585,329,CD8+ T cells
+587,477,CD8+ T cells
+572,1034,CD8+ T cells
+601,316,CD8+ T cells
+608,357,CD8+ T cells
+612,774,CD8+ T cells
+633,374,CD8+ T cells
+620,896,CD8+ T cells
+644,419,CD8+ T cells
+639,907,CD8+ T cells
+653,281,CD8+ T cells
+658,420,CD8+ T cells
+660,353,CD8+ T cells
+669,630,CD8+ T cells
+677,963,CD8+ T cells
+689,604,CD8+ T cells
+676,1147,CD8+ T cells
+723,248,CD8+ T cells
+730,263,CD8+ T cells
+725,1212,CD8+ T cells
+743,1263,CD8+ T cells
+742,1042,CD8+ T cells
+756,343,CD8+ T cells
+756,406,CD8+ T cells
+754,427,CD8+ T cells
+751,1025,CD8+ T cells
+731,1299,CD8+ T cells
+777,448,CD8+ T cells
+780,425,CD8+ T cells
+797,148,CD8+ T cells
+805,134,CD8+ T cells
+799,377,CD8+ T cells
+786,1195,CD8+ T cells
+806,199,CD8+ T cells
+816,134,CD8+ T cells
+812,1253,CD8+ T cells
+803,1418,CD8+ T cells
+833,562,CD8+ T cells
+847,40,CD8+ T cells
+837,1209,CD8+ T cells
+832,1243,CD8+ T cells
+864,592,CD8+ T cells
+879,75,CD8+ T cells
+865,852,CD8+ T cells
+883,486,CD8+ T cells
+893,556,CD8+ T cells
+908,90,CD8+ T cells
+893,681,CD8+ T cells
+906,400,CD8+ T cells
+893,956,CD8+ T cells
+915,75,CD8+ T cells
+918,289,CD8+ T cells
+913,576,CD8+ T cells
+918,553,CD8+ T cells
+896,1250,CD8+ T cells
+925,378,CD8+ T cells
+937,596,CD8+ T cells
+952,0,CD8+ T cells
+955,9,CD8+ T cells
+950,291,CD8+ T cells
+966,70,CD8+ T cells
+968,283,CD8+ T cells
+973,306,CD8+ T cells
+977,0,CD8+ T cells
+980,23,CD8+ T cells
+974,363,CD8+ T cells
+981,267,CD8+ T cells
+972,940,CD8+ T cells
+991,380,CD8+ T cells
+987,892,CD8+ T cells
+997,388,CD8+ T cells
+995,345,CD8+ T cells
+1004,269,CD8+ T cells
+1000,566,CD8+ T cells
+1008,241,CD8+ T cells
+1021,70,CD8+ T cells
+1012,397,CD8+ T cells
+1027,482,CD8+ T cells
+1030,296,CD8+ T cells
+1029,297,CD8+ T cells
+1010,682,CD8+ T cells
+1016,616,CD8+ T cells
+1039,100,CD8+ T cells
+1039,256,CD8+ T cells
+1041,35,CD8+ T cells
+1047,413,CD8+ T cells
+1056,161,CD8+ T cells
+1053,286,CD8+ T cells
+1069,117,CD8+ T cells
+1067,178,CD8+ T cells
+1080,6,CD8+ T cells
+1080,205,CD8+ T cells
+1094,53,CD8+ T cells
+1087,331,CD8+ T cells
+1094,124,CD8+ T cells
+1117,0,CD8+ T cells
+1114,177,CD8+ T cells
+1116,88,CD8+ T cells
+1148,1298,CD8+ T cells
+1235,140,CD8+ T cells
+1238,216,CD8+ T cells
+1271,209,CD8+ T cells
+1277,466,CD8+ T cells
+1291,421,CD8+ T cells
+1336,303,CD8+ T cells
+1543,518,CD8+ T cells
+180,1124,NA
+257,514,NA
+279,559,NA
+358,242,NA
+359,470,NA
+385,359,NA
+398,358,NA
+433,923,NA
+469,984,NA
+561,889,NA
+670,236,NA
+669,1065,NA
+782,169,NA
+1108,298,NA
+1444,289,NA
+96,739,Tregs
+112,733,Tregs
+153,1000,Tregs
+252,673,Tregs
+338,1109,Tregs
+391,256,Tregs
+408,0,Tregs
+399,522,Tregs
+415,1314,Tregs
+496,666,Tregs
+689,500,Tregs
+770,364,Tregs
+821,47,Tregs
+1070,481,Tregs
+20,1018,CD4+ T cells
+52,687,CD4+ T cells
+63,807,CD4+ T cells
+64,669,CD4+ T cells
+78,509,CD4+ T cells
+71,598,CD4+ T cells
+68,644,CD4+ T cells
+75,549,CD4+ T cells
+81,415,CD4+ T cells
+79,824,CD4+ T cells
+91,568,CD4+ T cells
+70,790,CD4+ T cells
+81,694,CD4+ T cells
+70,847,CD4+ T cells
+90,644,CD4+ T cells
+92,708,CD4+ T cells
+84,589,CD4+ T cells
+93,515,CD4+ T cells
+96,556,CD4+ T cells
+99,411,CD4+ T cells
+86,720,CD4+ T cells
+104,359,CD4+ T cells
+97,628,CD4+ T cells
+104,428,CD4+ T cells
+104,576,CD4+ T cells
+111,486,CD4+ T cells
+107,767,CD4+ T cells
+109,646,CD4+ T cells
+109,749,CD4+ T cells
+103,467,CD4+ T cells
+119,386,CD4+ T cells
+115,431,CD4+ T cells
+112,375,CD4+ T cells
+121,508,CD4+ T cells
+106,844,CD4+ T cells
+105,989,CD4+ T cells
+114,875,CD4+ T cells
+115,990,CD4+ T cells
+127,266,CD4+ T cells
+123,715,CD4+ T cells
+128,403,CD4+ T cells
+125,539,CD4+ T cells
+133,467,CD4+ T cells
+131,576,CD4+ T cells
+137,421,CD4+ T cells
+114,1003,CD4+ T cells
+135,390,CD4+ T cells
+128,1025,CD4+ T cells
+130,771,CD4+ T cells
+143,476,CD4+ T cells
+147,501,CD4+ T cells
+138,847,CD4+ T cells
+145,406,CD4+ T cells
+148,422,CD4+ T cells
+134,745,CD4+ T cells
+139,732,CD4+ T cells
+149,560,CD4+ T cells
+140,458,CD4+ T cells
+139,873,CD4+ T cells
+139,926,CD4+ T cells
+142,907,CD4+ T cells
+163,194,CD4+ T cells
+147,946,CD4+ T cells
+163,247,CD4+ T cells
+156,698,CD4+ T cells
+139,1021,CD4+ T cells
+159,360,CD4+ T cells
+154,774,CD4+ T cells
+154,788,CD4+ T cells
+160,509,CD4+ T cells
+154,797,CD4+ T cells
+142,1064,CD4+ T cells
+152,761,CD4+ T cells
+154,860,CD4+ T cells
+157,1014,CD4+ T cells
+167,735,CD4+ T cells
+168,633,CD4+ T cells
+155,675,CD4+ T cells
+174,208,CD4+ T cells
+170,663,CD4+ T cells
+165,424,CD4+ T cells
+159,840,CD4+ T cells
+166,441,CD4+ T cells
+170,804,CD4+ T cells
+180,141,CD4+ T cells
+168,753,CD4+ T cells
+159,1084,CD4+ T cells
+175,245,CD4+ T cells
+160,1060,CD4+ T cells
+177,265,CD4+ T cells
+166,686,CD4+ T cells
+180,308,CD4+ T cells
+165,471,CD4+ T cells
+166,744,CD4+ T cells
+162,929,CD4+ T cells
+180,412,CD4+ T cells
+162,973,CD4+ T cells
+179,780,CD4+ T cells
+184,195,CD4+ T cells
+185,108,CD4+ T cells
+186,180,CD4+ T cells
+180,505,CD4+ T cells
+174,761,CD4+ T cells
+165,770,CD4+ T cells
+178,680,CD4+ T cells
+165,886,CD4+ T cells
+178,700,CD4+ T cells
+174,865,CD4+ T cells
+189,213,CD4+ T cells
+178,843,CD4+ T cells
+171,1003,CD4+ T cells
+175,949,CD4+ T cells
+177,1081,CD4+ T cells
+192,488,CD4+ T cells
+190,749,CD4+ T cells
+187,693,CD4+ T cells
+186,736,CD4+ T cells
+193,323,CD4+ T cells
+191,401,CD4+ T cells
+194,367,CD4+ T cells
+201,427,CD4+ T cells
+198,414,CD4+ T cells
+182,892,CD4+ T cells
+196,1026,CD4+ T cells
+210,214,CD4+ T cells
+202,293,CD4+ T cells
+200,676,CD4+ T cells
+213,279,CD4+ T cells
+211,134,CD4+ T cells
+199,639,CD4+ T cells
+209,753,CD4+ T cells
+210,497,CD4+ T cells
+193,846,CD4+ T cells
+212,329,CD4+ T cells
+219,185,CD4+ T cells
+205,1020,CD4+ T cells
+221,154,CD4+ T cells
+205,1071,CD4+ T cells
+205,1123,CD4+ T cells
+217,247,CD4+ T cells
+218,177,CD4+ T cells
+208,644,CD4+ T cells
+213,669,CD4+ T cells
+223,268,CD4+ T cells
+203,699,CD4+ T cells
+208,885,CD4+ T cells
+226,200,CD4+ T cells
+202,784,CD4+ T cells
+234,144,CD4+ T cells
+211,701,CD4+ T cells
+232,215,CD4+ T cells
+231,245,CD4+ T cells
+216,1082,CD4+ T cells
+222,728,CD4+ T cells
+227,333,CD4+ T cells
+241,40,CD4+ T cells
+231,502,CD4+ T cells
+223,743,CD4+ T cells
+223,761,CD4+ T cells
+230,446,CD4+ T cells
+219,1139,CD4+ T cells
+219,1196,CD4+ T cells
+245,147,CD4+ T cells
+237,460,CD4+ T cells
+250,59,CD4+ T cells
+241,502,CD4+ T cells
+235,638,CD4+ T cells
+228,1122,CD4+ T cells
+238,944,CD4+ T cells
+248,429,CD4+ T cells
+240,599,CD4+ T cells
+250,446,CD4+ T cells
+247,871,CD4+ T cells
+251,572,CD4+ T cells
+240,1013,CD4+ T cells
+268,73,CD4+ T cells
+260,489,CD4+ T cells
+248,1098,CD4+ T cells
+246,1137,CD4+ T cells
+263,606,CD4+ T cells
+264,559,CD4+ T cells
+269,1128,CD4+ T cells
+270,440,CD4+ T cells
+280,89,CD4+ T cells
+278,111,CD4+ T cells
+282,19,CD4+ T cells
+252,1039,CD4+ T cells
+281,174,CD4+ T cells
+278,504,CD4+ T cells
+286,60,CD4+ T cells
+283,203,CD4+ T cells
+265,1144,CD4+ T cells
+283,283,CD4+ T cells
+281,522,CD4+ T cells
+287,314,CD4+ T cells
+286,592,CD4+ T cells
+296,183,CD4+ T cells
+299,69,CD4+ T cells
+292,259,CD4+ T cells
+294,619,CD4+ T cells
+291,658,CD4+ T cells
+300,304,CD4+ T cells
+289,716,CD4+ T cells
+304,582,CD4+ T cells
+312,129,CD4+ T cells
+300,837,CD4+ T cells
+284,1291,CD4+ T cells
+290,1084,CD4+ T cells
+311,522,CD4+ T cells
+322,150,CD4+ T cells
+298,1310,CD4+ T cells
+329,13,CD4+ T cells
+330,0,CD4+ T cells
+331,65,CD4+ T cells
+319,389,CD4+ T cells
+323,265,CD4+ T cells
+327,160,CD4+ T cells
+337,28,CD4+ T cells
+302,1280,CD4+ T cells
+324,330,CD4+ T cells
+323,436,CD4+ T cells
+328,632,CD4+ T cells
+337,254,CD4+ T cells
+335,400,CD4+ T cells
+331,313,CD4+ T cells
+336,221,CD4+ T cells
+327,580,CD4+ T cells
+309,1147,CD4+ T cells
+335,1178,CD4+ T cells
+338,563,CD4+ T cells
+346,53,CD4+ T cells
+341,588,CD4+ T cells
+348,172,CD4+ T cells
+347,294,CD4+ T cells
+327,1150,CD4+ T cells
+357,127,CD4+ T cells
+353,570,CD4+ T cells
+359,109,CD4+ T cells
+357,830,CD4+ T cells
+356,748,CD4+ T cells
+369,29,CD4+ T cells
+367,159,CD4+ T cells
+375,119,CD4+ T cells
+345,1330,CD4+ T cells
+382,45,CD4+ T cells
+383,190,CD4+ T cells
+376,566,CD4+ T cells
+386,95,CD4+ T cells
+378,713,CD4+ T cells
+366,1289,CD4+ T cells
+398,125,CD4+ T cells
+404,255,CD4+ T cells
+404,339,CD4+ T cells
+402,224,CD4+ T cells
+399,170,CD4+ T cells
+371,1311,CD4+ T cells
+414,95,CD4+ T cells
+406,555,CD4+ T cells
+413,259,CD4+ T cells
+410,237,CD4+ T cells
+417,144,CD4+ T cells
+419,171,CD4+ T cells
+419,303,CD4+ T cells
+405,1062,CD4+ T cells
+427,299,CD4+ T cells
+433,169,CD4+ T cells
+397,1371,CD4+ T cells
+436,185,CD4+ T cells
+410,1389,CD4+ T cells
+436,323,CD4+ T cells
+438,345,CD4+ T cells
+444,229,CD4+ T cells
+444,311,CD4+ T cells
+458,95,CD4+ T cells
+441,1338,CD4+ T cells
+457,329,CD4+ T cells
+463,300,CD4+ T cells
+466,261,CD4+ T cells
+472,406,CD4+ T cells
+451,1149,CD4+ T cells
+471,1238,CD4+ T cells
+454,1323,CD4+ T cells
+493,68,CD4+ T cells
+489,251,CD4+ T cells
+478,1198,CD4+ T cells
+504,2,CD4+ T cells
+494,148,CD4+ T cells
+508,46,CD4+ T cells
+508,245,CD4+ T cells
+487,1330,CD4+ T cells
+512,106,CD4+ T cells
+498,1252,CD4+ T cells
+479,1334,CD4+ T cells
+520,10,CD4+ T cells
+493,1314,CD4+ T cells
+517,682,CD4+ T cells
+505,1383,CD4+ T cells
+532,430,CD4+ T cells
+522,1395,CD4+ T cells
+537,1181,CD4+ T cells
+564,474,CD4+ T cells
+556,1335,CD4+ T cells
+569,1085,CD4+ T cells
+566,1362,CD4+ T cells
+590,338,CD4+ T cells
+594,695,CD4+ T cells
+579,1334,CD4+ T cells
+597,508,CD4+ T cells
+577,1299,CD4+ T cells
+590,1251,CD4+ T cells
+590,1298,CD4+ T cells
+589,1357,CD4+ T cells
+603,696,CD4+ T cells
+613,450,CD4+ T cells
+604,1324,CD4+ T cells
+597,1214,CD4+ T cells
+617,485,CD4+ T cells
+627,317,CD4+ T cells
+614,1268,CD4+ T cells
+622,1266,CD4+ T cells
+646,436,CD4+ T cells
+654,471,CD4+ T cells
+636,1115,CD4+ T cells
+649,346,CD4+ T cells
+659,327,CD4+ T cells
+651,460,CD4+ T cells
+659,452,CD4+ T cells
+636,1205,CD4+ T cells
+662,370,CD4+ T cells
+642,1263,CD4+ T cells
+644,1302,CD4+ T cells
+636,1308,CD4+ T cells
+671,265,CD4+ T cells
+673,620,CD4+ T cells
+676,404,CD4+ T cells
+683,728,CD4+ T cells
+691,356,CD4+ T cells
+699,280,CD4+ T cells
+696,377,CD4+ T cells
+682,1281,CD4+ T cells
+696,1075,CD4+ T cells
+703,244,CD4+ T cells
+711,261,CD4+ T cells
+712,417,CD4+ T cells
+713,511,CD4+ T cells
+698,1039,CD4+ T cells
+716,407,CD4+ T cells
+695,1310,CD4+ T cells
+731,320,CD4+ T cells
+726,274,CD4+ T cells
+725,415,CD4+ T cells
+709,1181,CD4+ T cells
+731,446,CD4+ T cells
+744,288,CD4+ T cells
+742,253,CD4+ T cells
+742,280,CD4+ T cells
+737,378,CD4+ T cells
+744,441,CD4+ T cells
+746,355,CD4+ T cells
+759,260,CD4+ T cells
+753,381,CD4+ T cells
+761,312,CD4+ T cells
+764,269,CD4+ T cells
+772,341,CD4+ T cells
+760,1393,CD4+ T cells
+782,380,CD4+ T cells
+762,1286,CD4+ T cells
+781,461,CD4+ T cells
+786,407,CD4+ T cells
+789,198,CD4+ T cells
+796,285,CD4+ T cells
+775,1116,CD4+ T cells
+795,242,CD4+ T cells
+774,1195,CD4+ T cells
+781,1216,CD4+ T cells
+797,341,CD4+ T cells
+808,262,CD4+ T cells
+801,362,CD4+ T cells
+796,1150,CD4+ T cells
+793,1122,CD4+ T cells
+813,517,CD4+ T cells
+798,1204,CD4+ T cells
+810,1167,CD4+ T cells
+830,100,CD4+ T cells
+819,613,CD4+ T cells
+818,298,CD4+ T cells
+833,84,CD4+ T cells
+835,298,CD4+ T cells
+837,306,CD4+ T cells
+837,602,CD4+ T cells
+848,120,CD4+ T cells
+833,833,CD4+ T cells
+858,92,CD4+ T cells
+830,985,CD4+ T cells
+850,564,CD4+ T cells
+859,393,CD4+ T cells
+859,879,CD4+ T cells
+868,304,CD4+ T cells
+864,925,CD4+ T cells
+874,625,CD4+ T cells
+878,412,CD4+ T cells
+872,339,CD4+ T cells
+862,1071,CD4+ T cells
+878,526,CD4+ T cells
+860,888,CD4+ T cells
+879,878,CD4+ T cells
+861,866,CD4+ T cells
+873,1086,CD4+ T cells
+881,807,CD4+ T cells
+884,1012,CD4+ T cells
+884,1055,CD4+ T cells
+869,1044,CD4+ T cells
+893,503,CD4+ T cells
+886,935,CD4+ T cells
+905,145,CD4+ T cells
+904,334,CD4+ T cells
+892,900,CD4+ T cells
+903,529,CD4+ T cells
+905,424,CD4+ T cells
+917,338,CD4+ T cells
+896,917,CD4+ T cells
+912,618,CD4+ T cells
+901,855,CD4+ T cells
+901,1221,CD4+ T cells
+913,778,CD4+ T cells
+932,34,CD4+ T cells
+930,318,CD4+ T cells
+917,826,CD4+ T cells
+922,349,CD4+ T cells
+927,303,CD4+ T cells
+919,697,CD4+ T cells
+914,1103,CD4+ T cells
+915,708,CD4+ T cells
+936,539,CD4+ T cells
+922,1078,CD4+ T cells
+938,240,CD4+ T cells
+942,315,CD4+ T cells
+935,706,CD4+ T cells
+933,677,CD4+ T cells
+919,989,CD4+ T cells
+933,832,CD4+ T cells
+949,106,CD4+ T cells
+943,259,CD4+ T cells
+958,27,CD4+ T cells
+945,675,CD4+ T cells
+953,438,CD4+ T cells
+956,368,CD4+ T cells
+959,315,CD4+ T cells
+949,773,CD4+ T cells
+956,832,CD4+ T cells
+969,178,CD4+ T cells
+967,404,CD4+ T cells
+964,353,CD4+ T cells
+963,959,CD4+ T cells
+964,633,CD4+ T cells
+969,1036,CD4+ T cells
+964,725,CD4+ T cells
+974,661,CD4+ T cells
+972,706,CD4+ T cells
+973,817,CD4+ T cells
+975,687,CD4+ T cells
+981,408,CD4+ T cells
+998,198,CD4+ T cells
+993,585,CD4+ T cells
+1002,22,CD4+ T cells
+998,622,CD4+ T cells
+1008,44,CD4+ T cells
+996,608,CD4+ T cells
+1007,291,CD4+ T cells
+1013,353,CD4+ T cells
+1022,41,CD4+ T cells
+1014,525,CD4+ T cells
+1008,763,CD4+ T cells
+1030,79,CD4+ T cells
+1028,181,CD4+ T cells
+1030,338,CD4+ T cells
+1029,403,CD4+ T cells
+1020,737,CD4+ T cells
+1028,686,CD4+ T cells
+1031,601,CD4+ T cells
+1043,377,CD4+ T cells
+1047,331,CD4+ T cells
+1048,431,CD4+ T cells
+1041,746,CD4+ T cells
+1044,467,CD4+ T cells
+1052,323,CD4+ T cells
+1051,761,CD4+ T cells
+1058,246,CD4+ T cells
+1049,751,CD4+ T cells
+1068,191,CD4+ T cells
+1060,447,CD4+ T cells
+1069,303,CD4+ T cells
+1060,618,CD4+ T cells
+1068,495,CD4+ T cells
+1070,591,CD4+ T cells
+1090,80,CD4+ T cells
+1095,13,CD4+ T cells
+1081,402,CD4+ T cells
+1091,465,CD4+ T cells
+1104,39,CD4+ T cells
+1097,392,CD4+ T cells
+1112,387,CD4+ T cells
+1127,281,CD4+ T cells
+1130,88,CD4+ T cells
+1134,56,CD4+ T cells
+1122,799,CD4+ T cells
+1135,200,CD4+ T cells
+1142,143,CD4+ T cells
+1137,185,CD4+ T cells
+1132,338,CD4+ T cells
+1137,266,CD4+ T cells
+1142,297,CD4+ T cells
+1141,358,CD4+ T cells
+1147,333,CD4+ T cells
+1149,400,CD4+ T cells
+1147,444,CD4+ T cells
+1158,298,CD4+ T cells
+1162,232,CD4+ T cells
+1160,270,CD4+ T cells
+1168,182,CD4+ T cells
+1167,220,CD4+ T cells
+1213,105,CD4+ T cells
+1218,153,CD4+ T cells
+1225,92,CD4+ T cells
+1233,48,CD4+ T cells
+1240,421,CD4+ T cells
+1256,75,CD4+ T cells
+1253,325,CD4+ T cells
+1265,120,CD4+ T cells
+1267,169,CD4+ T cells
+1336,189,CD4+ T cells
+1439,215,CD4+ T cells
+1452,340,CD4+ T cells
+349,374,CD68+ macros
+397,460,CD68+ macros
+433,471,CD68+ macros
+472,334,CD68+ macros
+68,702,B cells
+92,880,B cells
+118,901,B cells
+151,519,B cells
+170,294,B cells
+174,365,B cells
+190,932,B cells
+197,860,B cells
+202,597,B cells
+194,834,B cells
+194,949,B cells
+215,1033,B cells
+215,1103,B cells
+202,978,B cells
+216,1052,B cells
+221,958,B cells
+223,817,B cells
+224,587,B cells
+222,986,B cells
+225,914,B cells
+229,846,B cells
+225,1087,B cells
+220,783,B cells
+243,779,B cells
+238,809,B cells
+238,857,B cells
+230,1223,B cells
+237,879,B cells
+234,1139,B cells
+244,918,B cells
+241,829,B cells
+242,970,B cells
+259,37,B cells
+246,746,B cells
+246,910,B cells
+248,1064,B cells
+253,1002,B cells
+269,871,B cells
+256,858,B cells
+263,948,B cells
+265,778,B cells
+257,1074,B cells
+255,1233,B cells
+260,840,B cells
+262,967,B cells
+267,808,B cells
+259,936,B cells
+268,794,B cells
+258,886,B cells
+258,918,B cells
+266,827,B cells
+258,982,B cells
+278,701,B cells
+274,975,B cells
+274,1005,B cells
+276,857,B cells
+274,1078,B cells
+276,917,B cells
+258,1268,B cells
+266,1044,B cells
+279,731,B cells
+277,799,B cells
+273,929,B cells
+279,772,B cells
+273,1055,B cells
+277,952,B cells
+277,1031,B cells
+288,786,B cells
+281,839,B cells
+286,820,B cells
+295,766,B cells
+288,1006,B cells
+294,937,B cells
+294,1054,B cells
+298,802,B cells
+298,862,B cells
+296,889,B cells
+295,923,B cells
+283,901,B cells
+301,698,B cells
+303,771,B cells
+298,1003,B cells
+283,1039,B cells
+291,1020,B cells
+311,702,B cells
+310,654,B cells
+301,968,B cells
+283,1172,B cells
+299,1298,B cells
+308,629,B cells
+311,1017,B cells
+308,718,B cells
+306,753,B cells
+308,807,B cells
+308,823,B cells
+302,1034,B cells
+305,667,B cells
+307,935,B cells
+305,682,B cells
+309,787,B cells
+316,881,B cells
+314,735,B cells
+309,975,B cells
+317,504,B cells
+307,1059,B cells
+307,1126,B cells
+314,958,B cells
+305,850,B cells
+326,1017,B cells
+321,997,B cells
+323,677,B cells
+335,871,B cells
+329,787,B cells
+324,752,B cells
+331,1055,B cells
+320,662,B cells
+327,902,B cells
+324,926,B cells
+328,952,B cells
+320,868,B cells
+333,1126,B cells
+316,1179,B cells
+341,656,B cells
+338,824,B cells
+340,671,B cells
+324,1067,B cells
+330,703,B cells
+330,712,B cells
+320,1038,B cells
+330,824,B cells
+320,1225,B cells
+350,423,B cells
+320,1270,B cells
+347,690,B cells
+347,730,B cells
+345,776,B cells
+344,840,B cells
+350,673,B cells
+347,985,B cells
+350,877,B cells
+339,999,B cells
+339,1072,B cells
+338,1160,B cells
+350,956,B cells
+357,887,B cells
+344,972,B cells
+345,910,B cells
+344,1018,B cells
+345,932,B cells
+348,861,B cells
+341,1298,B cells
+352,711,B cells
+361,1045,B cells
+354,792,B cells
+356,1297,B cells
+345,1221,B cells
+348,1140,B cells
+348,1166,B cells
+345,1269,B cells
+354,966,B cells
+352,1318,B cells
+349,1046,B cells
+360,822,B cells
+365,686,B cells
+365,732,B cells
+359,647,B cells
+355,923,B cells
+369,612,B cells
+375,524,B cells
+362,978,B cells
+372,999,B cells
+378,662,B cells
+366,1007,B cells
+363,1016,B cells
+380,638,B cells
+372,1138,B cells
+381,629,B cells
+380,702,B cells
+386,619,B cells
+368,552,B cells
+368,626,B cells
+367,1181,B cells
+363,1140,B cells
+386,858,B cells
+366,1161,B cells
+369,1259,B cells
+381,1075,B cells
+381,1226,B cells
+386,1126,B cells
+387,873,B cells
+383,775,B cells
+374,850,B cells
+384,924,B cells
+374,1040,B cells
+391,673,B cells
+387,1051,B cells
+384,1023,B cells
+370,953,B cells
+370,967,B cells
+395,832,B cells
+392,656,B cells
+374,1339,B cells
+391,1165,B cells
+393,1094,B cells
+395,1146,B cells
+401,775,B cells
+394,961,B cells
+392,1000,B cells
+394,1193,B cells
+392,1267,B cells
+404,870,B cells
+399,608,B cells
+402,661,B cells
+407,798,B cells
+403,1008,B cells
+407,888,B cells
+398,990,B cells
+410,641,B cells
+411,709,B cells
+396,1184,B cells
+403,1333,B cells
+416,724,B cells
+398,1027,B cells
+414,749,B cells
+413,1183,B cells
+409,1271,B cells
+400,1343,B cells
+397,1229,B cells
+423,504,B cells
+423,541,B cells
+422,908,B cells
+423,964,B cells
+412,1022,B cells
+408,1119,B cells
+426,1001,B cells
+428,521,B cells
+419,614,B cells
+420,786,B cells
+423,1204,B cells
+433,566,B cells
+425,647,B cells
+429,774,B cells
+429,838,B cells
+424,863,B cells
+421,1047,B cells
+421,1146,B cells
+421,1160,B cells
+435,692,B cells
+431,484,B cells
+443,641,B cells
+424,1032,B cells
+424,1066,B cells
+421,1276,B cells
+424,1132,B cells
+420,1255,B cells
+422,1371,B cells
+428,894,B cells
+428,952,B cells
+437,728,B cells
+437,826,B cells
+430,1350,B cells
+446,815,B cells
+447,654,B cells
+448,719,B cells
+446,1011,B cells
+436,1200,B cells
+446,1294,B cells
+435,1161,B cells
+447,918,B cells
+431,1307,B cells
+447,963,B cells
+453,460,B cells
+440,940,B cells
+453,677,B cells
+450,1108,B cells
+460,1030,B cells
+471,621,B cells
+460,1195,B cells
+456,710,B cells
+455,1293,B cells
+471,1039,B cells
+456,948,B cells
+463,618,B cells
+454,1140,B cells
+467,645,B cells
+461,1015,B cells
+454,1306,B cells
+454,1357,B cells
+462,784,B cells
+459,1336,B cells
+458,1060,B cells
+464,1255,B cells
+470,1266,B cells
+452,1173,B cells
+452,1275,B cells
+472,1282,B cells
+473,1127,B cells
+484,611,B cells
+473,1136,B cells
+473,1174,B cells
+466,1162,B cells
+480,557,B cells
+481,625,B cells
+474,1351,B cells
+468,1206,B cells
+484,1044,B cells
+489,551,B cells
+486,770,B cells
+490,1128,B cells
+490,1192,B cells
+498,509,B cells
+493,586,B cells
+481,1149,B cells
+480,721,B cells
+497,524,B cells
+498,632,B cells
+489,1119,B cells
+491,1234,B cells
+511,366,B cells
+510,515,B cells
+511,535,B cells
+499,350,B cells
+489,1397,B cells
+503,609,B cells
+498,1217,B cells
+502,563,B cells
+493,1004,B cells
+495,610,B cells
+493,1035,B cells
+510,651,B cells
+509,507,B cells
+501,970,B cells
+511,1101,B cells
+510,1059,B cells
+494,728,B cells
+505,1171,B cells
+520,381,B cells
+506,1116,B cells
+515,450,B cells
+514,591,B cells
+501,1184,B cells
+517,704,B cells
+521,499,B cells
+521,549,B cells
+521,570,B cells
+514,772,B cells
+520,612,B cells
+515,632,B cells
+503,1275,B cells
+520,754,B cells
+492,1348,B cells
+513,1010,B cells
+524,588,B cells
+527,627,B cells
+517,1293,B cells
+519,1145,B cells
+521,986,B cells
+538,448,B cells
+530,481,B cells
+530,524,B cells
+538,537,B cells
+538,560,B cells
+532,657,B cells
+525,1179,B cells
+539,508,B cells
+527,1054,B cells
+525,1234,B cells
+537,642,B cells
+538,614,B cells
+533,940,B cells
+533,1032,B cells
+536,994,B cells
+532,1103,B cells
+550,492,B cells
+546,582,B cells
+534,1290,B cells
+531,963,B cells
+533,1317,B cells
+540,771,B cells
+540,797,B cells
+546,755,B cells
+551,563,B cells
+547,810,B cells
+556,507,B cells
+535,1133,B cells
+538,1212,B cells
+535,1271,B cells
+556,794,B cells
+563,405,B cells
+551,1100,B cells
+550,834,B cells
+569,459,B cells
+569,486,B cells
+545,1142,B cells
+545,1156,B cells
+547,1129,B cells
+564,446,B cells
+556,977,B cells
+560,771,B cells
+544,1014,B cells
+564,495,B cells
+571,601,B cells
+553,601,B cells
+559,567,B cells
+571,652,B cells
+566,713,B cells
+566,732,B cells
+558,529,B cells
+554,1191,B cells
+550,1315,B cells
+578,32,B cells
+560,954,B cells
+553,725,B cells
+569,813,B cells
+544,1295,B cells
+573,754,B cells
+562,627,B cells
+570,799,B cells
+559,1225,B cells
+567,1186,B cells
+569,1095,B cells
+578,571,B cells
+576,535,B cells
+572,698,B cells
+579,684,B cells
+578,732,B cells
+569,1204,B cells
+563,1122,B cells
+552,1276,B cells
+578,1160,B cells
+558,1245,B cells
+564,1301,B cells
+580,861,B cells
+574,940,B cells
+587,557,B cells
+590,621,B cells
+575,1114,B cells
+562,1165,B cells
+589,532,B cells
+587,766,B cells
+584,758,B cells
+562,1276,B cells
+579,1237,B cells
+581,827,B cells
+587,979,B cells
+577,1224,B cells
+590,954,B cells
+589,1109,B cells
+580,1073,B cells
+603,453,B cells
+585,1322,B cells
+592,820,B cells
+588,1207,B cells
+586,1096,B cells
+586,1134,B cells
+572,1263,B cells
+606,467,B cells
+597,971,B cells
+607,332,B cells
+599,586,B cells
+597,1032,B cells
+597,1098,B cells
+602,837,B cells
+604,746,B cells
+595,855,B cells
+610,542,B cells
+599,786,B cells
+605,675,B cells
+604,1180,B cells
+603,1240,B cells
+618,412,B cells
+606,883,B cells
+619,513,B cells
+600,664,B cells
+618,581,B cells
+612,504,B cells
+595,1268,B cells
+619,601,B cells
+591,1051,B cells
+591,1059,B cells
+620,558,B cells
+606,1154,B cells
+620,625,B cells
+600,1050,B cells
+609,1011,B cells
+600,1132,B cells
+609,1040,B cells
+609,1061,B cells
+613,1244,B cells
+626,503,B cells
+608,796,B cells
+608,850,B cells
+615,387,B cells
+611,1109,B cells
+609,1076,B cells
+632,576,B cells
+619,1084,B cells
+627,492,B cells
+615,686,B cells
+614,1127,B cells
+611,1206,B cells
+639,515,B cells
+629,835,B cells
+619,1215,B cells
+621,435,B cells
+628,663,B cells
+625,824,B cells
+635,542,B cells
+632,1143,B cells
+644,285,B cells
+639,840,B cells
+626,1229,B cells
+641,562,B cells
+620,1164,B cells
+627,1006,B cells
+646,299,B cells
+621,703,B cells
+627,1077,B cells
+638,956,B cells
+625,1192,B cells
+638,1019,B cells
+641,684,B cells
+644,587,B cells
+621,1050,B cells
+641,996,B cells
+642,673,B cells
+642,805,B cells
+657,542,B cells
+630,1243,B cells
+649,600,B cells
+640,1048,B cells
+649,647,B cells
+655,715,B cells
+655,737,B cells
+654,583,B cells
+657,801,B cells
+642,1146,B cells
+633,1100,B cells
+643,621,B cells
+641,1252,B cells
+658,553,B cells
+661,675,B cells
+648,944,B cells
+653,621,B cells
+645,1224,B cells
+663,1044,B cells
+662,834,B cells
+648,1094,B cells
+670,454,B cells
+668,525,B cells
+651,1056,B cells
+650,1164,B cells
+643,1194,B cells
+668,593,B cells
+656,1007,B cells
+673,607,B cells
+648,1239,B cells
+662,1086,B cells
+673,646,B cells
+656,1187,B cells
+673,736,B cells
+678,424,B cells
+678,440,B cells
+678,469,B cells
+659,1195,B cells
+672,571,B cells
+662,1238,B cells
+674,808,B cells
+672,665,B cells
+673,948,B cells
+682,518,B cells
+671,1268,B cells
+668,1030,B cells
+681,708,B cells
+668,1110,B cells
+660,1111,B cells
+667,993,B cells
+676,717,B cells
+669,1280,B cells
+688,393,B cells
+675,783,B cells
+683,552,B cells
+670,1257,B cells
+667,1130,B cells
+673,1176,B cells
+684,296,B cells
+672,1012,B cells
+679,936,B cells
+667,1288,B cells
+686,538,B cells
+672,1225,B cells
+693,333,B cells
+693,367,B cells
+682,1125,B cells
+680,1204,B cells
+691,627,B cells
+685,987,B cells
+682,1258,B cells
+694,854,B cells
+696,520,B cells
+699,654,B cells
+699,670,B cells
+686,817,B cells
+691,905,B cells
+691,1024,B cells
+687,922,B cells
+701,771,B cells
+692,564,B cells
+695,753,B cells
+696,1160,B cells
+700,533,B cells
+684,1166,B cells
+690,951,B cells
+684,1243,B cells
+698,940,B cells
+708,533,B cells
+700,697,B cells
+708,567,B cells
+708,595,B cells
+700,744,B cells
+705,614,B cells
+689,767,B cells
+700,796,B cells
+695,1109,B cells
+712,724,B cells
+708,821,B cells
+715,290,B cells
+712,901,B cells
+711,786,B cells
+718,559,B cells
+722,575,B cells
+708,1081,B cells
+708,1136,B cells
+706,715,B cells
+722,628,B cells
+697,1249,B cells
+703,925,B cells
+714,688,B cells
+722,664,B cells
+703,971,B cells
+709,810,B cells
+703,1013,B cells
+723,755,B cells
+718,811,B cells
+718,846,B cells
+709,998,B cells
+709,1057,B cells
+718,979,B cells
+722,1036,B cells
+704,868,B cells
+721,456,B cells
+720,772,B cells
+710,946,B cells
+717,1154,B cells
+719,914,B cells
+709,1213,B cells
+719,997,B cells
+726,434,B cells
+714,1171,B cells
+714,1242,B cells
+729,643,B cells
+724,477,B cells
+724,533,B cells
+733,397,B cells
+721,879,B cells
+734,601,B cells
+726,723,B cells
+719,1122,B cells
+739,516,B cells
+732,341,B cells
+744,549,B cells
+743,577,B cells
+732,537,B cells
+741,469,B cells
+744,636,B cells
+744,737,B cells
+732,692,B cells
+744,809,B cells
+726,901,B cells
+745,558,B cells
+725,1230,B cells
+727,1141,B cells
+736,620,B cells
+739,833,B cells
+739,874,B cells
+730,700,B cells
+730,786,B cells
+733,845,B cells
+741,896,B cells
+733,980,B cells
+733,998,B cells
+736,1056,B cells
+739,1160,B cells
+749,761,B cells
+750,655,B cells
+753,485,B cells
+752,715,B cells
+752,790,B cells
+732,1073,B cells
+749,1003,B cells
+748,859,B cells
+748,918,B cells
+749,1171,B cells
+733,1248,B cells
+748,964,B cells
+738,1140,B cells
+746,692,B cells
+751,938,B cells
+759,646,B cells
+730,1184,B cells
+746,775,B cells
+755,845,B cells
+758,725,B cells
+750,1233,B cells
+753,1110,B cells
+740,1190,B cells
+765,537,B cells
+754,888,B cells
+762,753,B cells
+765,677,B cells
+754,1128,B cells
+757,1096,B cells
+766,710,B cells
+766,742,B cells
+775,473,B cells
+771,584,B cells
+760,1068,B cells
+763,606,B cells
+760,1144,B cells
+765,925,B cells
+768,824,B cells
+758,1037,B cells
+780,511,B cells
+760,1248,B cells
+768,860,B cells
+747,1214,B cells
+768,1006,B cells
+777,758,B cells
+775,626,B cells
+775,646,B cells
+766,983,B cells
+774,692,B cells
+771,781,B cells
+773,548,B cells
+770,878,B cells
+780,750,B cells
+766,1055,B cells
+780,880,B cells
+787,710,B cells
+769,1375,B cells
+776,769,B cells
+778,1045,B cells
+775,961,B cells
+772,1135,B cells
+776,907,B cells
+790,726,B cells
+789,488,B cells
+785,794,B cells
+794,506,B cells
+778,1147,B cells
+794,550,B cells
+782,1027,B cells
+796,390,B cells
+786,777,B cells
+783,828,B cells
+784,806,B cells
+781,996,B cells
+783,922,B cells
+803,212,B cells
+781,1088,B cells
+794,696,B cells
+793,654,B cells
+788,959,B cells
+791,674,B cells
+786,1164,B cells
+791,847,B cells
+797,588,B cells
+791,897,B cells
+791,978,B cells
+794,1009,B cells
+792,604,B cells
+790,1264,B cells
+805,720,B cells
+810,739,B cells
+792,865,B cells
+795,1100,B cells
+809,964,B cells
+816,166,B cells
+798,1022,B cells
+815,629,B cells
+812,880,B cells
+800,930,B cells
+791,1180,B cells
+808,689,B cells
+805,954,B cells
+799,835,B cells
+808,898,B cells
+802,791,B cells
+820,797,B cells
+808,1122,B cells
+815,825,B cells
+807,1101,B cells
+826,136,B cells
+817,663,B cells
+820,940,B cells
+817,809,B cells
+819,844,B cells
+806,909,B cells
+814,856,B cells
+802,1040,B cells
+835,68,B cells
+802,1081,B cells
+824,696,B cells
+824,756,B cells
+817,948,B cells
+806,1179,B cells
+814,1135,B cells
+817,982,B cells
+817,1019,B cells
+822,571,B cells
+835,359,B cells
+817,1079,B cells
+822,675,B cells
+811,1004,B cells
+824,884,B cells
+819,1220,B cells
+829,738,B cells
+819,1366,B cells
+821,1151,B cells
+832,712,B cells
+834,1100,B cells
+842,821,B cells
+842,883,B cells
+832,913,B cells
+835,1150,B cells
+843,657,B cells
+832,1011,B cells
+843,671,B cells
+822,1112,B cells
+830,929,B cells
+839,640,B cells
+830,1001,B cells
+836,899,B cells
+845,805,B cells
+843,793,B cells
+848,1077,B cells
+849,592,B cells
+863,15,B cells
+839,850,B cells
+846,998,B cells
+854,1025,B cells
+828,1125,B cells
+850,1035,B cells
+832,1333,B cells
+859,781,B cells
+853,1054,B cells
+864,1003,B cells
+867,636,B cells
+851,1283,B cells
+876,367,B cells
+882,384,B cells
+879,679,B cells
+869,450,B cells
+874,953,B cells
+889,12,B cells
+879,927,B cells
+878,851,B cells
+870,664,B cells
+868,811,B cells
+870,746,B cells
+863,1018,B cells
+870,826,B cells
+868,837,B cells
+891,374,B cells
+871,908,B cells
+872,1129,B cells
+892,644,B cells
+906,64,B cells
+888,1097,B cells
+896,591,B cells
+906,352,B cells
+890,970,B cells
+889,1082,B cells
+892,1040,B cells
+906,672,B cells
+915,322,B cells
+895,981,B cells
+904,802,B cells
+910,734,B cells
+905,1086,B cells
+896,1074,B cells
+928,20,B cells
+920,270,B cells
+913,810,B cells
+928,112,B cells
+932,120,B cells
+934,0,B cells
+934,159,B cells
+915,542,B cells
+920,605,B cells
+913,1058,B cells
+927,735,B cells
+924,673,B cells
+935,336,B cells
+922,1041,B cells
+928,619,B cells
+930,647,B cells
+934,874,B cells
+915,1029,B cells
+925,867,B cells
+936,984,B cells
+942,966,B cells
+938,953,B cells
+940,1080,B cells
+937,1016,B cells
+957,128,B cells
+939,688,B cells
+966,107,B cells
+958,642,B cells
+965,492,B cells
+956,617,B cells
+952,378,B cells
+975,256,B cells
+955,750,B cells
+980,143,B cells
+984,86,B cells
+985,98,B cells
+987,67,B cells
+983,113,B cells
+990,45,B cells
+975,547,B cells
+982,327,B cells
+984,285,B cells
+987,301,B cells
+988,216,B cells
+988,242,B cells
+981,428,B cells
+991,665,B cells
+984,648,B cells
+993,717,B cells
+999,364,B cells
+997,533,B cells
+1005,147,B cells
+995,495,B cells
+995,549,B cells
+996,751,B cells
+1001,685,B cells
+1006,320,B cells
+1002,468,B cells
+1019,25,B cells
+1014,373,B cells
+1002,649,B cells
+1023,140,B cells
+1022,458,B cells
+1031,48,B cells
+1021,554,B cells
+1029,165,B cells
+1030,385,B cells
+1008,1198,B cells
+1016,639,B cells
+1038,204,B cells
+1025,694,B cells
+1031,503,B cells
+1031,578,B cells
+1039,268,B cells
+1041,236,B cells
+1039,446,B cells
+1054,81,B cells
+1040,724,B cells
+1039,535,B cells
+1053,226,B cells
+1060,45,B cells
+1052,313,B cells
+1059,268,B cells
+1059,391,B cells
+1061,223,B cells
+1057,562,B cells
+1064,213,B cells
+1061,531,B cells
+1068,328,B cells
+1054,732,B cells
+1075,66,B cells
+1066,354,B cells
+1081,317,B cells
+1095,278,B cells
+1095,358,B cells
+1105,7,B cells
+1101,112,B cells
+1108,226,B cells
+1095,812,B cells
+1114,108,B cells
+1109,617,B cells
+1107,420,B cells
+1099,633,B cells
+1113,649,B cells
+1124,236,B cells
+1126,557,B cells
+1126,581,B cells
+1132,164,B cells
+1135,223,B cells
+1134,536,B cells
+1151,78,B cells
+1192,106,B cells
+1201,125,B cells
+1232,17,B cells
+1232,198,B cells
+1239,76,B cells
+1243,113,B cells
+1244,168,B cells
+1263,144,B cells
+1271,186,B cells
+1281,149,B cells
+1291,168,B cells
+1304,243,B cells
+1315,142,B cells
+1373,170,B cells
+1429,298,B cells
+1427,193,B cells
+1439,308,B cells
+1484,361,B cells
+1573,344,B cells
+454,421,smooth muscle
+1100,384,smooth muscle
+280,1225,NA
+331,461,NA
+466,362,NA
+480,330,NA
+535,309,NA
+569,289,NA
+588,30,NA
+592,290,NA
+645,259,NA
+746,493,NA
+742,1427,NA
+794,223,NA
+840,1177,NA
+872,286,NA
+893,462,NA
+1062,141,NA
+1112,437,NA
+1109,470,NA
+1214,35,NA
+1303,376,NA
+1314,164,NA
+1306,889,NA
+1388,371,NA
+1412,466,NA
+1419,442,NA
+1513,379,NA
+1560,533,NA
+135,210,generic immune
+651,984,generic immune
+656,388,generic immune
+197,721,generic immune
+229,775,generic immune
+255,634,generic immune
+269,727,generic immune
+282,934,generic immune
+280,715,generic immune
+313,989,generic immune
+308,873,generic immune
+308,1042,generic immune
+323,801,generic immune
+332,769,generic immune
+325,965,generic immune
+339,1038,generic immune
+354,635,generic immune
+387,168,generic immune
+354,1279,generic immune
+390,1009,generic immune
+416,649,generic immune
+437,510,generic immune
+442,1022,generic immune
+444,1042,generic immune
+432,1280,generic immune
+486,572,generic immune
+490,1208,generic immune
+505,435,generic immune
+506,577,generic immune
+527,402,generic immune
+546,541,generic immune
+593,678,generic immune
+604,867,generic immune
+612,1025,generic immune
+626,1254,generic immune
+627,1032,generic immune
+648,789,generic immune
+665,721,generic immune
+669,542,generic immune
+711,836,generic immune
+719,823,generic immune
+720,1189,generic immune
+736,948,generic immune
+750,593,generic immune
+750,606,generic immune
+751,1152,generic immune
+766,685,generic immune
+768,561,generic immune
+760,1199,generic immune
+782,523,generic immune
+773,664,generic immune
+785,359,generic immune
+787,448,generic immune
+791,753,generic immune
+789,875,generic immune
+805,771,generic immune
+828,20,generic immune
+825,637,generic immune
+813,932,generic immune
+843,52,generic immune
+841,870,generic immune
+828,964,generic immune
+873,974,generic immune
+879,1108,generic immune
+918,98,generic immune
+922,2,generic immune
+919,633,generic immune
+930,412,generic immune
+968,386,generic immune
+974,127,generic immune
+1018,204,generic immune
+1017,500,generic immune
+1025,92,generic immune
+1040,545,generic immune
+1034,772,generic immune
+1045,455,generic immune
+410,189,CD68+ macros
+501,401,CD68+ macros
+441,907,CD68+ macros
+552,936,CD68+ macros
+64,825,CD4+ T cells
+77,523,CD4+ T cells
+296,1123,CD4+ T cells
+464,1287,CD4+ T cells
+499,1066,CD4+ T cells
+623,402,CD4+ T cells
+787,272,CD4+ T cells
+835,1296,CD4+ T cells
+895,122,CD4+ T cells
+947,424,CD4+ T cells
+1051,349,CD4+ T cells
+1122,1033,CD4+ T cells
+1168,113,CD4+ T cells
+1226,345,CD4+ T cells
+1235,158,CD4+ T cells
+1376,264,CD4+ T cells
+1613,459,CD4+ T cells

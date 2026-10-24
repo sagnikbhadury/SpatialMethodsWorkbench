@@ -1,6 +1,6 @@
 # Function-by-function pipeline reference
 
-This manual describes every executable analysis path in Spatial Methods Workbench v0.3.1. Read the [Usage, Restrictions, and Local Installation Guide](USER_GUIDE.md) first. The toolkit produces statistical outputs but does not explain results or assign scientific meaning; interpretation requires the study design and domain context.
+This manual describes every executable analysis path in Spatial Methods Workbench v0.4.0. Read the [Usage, Restrictions, and Local Installation Guide](USER_GUIDE.md) first. The toolkit produces statistical outputs but does not explain results or assign scientific meaning; interpretation requires the study design and domain context.
 
 ## Common programmatic interface
 
@@ -160,95 +160,106 @@ r <- run_analysis(
 )
 ```
 
-## 3. ISPat 2D Bayesian networks
+## 3. ISPat 2D spatially adjusted networks
 
 **Registry ID:** `ispat`  
 **Function:** `run_ispat(data, mapping, features, params)`  
-**Exact package:** `ISPAT`
+**Exact package and call:** `ISPAT3D` (CRAN, >= 0.3.0), `ISPAT3D::ispat3d_fit_2d()`
 
 ### Purpose
 
-Call the public ISPat engine to spatially adjust multiplexed marker data and estimate shared and region-specific network matrices.
+Estimate zone-specific conditional-association networks among numeric markers (for example log-transformed cell-type densities) after section-wise planar spatial adjustment. This is the matched planar fit of the current ISPAT3D package: a Matérn-3/2 Gaussian process is fitted per marker within each zone-section group with a Vecchia likelihood on spatially balanced anchors and predicted at every cell; the residual covariance of each zone is then modelled as `Σ_q = ΦΦᵀ + Λ_qΛ_qᵀ + Ψ_q` by Gaussian maximum likelihood; the full fitted zone covariance is inverted to signed partial correlations. The historical CAVI/SVI ISPAT package is not called.
 
 ### Required input
 
 - numeric x/y coordinates;
-- zone/region column;
+- zone/region column with at least two zones, each containing more complete rows than selected markers;
+- optional sample/section ID used as the section label (see Controls);
 - at least three numeric marker features;
-- installed `ISPAT` package and its Stan dependencies.
+- installed `ISPAT3D` package (>= 0.3.0) with its compiled dependency `gpboost`.
 
-The adapter forms `Y` as markers × observations and `S` as x, y, integer-encoded zone.
+The adapter forms `Y` as rows × markers, passes x and y with a zero third coordinate (the planar fit uses only x and y), and passes the zone labels and section labels as character vectors.
 
 ### Controls
 
-- `kernel`: `"Matern"` or `"RBF"`;
-- `spatial_fit`: `"VB"` for variational Bayes or `"MLE"` for the package's sampling path;
-- `factor_fit`: `"CAVI"` or `"SVI"`;
-- `cores`: worker count;
+- `rank`: shared and zone-specific factor rank (package default 5; capped at markers minus one by the engine);
+- `anchor_fraction`, `anchor_min`, `anchor_max`: GP anchor budget per zone-section group (package defaults 0.10, 300, 5000; the count is capped at the group size, so small demonstrations use every cell);
+- `gp_neighbors`: Vecchia neighbors (package default 15);
+- `gp_maxit`: GP optimizer iterations (package default 30);
+- `factor_maxit`: covariance likelihood iterations (package default 350);
+- `use_sections`: `"auto"` uses the mapped ID as the section label when it has at most one distinct value per ten rows, `"id"` always uses it, `"none"` pools all rows into one section;
+- `threads`: GPBoost threads per GP fit, 1 or 2;
+- `seed`: anchor selection and GP seed (package default 2026);
 - `threshold`: partial-correlation display/export threshold.
 
 ### Output
 
-- shared and cluster-specific matrices converted to partial correlations;
-- ISPAT3D-style shared/zone network graph and thresholded edge table;
-- exact ISPAT object in `raw`.
+- one signed partial-correlation matrix per zone in `matrices`, taken directly from `fit$partial`; the shared low-rank component is not displayed because it has no separately interpreted network;
+- faceted zone network graph and thresholded edge table;
+- `summary` with zone count, active variables, factor rank, GP fit counts and fallbacks, and covariance convergence;
+- `gp_log` with the per-variable GP status, anchor count, and timing;
+- `engine` recording the ISPAT3D version and the function called;
+- exact ISPAT3D fit in `raw` (`shared`, `full`, `partial`, `covariances`, `gp_log`, `active_variables`).
 
 ### Boundaries
 
-Stan compilation and inference can be slow. Check convergence/optimization diagnostics, prior choices, feature scaling, zone sizes, sensitivity, and compute limits outside the interactive display. Do not use the public host for protected data or long production jobs.
+Each zone-section group with fewer than ten cells, a constant marker, or a failed planar GP is mean-centered and recorded in `gp_log` with a non-`ok` status; the result notes report the count. Constant markers are excluded from the covariance likelihood and re-embedded as placeholders. No edge-wise p-values or intervals are produced. Zone labels are relative within a specimen. Large studies belong on controlled compute infrastructure; the public host is for demonstrations.
 
 ### Citation
 
-Bhadury S, et al. (2026). ISPat. *Scientific Reports*. [doi:10.1038/s41598-026-35341-8](https://doi.org/10.1038/s41598-026-35341-8).
+Bhadury S, Peruzzi M, Acharyya S, et al. (2026). Informed spatially aware patterns for multiplexed immunofluorescence data. *Scientific Reports* 16(1). [doi:10.1038/s41598-026-35341-8](https://doi.org/10.1038/s41598-026-35341-8). Software: ISPAT3D R package 0.3.1, [CRAN](https://cran.r-project.org/package=ISPAT3D), archived at [doi:10.5281/zenodo.22798429](https://doi.org/10.5281/zenodo.22798429).
 
 ### Example
 
 ```r
 r <- run_analysis(
   "ispat", d,
-  mapping = list(x = "x", y = "y", zone = "zone"),
+  mapping = list(x = "x", y = "y", zone = "zone", id = "sample_id"),
   features = c("epithelial", "APC", "CTL", "Treg"),
-  params = list(kernel = "Matern", spatial_fit = "VB",
-                factor_fit = "CAVI", cores = 1, threshold = 0.15)
+  params = list(rank = 5, anchor_min = 300, anchor_max = 5000,
+                gp_neighbors = 15, gp_maxit = 30, factor_maxit = 350,
+                use_sections = "auto", threads = 1, seed = 2026, threshold = 0.15)
 )
+names(r$matrices)          # zones
+table(r$gp_log$status)     # GP adjustment status per zone-section-marker
 ```
 
 ## 4. GP–GHS spatially varying networks
 
 **Registry ID:** `gpghs`  
 **Function:** `run_gpghs(data, mapping, features, params)`  
-**Exact package:** `GPGHS`
+**Exact package and call:** `GPGHS` (>= 1.0.0), `GPGHS::gpghs_graph()`
 
 ### Purpose
 
-Call the public Gaussian-process group-horseshoe engine for spatially varying nodewise relationships and construct a selected adjacency network.
+Call the public Gaussian-process group-horseshoe engine for spatially varying nodewise relationships and construct a selected adjacency network. Each variable is regressed on the others with spatially varying coefficients represented in a Hilbert-space Matérn basis; the amplitude of each coefficient function carries a group horseshoe prior; a predictor is selected when the posterior mean shrinkage factor of its group falls below `edge_threshold`, and the two directed decisions are combined by the symmetry rule.
 
 ### Required input
 
 - numeric x/y coordinates;
 - at least three numeric features;
-- installed `GPGHS` package.
+- installed `GPGHS` package (>= 1.0.0).
 
 ### Controls
 
-- `basis`: HSGP basis functions per dimension, UI range 2–8;
+- `basis`: HSGP basis functions per dimension, UI range 2–8 (article: 5 in simulations, 2 for 100-gene zones);
 - `nu`: Matérn smoothness 0.5, 1.5, or 2.5;
-- `nmc`: MCMC iterations;
-- `burn`: burn-in iterations;
-- `thin`: retained-draw thinning, programmatic default 4;
-- `threshold`: edge-selection/display threshold;
-- `symmetry`: `"AND"` or `"OR"` nodewise symmetry rule;
-- `cores`: worker count.
+- `nmc`: MCMC iterations; `burn`: burn-in iterations; `thin`: thinning, programmatic default 4 (article: 3000/1000/5);
+- `edge_threshold`: shrinkage-factor threshold for selecting a predictor, default 0.5 (the rule of the article);
+- `symmetry`: `"AND"` (article) or `"OR"`;
+- `min_detect`: minimum share of locations at which a variable must be nonzero to be estimable (0 keeps every non-constant column; 0.10 for genes in the article);
+- `seed`: worker seed; `cores`: parallel workers.
 
 ### Output
 
 - selected network graph whose topology follows the symmetric fitted adjacency and whose edge widths are the smaller directional RMS values from the posterior mean coefficient fields;
-- selected edge table containing the same coefficient-field RMS weights;
-- exact GPGHS fit in `raw`, including package-provided spatial edge information.
+- selected edge table from `GPGHS::gpghs_edges()` with the RMS weight, GPGHS score (`1 - max` of the two directed shrinkage factors), sign label (positive, negative, or mixed over space), sign-change flag, directed shrinkage factors, and directed mean coefficients;
+- `summary` with the number of estimable variables, selected edges, basis size, retained draws, and the edge threshold;
+- exact GPGHS fit in `raw`, including `edge_maps`, `kappa`, `score`, and `settings`.
 
 ### Boundaries
 
-Use sufficient MCMC iterations for formal work and inspect posterior behavior. Basis dimension, length scale, shrinkage, threshold, and symmetry rule can materially change selection. A coefficient field may change sign over space, so the global graph intentionally uses unsigned RMS width and does not claim a single positive or negative direction. The low UI defaults are for interactive feasibility, not universal production settings.
+Use sufficient MCMC iterations for formal work and inspect posterior behavior. Basis dimension, length scale, shrinkage, threshold, and symmetry rule can materially change selection. A coefficient field may change sign over space, so the global graph intentionally uses unsigned RMS width and does not claim a single positive or negative direction; use the sign column of the edge table and `GPGHS::plot_edge_map()` on the downloaded fit. The low UI defaults are for interactive feasibility, not universal production settings.
 
 ### Example
 
@@ -257,8 +268,9 @@ r <- run_analysis(
   "gpghs", d,
   mapping = list(x = "x", y = "y"),
   features = c("epithelial", "APC", "CTL", "Treg"),
-  params = list(basis = 4, nu = 1.5, nmc = 3000, burn = 1000,
-                thin = 5, threshold = 0.15, symmetry = "AND", cores = 1)
+  params = list(basis = 4, nu = 1.5, nmc = 3000, burn = 1000, thin = 5,
+                edge_threshold = 0.5, symmetry = "AND", min_detect = 0,
+                seed = 1, cores = 1)
 )
 ```
 
@@ -266,39 +278,36 @@ r <- run_analysis(
 
 **Registry ID:** `ispat3d`  
 **Function:** `run_ispat3d(data, mapping, features, params)`  
-**Exact package:** `ISPAT3D`
+**Exact package and call:** `ISPAT3D` (CRAN, >= 0.3.0), `ISPAT3D::ispat3d_fit()`
 
 ### Purpose
 
-Run shared and zone-specific network estimation for registered volumetric or serial-section multiplexed imaging.
+Estimate zone-specific conditional-association networks from registered volumetric or serial-section multiplexed imaging. An anisotropic Matérn-3/2 Gaussian process is fitted per marker and zone over registered x, y, z (pooling all sections within a zone) with a Vecchia likelihood on spatially balanced anchors, predicted at every selected cell; the residual covariances are modelled by the same shared-plus-zone covariance likelihood as the 2D path, and the full zone covariances are inverted to signed partial correlations.
 
 ### Required input
 
-- numeric x/y/z coordinates;
-- zone/region column;
-- volume or spot ID (if absent programmatically, the adapter uses one volume);
+- numeric x/y/z coordinates in one common spatial unit;
+- zone/region column with at least two zones, each containing more complete rows than selected markers;
+- optional section or volume ID used to balance anchor selection across sections (see `use_sections`);
 - at least three numeric markers;
-- installed `ISPAT3D` package.
+- installed `ISPAT3D` package (>= 0.3.0) with `gpboost`.
 
-The adapter forms `Y` as markers × locations and `S` as x, y, z, integer zone.
+The adapter forms `Y` as rows × markers and `coords` as rows × (x, y, z).
 
 ### Controls
 
-- `kernel`: `"Matern"` or `"RBF"`;
-- `factor_fit`: `"CAVI"` or `"SVI"`;
-- `cores`: worker count;
-- `threshold`: partial-correlation display/export threshold.
+Identical to the ISPat 2D path: `rank`, `anchor_fraction`, `anchor_min`, `anchor_max`, `gp_neighbors`, `gp_maxit`, `factor_maxit`, `use_sections`, `threads`, `seed`, and the display `threshold`. The package defaults correspond to the manuscript analyses (rank 5, up to 5,000 anchors, 15 neighbors, 30 GP iterations).
 
 ### Output
 
-- first volume's shared and zone-specific partial-correlation matrices in the display;
-- ISPAT3D-style faceted network graph for those displayed matrices;
-- thresholded edge table;
-- complete multi-volume ISPAT3D fit in `raw` and therefore in the R result object.
+- one signed partial-correlation matrix per zone in `matrices`, taken from `fit$partial`;
+- faceted zone network graph and thresholded edge table;
+- `summary`, `gp_log`, and `engine` as in the 2D path;
+- complete ISPAT3D fit in `raw` and therefore in the R result object.
 
 ### Boundaries
 
-Registration, axis orientation, z spacing, section loss, masks, zone consistency, and volume independence must be resolved before fitting. The display shows the first volume; use the downloaded R object for the complete fit. Large 3D studies belong on controlled compute infrastructure.
+Registration, axis orientation, z spacing, section loss, masks, and zone consistency must be resolved before fitting. The 3D fit pools sections within each zone; compare it with the matched 2D path (same rows, same covariance estimator) to see the effect of volumetric pooling, remembering that the comparison changes both coordinate dimension and section pooling. Large 3D studies belong on controlled compute infrastructure.
 
 ### Example
 
@@ -308,8 +317,8 @@ r <- run_analysis(
   mapping = list(x = "x", y = "y", z = "z",
                  zone = "zone", id = "volume_id"),
   features = c("marker_1", "marker_2", "marker_3", "marker_4"),
-  params = list(kernel = "Matern", factor_fit = "CAVI",
-                cores = 2, threshold = 0.15)
+  params = list(rank = 5, gp_neighbors = 15, gp_maxit = 30,
+                use_sections = "auto", threads = 2, seed = 2026, threshold = 0.15)
 )
 ```
 

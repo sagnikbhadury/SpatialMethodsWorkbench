@@ -1,82 +1,72 @@
-#' Build a 2D Hilbert Space Gaussian Process (HSGP) basis
+#' Hilbert space Gaussian process basis on a two-dimensional domain
 #'
-#' Constructs the Laplacian eigenfunction basis and associated spectral
-#' densities used to approximate a 2D Matern Gaussian process, following
-#' Riutort-Mayol et al. (2020). Spatial coordinates are first normalized to
-#' \eqn{[-1, 1]}; the basis is a tensor product of 1D sine eigenfunctions of
-#' the Dirichlet Laplacian on \eqn{[-L, L]}.
+#' Rescales the coordinates linearly to `[-1, 1]` on each axis and evaluates
+#' the `m^2` tensor-product eigenfunctions of the Laplacian on the larger
+#' square `[-L, L]^2`, together with the Matern spectral density at each
+#' eigenfrequency. The basis is the one in equation (4) of the article and
+#' the spectral weights are equation (5).
 #'
-#' @param coords n x 2 matrix of spatial coordinates.
-#' @param m Number of basis functions per dimension (\code{m^2} total in 2D).
-#' @param nu Matern smoothness parameter.
-#' @param rho Length-scale; if \code{NULL} (default), set to the median
-#'   pairwise distance on the normalized coordinates.
-#' @param alpha GP marginal standard deviation.
-#' @param L_factor Domain boundary expansion factor (the normalized domain
-#'   used for the eigenbasis is \eqn{[-L, L]} with \eqn{L = }\code{L_factor}).
-#'
-#' @return A list with \code{phi} (n x m^2 basis matrix), \code{S_diag}
-#'   (length-m^2 spectral densities, the prior variance for each basis
-#'   weight), \code{omega_sq} (length-m^2 squared eigenfrequencies),
-#'   \code{m}, \code{m2}, \code{rho}, and \code{nu}.
-#'
+#' @param coords An `n x 2` matrix of locations (any units).
+#' @param m Number of basis functions per coordinate, so that a coefficient
+#'   function has `m^2` basis coefficients. The article uses `m = 5` when
+#'   `n` is large relative to `p`, and a smaller `m` (2 for 100 genes at a few
+#'   hundred spots, 4 for 15 cell types on a 15 x 15 grid) so that the number
+#'   of coefficients of a regression, `(p - 1) m^2`, stays comparable to `n`.
+#' @param nu Matern smoothness (1.5 in the article).
+#' @param rho Range on the rescaled coordinates; `NULL` (the default) uses
+#'   the median pairwise distance between the rescaled locations.
+#' @param alpha Marginal standard deviation of the Gaussian process prior
+#'   (absorbed into the horseshoe scales by [gp_group_horseshoe_sampler()], so
+#'   its value does not matter there).
+#' @param L_factor Boundary `L` of the expansion domain on the rescaled
+#'   coordinates (1.5 in the article).
+#' @param verbose Print the range that was chosen.
+#' @return A list with `phi` (the `n x m^2` basis matrix), `S_diag` (the
+#'   `m^2` spectral densities), `omega_sq` (the squared eigenfrequencies),
+#'   `m`, `m2`, `rho`, `nu` and `coords_norm` (the rescaled coordinates).
+#' @examples
+#' coords <- matrix(runif(200), 100, 2)
+#' hs <- build_hsgp_basis(coords, m = 3)
+#' dim(hs$phi)
 #' @export
 build_hsgp_basis <- function(coords, m = 5, nu = 1.5,
-                             rho = NULL, alpha = 1, L_factor = 1.5) {
+                             rho = NULL, alpha = 1, L_factor = 1.5,
+                             verbose = FALSE) {
+  coords <- as.matrix(coords)
+  if (ncol(coords) != 2) stop("coords must have two columns")
   n  <- nrow(coords)
   m2 <- m^2
-
-  # Normalize coordinates to [-1, 1]
   coords_norm <- apply(coords, 2, function(x) {
     r <- range(x)
+    if (diff(r) == 0) return(rep(0, length(x)))
     2 * (x - r[1]) / (r[2] - r[1]) - 1
   })
-
-  L <- L_factor  # boundary for normalized domain [-L, L]
-
-  # Default rho: median pairwise distance on normalized coords
+  L <- L_factor
   if (is.null(rho)) {
-    D   <- as.matrix(dist(coords_norm))
-    rho <- median(D[upper.tri(D)])
-    cat("  Auto length-scale rho =", round(rho, 4), "\n")
+    D   <- as.matrix(stats::dist(coords_norm))
+    rho <- stats::median(D[upper.tri(D)])
+    if (verbose) cat("  Auto length-scale rho =", round(rho, 4), "\n")
   }
-
-  # 1D Laplacian eigenfunctions and eigenvalues
-  # phi_j(x) = (1/sqrt(L)) * sin(j*pi*(x + L) / (2L))
-  # lambda_j = (j*pi / (2L))^2
   phi_1d <- function(x, m) {
     sapply(1:m, function(j) sin(j * pi * (x + L) / (2 * L)) / sqrt(L))
   }
   lambda_1d <- function(m) sapply(1:m, function(j) (j * pi / (2 * L))^2)
-
-  phi_x <- phi_1d(coords_norm[, 1], m)   # n x m
-  phi_y <- phi_1d(coords_norm[, 2], m)   # n x m
-  lam_x <- lambda_1d(m)                  # m eigenvalues (x)
-  # The eigenvalue formula lambda_j = (j*pi/(2L))^2 depends only on the mode
-  # index j and the domain half-width L, not on which coordinate axis it is
-  # applied to -- so the y-axis eigenvalues are identical to the x-axis ones.
-  # (This line was missing from the original script, which referenced an
-  # undefined `lam_y` below; see the repository README for details.)
-  lam_y <- lam_x
-
-  # 2D tensor product: phi_{ij}(l) = phi_i(x) * phi_j(y)
-  # omega^2_{ij} = lambda_i + lambda_j  (2D Laplacian eigenvalue)
+  phi_x <- phi_1d(coords_norm[, 1], m)
+  phi_y <- phi_1d(coords_norm[, 2], m)
+  lam   <- lambda_1d(m)
   phi    <- matrix(0, n, m2)
   S_diag <- rep(0, m2)
   omega_sq_vec <- rep(0, m2)
-
   idx <- 1
   for (i in 1:m) {
     for (j in 1:m) {
       phi[, idx]        <- phi_x[, i] * phi_y[, j]
-      omega_sq_vec[idx] <- lam_x[i] + lam_y[j]
-      S_diag[idx]       <- matern_spectral_density(omega_sq_vec[idx],
-                                                   nu = nu, rho = rho,
-                                                   alpha = alpha)
+      omega_sq_vec[idx] <- lam[i] + lam[j]
+      S_diag[idx]       <- matern_spectral_density(omega_sq_vec[idx], nu = nu,
+                                                   rho = rho, alpha = alpha)
       idx <- idx + 1
     }
   }
-
   list(phi = phi, S_diag = S_diag, omega_sq = omega_sq_vec,
-       m = m, m2 = m2, rho = rho, nu = nu)
+       m = m, m2 = m2, rho = rho, nu = nu, L = L, coords_norm = coords_norm)
 }

@@ -88,3 +88,16 @@ Edit `media/youtube/public_usage_slides.json` or `media/youtube/interpretation_s
 - Built all five HTML vignettes and completed `R CMD check --no-manual` with `Status: OK`.
 - Added a Shiny-specific deployment exclusion file, reducing the hosted bundle from approximately 526 MB to 95 KB while retaining all runtime code and manuals.
 - Redeployed the public shinyapps.io instance and verified in a browser that the vignette tab, fork-representation table, no-interpretation boundary, and all four CSV links are visible.
+
+## 2026-10-24 — v0.4.0: engines re-targeted to ISPAT3D 0.3.1 (CRAN) and GPGHS 1.0.1
+
+### Completed
+
+- Found that v0.3.1 called engine interfaces that no longer exist upstream: ISPAT::ISPAT (0.1.0), ISPAT3D::ISPAT_3D (0.1.1), and GPGHS 0.1.0 with an edge threshold of 0.15 instead of the article rule of 0.5.
+- Re-targeted the ISPat 2D path to ISPAT3D::ispat3d_fit_2d (the matched planar fit inside the CRAN ISPAT3D package, per the author) and the ISPat 3D path to ISPAT3D::ispat3d_fit; the GP-GHS path now calls GPGHS::gpghs_graph with edge_threshold 0.5, AND symmetry, min_detect, and seed, and returns the GPGHS edge table.
+- Zone partial correlations are taken directly from fit$partial; the shared low-rank component is not displayed. New ISPAT3D controls (rank, anchors, neighbors, iterations, section rule, threads, seed); readiness requires two zones with more rows than markers; manifests record engine package/version/function.
+- Section rule: the mapped ID is used as the ISPAT3D section label only when it has at most one distinct value per ten rows (demo volume_id yes, sample_id no); use_sections overrides.
+- Vendored the exact CRAN ISPAT3D_0.3.1.tar.gz contents (commit 18626f0) and GPGHS 1.0.1 (commit c42319e); retired the standalone ISPAT bundle; installer needs only gpboost; Dockerfile and GitHub Actions updated (CI installs ISPAT3D from CRAN and GPGHS from GitHub so the adapter tests run).
+- Installed ISPAT3D 0.3.1 and GPGHS 1.0.1 into R 4.5.2; 118 tests pass (FAIL 0, WARN 0, SKIP 0) including real adapter smoke tests; audit-release.R passes; R CMD build with vignettes OK using RStudio pandoc (RSTUDIO_PANDOC=C:/Program Files/RStudio/resources/app/bin/quarto/bin/tools); local Shiny launch served all tabs.
+- Affiliation moved to University of Pennsylvania in .zenodo.json; contact e-mail in DESCRIPTION and README switched to bhadury@upenn.edu.
+- Zenodo deposit is created automatically by the GitHub integration when the v0.4.0 release is published; the version DOI is recorded below once minted.

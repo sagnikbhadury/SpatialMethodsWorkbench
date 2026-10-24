@@ -1,21 +1,34 @@
-# Curated public-source bundle
+# Curated public source bundle
 
-This directory is part of the complete Spatial Methods Workbench source
-distribution. It prevents users from having to clone the method repositories
-separately and records the exact public revisions used for release testing.
+This directory makes the Spatial Methods Workbench release a complete,
+self-contained public distribution. Every entry is a snapshot of an already
+public repository or CRAN package, recorded in `manifest.json` with its
+repository, exact commit, package version, license, retained scope, and role.
+Nothing here is private research code, and nothing here is executed silently in
+place of a Workbench method. The snapshots are the revisions used for release
+testing.
 
 ## Directly executed engines
 
 The complete package sources in `engines/` are called directly by Workbench
 analysis paths when installed:
 
-- `ISPAT` — ISPat 2D Bayesian networks;
-- `GP-GHS` — GP–GHS spatially varying networks (R package name `GPGHS`);
-- `ISPAT-3D` — volumetric ISPat networks (R package name `ISPAT3D`).
+- `ISPAT-3D` — the CRAN package `ISPAT3D` 0.3.1 (exact CRAN source tarball
+  contents). Its `ispat3d_fit_2d()` powers the ISPat 2D path and its
+  `ispat3d_fit()` powers the ISPat 3D path; both share the Vecchia GP
+  adjustment and the shared-plus-zone covariance likelihood. The compiled
+  dependency `gpboost` is installed from CRAN by the installer.
+- `GP-GHS` — GP–GHS spatially varying networks (R package name `GPGHS`,
+  version 1.0.1, pure R). Its `gpghs_graph()` powers the GP–GHS path. The
+  snapshot includes the `analysis/` scripts of the accompanying article.
 
-Run `Rscript install-complete.R` from the repository root to install their
-declared R dependencies and then install these local copies. The installer
-does not clone the three repositories.
+Run `Rscript install-complete.R` from the repository root to install the
+engine dependency and then these local copies. The installer does not clone
+the two repositories.
+
+The standalone `ISPAT` package (the historical CAVI/SVI implementation with
+Stan) was bundled through v0.3.1 and is retired: no Workbench path calls it,
+so it is listed under `retired_sources` in `manifest.json` and is not shipped.
 
 ## Reference and related-method source
 

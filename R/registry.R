@@ -13,10 +13,10 @@ analysis_registry <- function() {
       needs = c("numeric_features"), runner = "run_conditional_network"
     ),
     ispat = list(
-      label = "ISPat 2D Bayesian network",
-      short = "Estimate shared and region-specific networks after spatial adjustment.",
-      family = "Network estimation", runtime = "Intensive", engine = "ISPat",
-      needs = c("x", "y", "zone", "numeric_features"), package = "ISPAT", runner = "run_ispat"
+      label = "ISPat 2D spatially adjusted network",
+      short = "Estimate zone-specific conditional networks after section-wise planar GP adjustment (ISPAT3D::ispat3d_fit_2d).",
+      family = "Network estimation", runtime = "Intensive", engine = "ISPAT3D (planar fit)",
+      needs = c("x", "y", "zone", "numeric_features"), package = "ISPAT3D", runner = "run_ispat"
     ),
     gpghs = list(
       label = "Spatially varying GP-horseshoe network",
@@ -26,8 +26,8 @@ analysis_registry <- function() {
     ),
     ispat3d = list(
       label = "Volumetric ISPat 3D network",
-      short = "Estimate shared and zone-specific networks in 3D or serial-section tissue data.",
-      family = "Volumetric analysis", runtime = "Intensive", engine = "ISPAT3D",
+      short = "Estimate zone-specific conditional networks after pooled volumetric GP adjustment of registered 3D or serial-section data (ISPAT3D::ispat3d_fit).",
+      family = "Volumetric analysis", runtime = "Intensive", engine = "ISPAT3D (volumetric fit)",
       needs = c("x", "y", "z", "zone", "numeric_features"), package = "ISPAT3D", runner = "run_ispat3d"
     ),
     spatial_ml = list(
@@ -147,6 +147,19 @@ method_compatibility <- function(method, data, mapping, features) {
       reason <- c(reason, "Select an ID with at least five contours and six points per contour")
     }
   }
+  if (method$runner %in% c("run_ispat", "run_ispat3d") && length(features) >= 3L &&
+      !is.null(mapping$zone) && mapping$zone %in% names(data)) {
+    zone_columns <- unlist(c(mapping$x, mapping$y, if (method$runner == "run_ispat3d") mapping$z, mapping$zone, features), use.names = FALSE)
+    zone_columns <- unique(zone_columns[zone_columns %in% names(data)])
+    complete <- data[stats::complete.cases(data[, zone_columns, drop = FALSE]), , drop = FALSE]
+    zone_counts <- table(as.character(complete[[mapping$zone]]))
+    if (length(zone_counts) < 2L) {
+      reason <- c(reason, "The ISPAT3D engines need at least two zones")
+    } else if (any(zone_counts <= length(features))) {
+      reason <- c(reason, sprintf("Every zone needs more complete rows than selected features (smallest zone: %d rows for %d features)",
+                                  as.integer(min(zone_counts)), length(features)))
+    }
+  }
   package_ready <- is.null(method$package) || requireNamespace(method$package, quietly = TRUE)
   if (!package_ready) reason <- c(reason, paste(method$package, "engine is not installed on this server"))
   list(compatible = !length(reason), package_ready = package_ready, reason = paste(reason, collapse = "; "))
@@ -159,7 +172,7 @@ recommend_methods <- function(data, mapping, features) {
 
 workbench_citation <- function() {
   paste0(
-    "Bhadury, S. (2026). SpatialMethodsWorkbench: Spatial Methods Workbench (Version 0.3.1) ",
+    "Bhadury, S. (2026). SpatialMethodsWorkbench: Spatial Methods Workbench (Version 0.4.0) ",
     "[Computer software]. https://doi.org/10.5281/zenodo.21763606"
   )
 }
@@ -174,19 +187,25 @@ method_citations <- function(id) {
     citations <- c(citations,
       "Hoerl, A. E. and Kennard, R. W. (1970). Ridge Regression: Biased Estimation for Nonorthogonal Problems. Technometrics 12(1):55-67. https://doi.org/10.1080/00401706.1970.10488634")
   }
+  ispat3d_software <- paste0(
+    "Bhadury, S. (2026). ISPAT3D: Spatial Conditional Association Networks in Registered Tumor Volumes. ",
+    "R package version 0.3.1 (CRAN). https://cran.r-project.org/package=ISPAT3D; source https://github.com/sagnikbhadury/ISPAT-3D; ",
+    "archived software release https://doi.org/10.5281/zenodo.22798429")
+  ispat_paper <- paste0(
+    "Bhadury, S., Peruzzi, M., Acharyya, S., et al. (2026). Informed spatially aware patterns for multiplexed immunofluorescence data. ",
+    "Scientific Reports 16(1). https://doi.org/10.1038/s41598-026-35341-8")
   if (id == "ispat") {
-    citations <- c(citations,
-      "Bhadury, S. et al. (2026). Informed spatially aware patterns for multiplexed immunofluorescence data. Scientific Reports 16(1). https://doi.org/10.1038/s41598-026-35341-8",
-      "Bhadury, S. ISPAT software. https://github.com/sagnikbhadury/ISPAT")
+    citations <- c(citations, ispat_paper, ispat3d_software,
+      "Planar engine call: ISPAT3D::ispat3d_fit_2d (section-wise Vecchia GP adjustment and shared-plus-zone covariance likelihood). The original ISPAT repository https://github.com/sagnikbhadury/ISPAT holds the historical CAVI/SVI implementation.")
   }
   if (id == "gpghs") {
     citations <- c(citations,
       "Bhadury, S., Gaskins, J. T., and Rao, A. (2026). Spatially Varying Graphical Models for Cell-Cell Interaction Networks in Multiplexed Tissue Imaging. https://doi.org/10.64898/2026.04.01.715977",
-      "Bhadury, S. GP-GHS software. https://github.com/sagnikbhadury/GP-GHS")
+      "Bhadury, S., Gaskins, J. T., and Rao, A. (2026). GPGHS: Spatially Varying Conditional-Dependence Networks with the Gaussian Process Group Horseshoe. R package version 1.0.1. https://github.com/sagnikbhadury/GP-GHS")
   }
   if (id == "ispat3d") {
-    citations <- c(citations,
-      "Bhadury, S. (2026). ISPAT-3D software. https://github.com/sagnikbhadury/ISPAT-3D")
+    citations <- c(citations, ispat_paper, ispat3d_software,
+      "Volumetric engine call: ISPAT3D::ispat3d_fit (pooled volumetric Vecchia GP adjustment and shared-plus-zone covariance likelihood).")
   }
   if (id == "spatial_ml") {
     citations <- c(citations,

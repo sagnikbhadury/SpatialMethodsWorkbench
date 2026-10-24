@@ -1,7 +1,9 @@
 # Spatial Methods Workbench
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21763606.svg)](https://doi.org/10.5281/zenodo.21763606)
-[![Version](https://img.shields.io/badge/release-v0.3.1-176b68)](https://github.com/sagnikbhadury/SpatialMethodsWorkbench/releases/tag/v0.3.1)
+[![Version](https://img.shields.io/badge/release-v0.4.0-176b68)](https://github.com/sagnikbhadury/SpatialMethodsWorkbench/releases/tag/v0.4.0)
+[![ISPAT3D on CRAN](https://img.shields.io/badge/engine-ISPAT3D%200.3.1%20(CRAN)-176b68)](https://cran.r-project.org/package=ISPAT3D)
+[![GPGHS](https://img.shields.io/badge/engine-GPGHS%201.0.1-176b68)](https://github.com/sagnikbhadury/GP-GHS)
 [![License: MIT](https://img.shields.io/badge/License-MIT-d46245.svg)](LICENSE.md)
 [![R tests](https://github.com/sagnikbhadury/SpatialMethodsWorkbench/actions/workflows/test.yml/badge.svg)](https://github.com/sagnikbhadury/SpatialMethodsWorkbench/actions/workflows/test.yml)
 
@@ -29,9 +31,9 @@ The Workbench currently hosts 12 executable analysis paths. It first checks the 
 |---|---|---|---|---|
 | Spatial exploration and autocorrelation | Detecting whether a measured feature is spatially patterned | Numeric x/y coordinates and one numeric feature | Spatial feature map, Moran's I, permutation p-value | Built-in executable diagnostic |
 | Region-aware conditional network | Exploring adjusted relationships overall and within tissue regions | At least three numeric features; region is optional | Ridge-regularized partial-correlation edge tables and faceted network graphs | Built-in exploratory network workflow |
-| ISPat 2D Bayesian network | Shared and region-specific network estimation after spatial adjustment | x/y coordinates, tissue zone, and at least three numeric markers | Shared and zone-specific conditional-association networks and fitted object | Direct adapter to the public `ISPAT` package |
-| Spatially varying GP–horseshoe network | Allowing network edges to vary continuously over tissue space | x/y coordinates and at least three numeric features | Selected network graph weighted by coefficient-field RMS, edge table, and full fit | Direct adapter to the public `GPGHS` package |
-| Volumetric ISPat 3D network | Network estimation from registered 3D images or serial sections | x/y/z coordinates, zone, volume/spot ID, and numeric markers | Shared and zone-specific 3D networks and fitted objects | Direct adapter to the public `ISPAT3D` package |
+| ISPat 2D spatially adjusted network | Zone-specific network estimation after section-wise planar GP adjustment | x/y coordinates, tissue zone, optional section ID, and at least three numeric markers | Signed zone partial-correlation networks, GP adjustment log, and fitted object | Direct adapter to CRAN `ISPAT3D` 0.3.1 (`ispat3d_fit_2d`) |
+| Spatially varying GP–horseshoe network | Allowing network edges to vary continuously over tissue space | x/y coordinates and at least three numeric features | Selected network graph weighted by coefficient-field RMS, GPGHS edge table with scores and signs, and full fit | Direct adapter to `GPGHS` 1.0.1 (`gpghs_graph`) |
+| Volumetric ISPat 3D network | Network estimation from registered 3D images or serial sections | x/y/z coordinates, zone, optional section/volume ID, and numeric markers | Signed zone partial-correlation networks, GP adjustment log, and fitted object | Direct adapter to CRAN `ISPAT3D` 0.3.1 (`ispat3d_fit`) |
 | Spatial machine-learning prediction | Predicting a numeric outcome from measured covariates and optional coordinates | Numeric outcome and at least three numeric predictors | Held-out predictions, error metrics, and variable importance | Built-in held-out prediction workflow |
 | Spatially weighted phenotype clustering | Discovering multivariate phenotypes while controlling spatial influence | x/y coordinates and at least three numeric features | Cluster assignments, centers, diagnostics, and spatial cluster map | Built-in spatially weighted k-means adaptation |
 | Spatial shallow-neural prediction | Nonlinear prediction from features and optional spatial coordinates | Numeric outcome and at least three numeric predictors | Held-out predictions and performance metrics | Executable single-hidden-layer `nnet` workflow |
@@ -40,11 +42,11 @@ The Workbench currently hosts 12 executable analysis paths. It first checks the 
 | Mediation with sensitivity diagnostics | Estimating a model-based indirect effect | Numeric exposure, mediator, and outcome | Direct, indirect, and total effects with bootstrap uncertainty | Built-in model-based workflow with explicit causal assumptions |
 | Tumor contour and shape PCA | Summarizing variation among ordered two-dimensional tumor boundaries | Contour ID and ordered x/y landmark coordinates | Resampled/aligned contours, shape scores, variance summaries, and mean shape | R implementation of the public shape workflow |
 
-Every path returns numerical/statistical output rather than an automated scientific narrative. Network edges are conditional associations unless the selected method and study design establish something stronger. For interpretation, method selection, or a study collaboration, contact [Sagnik Bhadury](mailto:bhadury@umich.edu?subject=Spatial%20Methods%20Workbench%20collaboration).
+Every path returns numerical/statistical output rather than an automated scientific narrative. Network edges are conditional associations unless the selected method and study design establish something stronger. For interpretation, method selection, or a study collaboration, contact [Sagnik Bhadury](mailto:bhadury@upenn.edu?subject=Spatial%20Methods%20Workbench%20collaboration).
 
-The application also includes synthetic demonstration data, automatic column suggestions, structural validation, compatibility gating, documented controls, and downloadable result bundles. The complete v0.3.1 source distribution includes local package sources for all three advanced engines; the live deployment includes all three.
+The application also includes synthetic demonstration data, automatic column suggestions, structural validation, compatibility gating, documented controls, and downloadable result bundles. Version 0.4.0 re-targets the three advanced network paths to the current public engines: the ISPat 2D and 3D paths call the CRAN package [`ISPAT3D` 0.3.1](https://cran.r-project.org/package=ISPAT3D) (planar `ispat3d_fit_2d` and volumetric `ispat3d_fit`), and the GP–GHS path calls [`GPGHS` 1.0.1](https://github.com/sagnikbhadury/GP-GHS). The complete v0.4.0 source distribution bundles both engine sources; the live deployment includes both.
 
-The advanced Bayesian engines are computationally intensive. Production deployments should enforce upload, memory, worker, and runtime limits and should use a job queue for large studies.
+The advanced engines are computationally intensive. Production deployments should enforce upload, memory, worker, and runtime limits and should use a job queue for large studies.
 
 ## Expected tabular input
 
@@ -83,7 +85,9 @@ source bundle under `vendor/`.
   libraries on Linux;
 - Git is optional when installing from Zenodo because the exact engine sources
   are already included;
-- sufficient memory and runtime for Bayesian, Stan, image, and 3D workflows.
+- sufficient memory and runtime for the GP, MCMC, image, and 3D workflows.
+  `gpboost`, the compiled dependency of ISPAT3D, installs from a CRAN binary on
+  current R releases.
 
 On Windows, install the Rtools generation matching the first two digits of R
 (for example, R 4.5.x requires Rtools 4.5). The complete installer detects a
@@ -104,8 +108,8 @@ Rscript install-complete.R
 ```
 
 The installer obtains missing CRAN dependencies and installs the bundled local
-copies of `ISPAT`, `GPGHS`, and `ISPAT3D`; it does not clone those method
-repositories. It then installs the `SpatialMethodsWorkbench` package and its
+copies of `GPGHS` 1.0.1 and `ISPAT3D` 0.3.1 (the exact CRAN source); it does
+not clone those method repositories. It then installs the `SpatialMethodsWorkbench` package and its
 vignettes. Use `--skip-vignettes` when LaTeX/Pandoc is unavailable:
 
 ```text
@@ -133,8 +137,8 @@ Rscript verify-installation.R
 Rscript tests/testthat.R
 ```
 
-The first command checks the Workbench plus all three direct advanced engines
-and prints the 12 registered paths. The second runs the automated package and
+The first command checks the Workbench plus both direct advanced engines at
+compatible versions and prints the 12 registered paths. The second runs the automated package and
 Shiny-server tests.
 
 ### 4. Launch the local application
@@ -150,8 +154,7 @@ local machine. Do not upload protected data to an unsecured public service.
 
 ### What “complete distribution” means
 
-Users do not need to download the ISPAT, GP–GHS, or ISPAT-3D repositories
-separately. License-safe public source connected to the AI/ML, neural,
+Users do not need to download the GP–GHS or ISPAT-3D repositories separately. License-safe public source connected to the AI/ML, neural,
 SV-NN, STCAR, and SBLF provenance is also archived under `vendor/`; exact
 revisions and retained scope are recorded in
 [`vendor/manifest.json`](vendor/manifest.json). Large curriculum translations,
@@ -197,19 +200,17 @@ vignette("app-walkthrough", package = "SpatialMethodsWorkbench")
 
 The installed package exports the four deterministic data generators, validation and readiness functions, all 12 workflow runners, the common `run_analysis()` dispatcher, citation helpers, and reproducibility-bundle functions. The Shiny app and package call the same analysis implementation.
 
-## Install public advanced engines directly from GitHub
+## Install public advanced engines directly from CRAN and GitHub
 
 This alternative is for a GitHub checkout. Zenodo users should use the bundled
 installer above.
 
 ```r
-install.packages("remotes")
-remotes::install_github("sagnikbhadury/ISPAT")
-remotes::install_github("sagnikbhadury/GP-GHS")
-remotes::install_github("sagnikbhadury/ISPAT-3D")
+install.packages(c("remotes", "ISPAT3D"))        # ISPAT3D 0.3.1 or newer from CRAN
+remotes::install_github("sagnikbhadury/GP-GHS")  # GPGHS 1.0.1 or newer
 ```
 
-The app checks availability with `requireNamespace()` and never substitutes a different algorithm while displaying an advanced method's name.
+`ISPAT3D` serves both the ISPat 2D path (`ispat3d_fit_2d`) and the ISPat 3D path (`ispat3d_fit`). The historical standalone `ISPAT` package (CAVI/SVI with Stan) is no longer executed by any Workbench path. The app checks availability and minimum versions with `requireNamespace()` and `packageVersion()` and never substitutes a different algorithm while displaying an advanced method's name.
 
 ## Test
 
@@ -233,7 +234,7 @@ GitHub Pages cannot execute Shiny. Link the deployed application from `sagnikbha
 
 Do not upload protected health information to a public instance. Uploaded data live in the active Shiny process and are not intentionally persisted by this application, but the host's infrastructure and logs must also be configured appropriately. See [SECURITY.md](SECURITY.md).
 
-All network edges are conditional associations unless a method explicitly establishes something stronger. They are not automatic evidence of physical contact, molecular signaling, intervention effects, or causation. This software is for research, not clinical decision-making. The application deliberately does not interpret results; contact [Sagnik Bhadury](mailto:bhadury@umich.edu?subject=Spatial%20Methods%20Workbench%20collaboration) for study-specific interpretation or collaboration.
+All network edges are conditional associations unless a method explicitly establishes something stronger. They are not automatic evidence of physical contact, molecular signaling, intervention effects, or causation. This software is for research, not clinical decision-making. The application deliberately does not interpret results; contact [Sagnik Bhadury](mailto:bhadury@upenn.edu?subject=Spatial%20Methods%20Workbench%20collaboration) for study-specific interpretation or collaboration.
 
 ## Citation
 
@@ -251,9 +252,9 @@ Cite the Workbench **and** the sources applicable to the workflow you use. The t
 |---|---|
 | Spatial exploration and autocorrelation | Moran (1950), [doi:10.1093/biomet/37.1-2.17](https://doi.org/10.1093/biomet/37.1-2.17) |
 | Region-aware conditional network | Hoerl & Kennard (1970), [doi:10.1080/00401706.1970.10488634](https://doi.org/10.1080/00401706.1970.10488634), for ridge regularization; report this Workbench implementation as an exploratory precision/partial-correlation screen |
-| ISPat 2D Bayesian network | Bhadury et al. (2026), [doi:10.1038/s41598-026-35341-8](https://doi.org/10.1038/s41598-026-35341-8), plus the public [`ISPAT`](https://github.com/sagnikbhadury/ISPAT) package |
-| GP–GHS network | Bhadury, Gaskins & Rao (2026), [doi:10.64898/2026.04.01.715977](https://doi.org/10.64898/2026.04.01.715977), plus the public [`GP-GHS`](https://github.com/sagnikbhadury/GP-GHS) package |
-| ISPat 3D volumetric network | Public [`ISPAT-3D`](https://github.com/sagnikbhadury/ISPAT-3D) software; the Workbench does not cite or disclose an unpublished manuscript |
+| ISPat 2D spatially adjusted network | Bhadury et al. (2026), [doi:10.1038/s41598-026-35341-8](https://doi.org/10.1038/s41598-026-35341-8), plus the [`ISPAT3D`](https://cran.r-project.org/package=ISPAT3D) R package 0.3.1 (archived at [doi:10.5281/zenodo.22798429](https://doi.org/10.5281/zenodo.22798429)) whose `ispat3d_fit_2d` the path calls |
+| GP–GHS network | Bhadury, Gaskins & Rao (2026), [doi:10.64898/2026.04.01.715977](https://doi.org/10.64898/2026.04.01.715977), plus the public [`GPGHS`](https://github.com/sagnikbhadury/GP-GHS) package 1.0.1 |
+| ISPat 3D volumetric network | Bhadury et al. (2026), [doi:10.1038/s41598-026-35341-8](https://doi.org/10.1038/s41598-026-35341-8), plus the [`ISPAT3D`](https://cran.r-project.org/package=ISPAT3D) R package 0.3.1 whose `ispat3d_fit` the path calls; the Workbench does not cite or disclose an unpublished manuscript |
 | Linear/logistic and shallow-neural prediction | Roberts et al. (2017), [doi:10.1111/ecog.02881](https://doi.org/10.1111/ecog.02881), for structured validation; Venables & Ripley (2002), [doi:10.1007/978-0-387-21706-2](https://doi.org/10.1007/978-0-387-21706-2), for `nnet` |
 | Spatial clustering | Chavent et al. (2018), [doi:10.1007/s00180-018-0791-1](https://doi.org/10.1007/s00180-018-0791-1), as related spatial-clustering methodology; the Workbench path is a distinct weighted-coordinate k-means adaptation |
 | Wide-image scalar regression screen | Hoerl & Kennard (1970) for the implemented ridge screen; Wu, Wu & Kang (2025), [JMLR 26(116)](https://www.jmlr.org/papers/v26/22-0246.html), and Xu & Kang (2025), [ICLR 2025](https://proceedings.iclr.cc/paper_files/paper/2025/hash/f418594e90047a10f4c158f70d6701cc-Abstract-Conference.html), as related full spatial Bayesian methods |

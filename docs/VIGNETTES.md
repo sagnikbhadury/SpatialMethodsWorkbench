@@ -26,9 +26,9 @@ The fast examples use 19 permutations, 25 bootstrap replicates, small neural net
 
 | Public repository or fork | Workbench representation | Reproduced in |
 |---|---|---|
-| `sagnikbhadury/ISPAT` | Exact public R engine adapter | Spatial/network vignette |
-| `sagnikbhadury/GP-GHS` | Exact public R engine adapter | Spatial/network vignette |
-| `sagnikbhadury/ISPAT-3D` | Exact public R engine adapter | Imaging/shape/3D vignette |
+| `sagnikbhadury/ISPAT-3D` (CRAN `ISPAT3D` 0.3.1) | Exact public R engine adapter: `ispat3d_fit_2d` for the ISPat 2D path and `ispat3d_fit` for the ISPat 3D path | Spatial/network and imaging/shape/3D vignettes |
+| `sagnikbhadury/GP-GHS` (`GPGHS` 1.0.1) | Exact public R engine adapter: `gpghs_graph` | Spatial/network vignette |
+| `sagnikbhadury/ISPAT` | Historical CAVI/SVI implementation of the ISPat method; cited through the Scientific Reports paper, not executed since v0.4.0 | — |
 | `sagnikbhadury/AI-For-Beginners` | Source credited for the executable spatial AI workflow design; not imported as an R package | Prediction/clustering/mediation vignette |
 | `sagnikbhadury/ML-For-Beginners` | Source credited for executable prediction and clustering adaptations; not imported as an R package | Prediction/clustering/mediation vignette |
 | `sagnikbhadury/DeepUnderstandingOfDeepLearning` | Source credited for the executable shallow-neural adaptation; not imported as an R package | Prediction/clustering/mediation vignette |
@@ -36,6 +36,6 @@ The fast examples use 19 permutations, 25 bootstrap replicates, small neural net
 | `sagnikbhadury/STCAR` | Related full method/software cited alongside the implemented fast scalar-on-image screen | Imaging/shape/3D vignette |
 | `sagnikbhadury/SBLF` | Related full method/software cited alongside the implemented fast image-to-image screen | Imaging/shape/3D vignette |
 
-Only the first three entries are directly called package engines. The remaining forks are represented through executable adaptations or explicitly labeled related-method workflows. This distinction prevents a screening implementation from being misreported as an exact reproduction of another repository's algorithm.
+Only the first two entries are directly called package engines. The remaining forks are represented through executable adaptations or explicitly labeled related-method workflows. This distinction prevents a screening implementation from being misreported as an exact reproduction of another repository's algorithm.
 
 The vignettes describe execution and numerical output structure. They do not interpret a user's results or assign biological, clinical, or causal meaning.

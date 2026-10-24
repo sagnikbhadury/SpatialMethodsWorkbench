@@ -1,9 +1,10 @@
 result_manifest <- function(result) {
   list(
     application = "Spatial Methods Workbench",
-    application_version = "0.3.1",
+    application_version = "0.4.0",
     analysis_id = result$analysis_id,
     method = result$method,
+    engine = result$engine,
     started_at = result$started_at,
     elapsed_seconds = result$elapsed_seconds,
     mapping = result$mapping,

@@ -59,7 +59,7 @@ From this directory in PowerShell:
 & 'C:\Users\bhadury\AppData\Local\Programs\R\R-4.5.2\bin\Rscript.exe' tests/testthat.R
 ```
 
-Expected for v0.2.1: `FAIL 0`, `WARN 0`, `SKIP 0`, `PASS 31`.
+Expected for v0.4.0 with ISPAT3D 0.3.1 and GPGHS 1.0.1 installed in R 4.5.2: `FAIL 0`, `WARN 0`, `SKIP 0`, `PASS 118`. The engine tests in `tests/testthat/test-engines.R` skip when those packages are absent.
 
 Run locally:
 
@@ -69,9 +69,10 @@ Run locally:
 
 The public advanced engines are installed from:
 
-- `sagnikbhadury/ISPAT`
-- `sagnikbhadury/GPGHS`
-- `sagnikbhadury/ISPAT-3D`
+- `ISPAT3D` 0.3.1 on CRAN (`install.packages("ISPAT3D")`; source `sagnikbhadury/ISPAT-3D`). It provides both the ISPat 2D path (`ispat3d_fit_2d`) and the ISPat 3D path (`ispat3d_fit`).
+- `GPGHS` 1.0.1 from GitHub (`remotes::install_github("sagnikbhadury/GP-GHS")`).
+
+The standalone `sagnikbhadury/ISPAT` package (CAVI/SVI, Stan) is retired from the Workbench as of v0.4.0 and must not be re-added as an engine; its method is cited through the Scientific Reports paper.
 
 See `docs/USER_GUIDE.md` for the complete dependency and Docker instructions.
 

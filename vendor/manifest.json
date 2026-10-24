@@ -1,32 +1,28 @@
 {
-  "bundle_schema": "1.0",
-  "workbench_release": "0.3.1",
-  "generated_date": "2026-08-14",
+  "bundle_schema": "1.1",
+  "workbench_release": "0.4.0",
+  "generated_date": "2026-10-24",
   "privacy_boundary": "Only public, release-scoped software is included.",
   "sources": [
     {
-      "name": "ISPAT",
-      "repository": "https://github.com/sagnikbhadury/ISPAT",
-      "commit": "d775f2cc252561c45eff8acb5397101f73b7f7d8",
+      "name": "ISPAT-3D",
+      "repository": "https://github.com/sagnikbhadury/ISPAT-3D",
+      "commit": "18626f049d2d27a4f52341b2c7d734f76b4393ae",
+      "version": "0.3.1",
+      "cran": "https://cran.r-project.org/package=ISPAT3D",
+      "archive_doi": "10.5281/zenodo.22798429",
       "license": "MIT",
-      "scope": "complete package source",
-      "role": "directly executed exact engine"
+      "scope": "complete CRAN source package ISPAT3D 0.3.1 (R package name ISPAT3D)",
+      "role": "directly executed exact engine: ispat3d_fit_2d for the ISPat 2D path and ispat3d_fit for the ISPat 3D path"
     },
     {
       "name": "GP-GHS",
       "repository": "https://github.com/sagnikbhadury/GP-GHS",
-      "commit": "89215a43c57dca66fdf0268f9e304bc4770e077b",
+      "commit": "c42319e3c07910224225182a4af404d60a9c551f",
+      "version": "1.0.1",
       "license": "MIT",
-      "scope": "complete package source",
-      "role": "directly executed exact engine"
-    },
-    {
-      "name": "ISPAT-3D",
-      "repository": "https://github.com/sagnikbhadury/ISPAT-3D",
-      "commit": "2abedd22a29cf0d002a3623173552f2bacc8a4b2",
-      "license": "MIT",
-      "scope": "complete package source",
-      "role": "directly executed exact engine"
+      "scope": "complete package source (R package name GPGHS) including the article analysis scripts",
+      "role": "directly executed exact engine: gpghs_graph for the GP-GHS path"
     },
     {
       "name": "AI-For-Beginners",
@@ -75,6 +71,14 @@
       "license": "MIT",
       "scope": "complete R/C/C++ package source and small package data; generated platform binaries omitted",
       "role": "related exact method; Workbench path is a separate latent-factor screen"
+    }
+  ],
+  "retired_sources": [
+    {
+      "name": "ISPAT",
+      "repository": "https://github.com/sagnikbhadury/ISPAT",
+      "last_bundled_release": "0.3.1",
+      "reason": "The ISPat 2D path now calls ISPAT3D::ispat3d_fit_2d, the matched planar fit of the current ISPAT3D package. The historical CAVI/SVI ISPAT package is no longer executed by any Workbench path and is not bundled."
     }
   ]
 }

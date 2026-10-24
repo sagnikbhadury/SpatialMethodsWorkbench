@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Matched section-wise 2D networks and a 3D comparison</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Matched section-wise 2D networks and a 3D
+comparison</h1>
+
+
+
+<p>This vignette uses a small registered synthetic cell map to run the
+<strong>matched section-wise planar comparator</strong>. The 2D model
+fits a Matérn-3/2 GP independently within each zone and section using
+<span class="math inline">\((x,y)\)</span> coordinates; its adjusted
+rows are then passed to the same Gaussian-likelihood shared-plus-zone
+covariance fitter as the 3D model. The matched comparison keeps the
+<strong>selected cell roster</strong> and downstream estimator fixed. It
+changes both coordinate dimension and the way sections are pooled, so a
+3D-minus-2D difference does not isolate a causal effect of depth.</p>
+<p>The planar workflow follows the cell-density, spatial-adjustment,
+factor-covariance, and conditional-network architecture of the published
+ISPat method (Bhadury <em>et al.</em>, 2026). Its scalable Vecchia and
+Gaussian-likelihood estimators are those used for the ISPAT-3D
+comparison described by Bhadury and Rao (2026); it is not an execution
+of the original Bayesian ISPat package.</p>
+<div id="prepare-a-small-serial-section-image" class="section level2">
+<h2>1. Prepare a small serial-section image</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(ISPAT3D)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>image <span class="ot">&lt;-</span> <span class="fu">ispat3d_example_image</span>(<span class="at">n_per_section =</span> <span class="dv">30</span>, <span class="at">n_sections =</span> <span class="dv">3</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>                               <span class="at">bandwidth =</span> <span class="fl">0.12</span>, <span class="at">seed =</span> <span class="dv">2026</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">table</span>(image<span class="sc">$</span>zones, image<span class="sc">$</span>sections)</span></code></pre></div>
+<pre><code>##       
+##         1  2  3
+##   Low  15 15 15
+##   High 15 15 15</code></pre>
+<p>The example has three registered sections, three annotated source
+cell types, a cell-type-specific KDE at every cell, and Low/High zones
+defined by each section’s tumor-cell KDE median. The model matrix
+<code>image$Y</code> is <code>log1p(1e9 * image$kde)</code>. This
+miniature image is for execution and teaching. Real images need checked
+cell classification, registration, section IDs, KDE surfaces, and a
+prespecified tumor-burden score before fitting.</p>
+<p>The section-zone group sizes matter because the planar GP is fitted
+<strong>inside each group</strong>. A group with fewer than ten cells is
+mean-centered. With the selection below, each group has 12 cells and
+exercises the actual GP code.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>old <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>zone_color <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Low =</span> <span class="st">&quot;#4C72B0&quot;</span>, <span class="at">High =</span> <span class="st">&quot;#C44E52&quot;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="cf">for</span> (s <span class="cf">in</span> <span class="fu">sort</span>(<span class="fu">unique</span>(image<span class="sc">$</span>sections))) {</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  at <span class="ot">&lt;-</span> image<span class="sc">$</span>sections <span class="sc">==</span> s</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="fu">plot</span>(image<span class="sc">$</span>coords[at, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;y&quot;</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">&quot;Section&quot;</span>, s), <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>       <span class="at">cex =</span> <span class="fl">0.6</span>, <span class="at">col =</span> zone_color[<span class="fu">as.character</span>(image<span class="sc">$</span>zones[at])])</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>}</span></code></pre></div>
+<div class="float">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqAAAAEMCAMAAAAs1PT/AAAAolBMVEUAAAAAADoAAGYAOmYAOpAAZrY6AAA6ADo6AGY6OpA6ZpA6ZrY6kNtMcrBmAABmADpmAGZmOgBmOjpmOmZmOpBmZjpmkJBmkLZmkNtmtv+QOgCQOjqQOmaQZjqQ27aQ29uQ2/+2ZgC2Zjq2kDq2kGa229u22/+2/7a2/9u2///ETlLbkDrbkGbbtmbbtpDb////tmb/25D/27b//7b//9v///+e2U97AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAOQElEQVR4nO2de2PbthXF6cRWlyV1s2cXp93sbE3nuJ0lS/r+X22i5YdEkXjxXtwD4Pz+aNzQx8YJDi8BkCK6LSHAdNYNIMQFA0qgYUAJNAwogYYBJdAwoAQaBpRAw4ASaNQD+vCnrnv7dezI5urN7YToZvIIHPH+Nl8W3dtr3VbJkdB/vy0mFCloB3Rz9fb24fL8fvj3//tx2uDDz10xAU3w93v3j+3NWSEJTfC3WlysRxSJaAd0oqk7Ew7J2aKYgCb461l2n3TaI02aP8fFMRb9gHbvHx0+fO66P+6+Wu0uGe83V1335r+9i1217N593X3b25+7s32nrf/yi5w/bRL89dyUE9AUfw+X7vMzAvUx6F3Xnf1435+JX/tLxfry4v737kN/Bvan2fryzdeHxz/Prl9PVsETUJ0Uf7sCWsolPsnfLq7FjEF3Q65F153fL7sPO7Nn10/XtmeDj3+9+09v7jWWJQU0xd9q0YlVGHUS/G0Fx9gZlpk2/1l0n3YnYs/uzyODj/9bdkDj/e3yWbW/7eNfCf32LOugOxvPLa6vgm5j/e0GcMVc4PfE9p/kJFA7oMvu4n4/WDn/+vTn/aOh4Rim0IAm+Ft2pcyQtkn+dkPUjdxCtnoF/W03hOmXpZ8XfB9ngffbL92bX45mgYUGNMHfzePFUuoSqE28v82/S1qoJ2QWDCiBhgEl0DCgBBoGlEDDgBJoAgPaFUXCP0NRtORvaHb5+B0ndzqKKrSuxtIfPq6Abq72d7LeDR4CLNfgMfRXAK6Arj/eHvwx+W3YOBpLfwUQUkH/UI3BY+ivAJxj0NWisjHMAPrDxxnQEA06KbNc+Vbo0ZS/8Za/jmHGZv7o+BtLf8iwgopI7GjKHwOaJPk+/lfIIevP1MooDOhsyfffW3arqD9bK6MwoPMlrKCKOBfqL/dj6uFHLmoJKP0VgLOCrn8Y/cBhuQYH0B8+7kv8cvRdPOUaHEJ/8HAMKiKxoyl/lgH9pvFDt411oJrEh1bv4QT02zcljxgdqAeEP7XewwkoK2giGP7qr6BqYHSg3gpjU+u8DGiqxIvaPZpa75Q912QGVETihxU0ipdRrXlA9UYve1ACqkWt/lAqqOL8b0+tHfhMBf6cCbAOKCvoTErzd9rf7hplHlBtSuvAWLD9nQxfx9KIXUG1UetAkCfToAM6sgAQe8VkQBMlKM/2QgdU4CxmQFMlGPkED+h8GFARiR1N+VMPqEHVaaoD1SR2ZA2oxbitqQ5Uk9jBCioisaMpfxyDxkus50oMqEeDjnIHmq82MaAeDTqsoBISOxjQaYl19oIoPaC+O0tGAY3o+5lPk6R3oPnVO4jCA+p9ms0moBF9P/d5PFZQCYkesyroanH2z8uTN6fUU0H1/OWjKX+Dlm9+uu1fnrL+a65dIjSeDXU0Nrs/DZryN2j5+uNt/3bebLtEqDxd72hsbn8qNOVvvILm22fHpoJWtI/QMfX5G7Z82VU2hhmQ35/8KYjlTx6ug4pIAlEYxED5UyAgoBXtEjFKTn95K+ieivqPFTRVYkdT/hjQVIkdTfk7nSQhbKUXd1kcfrd7EoHgbx5N+RsuM0Fs5xw3sTj5btcyDIS/mSD6k7xH7FmoP/hj8tu0UaugIP7mAehP9CmbkApaz3bOx9CfErkqaH3bOQ+gP3w4ixeR2NGUP+OAqrzorrYOHF4+a/M3BCigkdP1wO+rrANPJiBQ/hQe8QYKaFQFDU4zVAcKgFxBNT4kgxTQKBqtoCdA+au8gqoA1YGCjL7DPQxbf5EzDQZURJKd8V0wwjD1F/vEIVBAdd5WX1oHhlJHBfX3OU5Alfb7KK4DIynaX0Cf4wSUFTSJsv1ZVFCw1x2U3YF+mvInEVC0F8Y01YFqEjv0KyhfT6hKjf4OL/zqY1DrilpjBx5Sob+jqZP+JEkon6lTqAo78Iga/WWtoEIkL0LV2IGHNOUPOKCsoBM05Q85oKk01YFqEjsYUBGJHU35Y0BTJXY05Y8BTZXYgeZPelGRARWR2AHmT3zZu5yAcplpFDR/lVfQ6RSOLoQGhNa0AzPcRNPyh/JEhTOgq++ul13ON/S6luPH8hmweu9qrLa/HLd5lfxZ36F+wRXQzefr/sVTOV8+FXkdn1dB9f3ZVtBZ/kDy6Qzo+uPt6n3dL9eiP3Scl/gv17uTcNubnNbMRP1EdTU2gz91mvI3bPnmqn/51PngCiFpUH+o42qsgr/sV8bM/rJjPYs3raBykmfyzy3QlpmcJCwVBgS0ol0iRhH1B1VB9+D0X8ozk9YVVJ2iKkwCRfnTqaBuDTpFdWACZfkTrqDV7RIxgP4yk3CNdy7UcxcMfMryJ1tBuQtGATTlb6KCchcMYJryd/KwSG27RAygP3w4ixeRhCP9ijQ0f9IwoCKSYPzz2Mil/uz+Mt+KYECjJfN6yJvPyJuluQOa+2YuAxor0e4hVtAjGNBoCcqjvHvAhjDiMKAiEgUCz4OC/CXNDxlQEYk8oSOJcvylvf+NARWRKFB8BT0xwAo6Bm4HygDrT2gyyYCKSOzA9SczmWRARSR2NOWv+xSvicJgheawsWH2sDtwOJBD8KfZrccBHT6YFaCJweJ1FYeNDbMHHdCTqTCAP9VuzXuJN66gepJ8uCpoIAVX0AQNOggdqElT/hjQVIkdTfljQFMldjTljwFNldjRlD8GNFViR1P+GNBUiR1N+WNAUyV2NOVvTkChHjM/oKkOVJPYIRVQ3ZtEM356Ux2oJrGDFVREYkdT/sZa3r9E2qVBx9dY+sPGFdD15f59p8N9TMo1eAz9FYCzgq4WH0o7A0/GAq7GFujvhKb8nbb87uxfRRk8nU25G1uav1Oa8jfS8s3VybunoA1GVdBtef5OaMofF+pTJenMfZkYur+5BAQUZ5eIFPyNNfWX9mHxA8D9zYYVVESSDiuoGwZURGJHU/6GLYfbJSIBV2PpDx9XQAF3iYjH0Vj6KwDnnaTqdok4hv4KIKSC1rNLxDH0VwCeW52VjWEG0B8+nMWLSOxoyh8DmipJQGg/Glh/QiAEdHj/XHQrIdQOnH0L6QlUf1IABHT4BJJU1+2B7cC6K6jYBywAAtpmBZUC05/cR9QQAqoKZgfKAeqvqgqqCmgHitGUPwY0VTKF9NaxpzCgHg06ph0oO98bhQH1aNCZ3YGzRlOsoHNhQD0Si/fqx8CAejTo2FbQYzTqKQPq0aAD1IEqI1IgfyowoCKSMFhB45kTUOzB2RNNdaCaxI4ZAUWfPuxpqgPVJHbkr6CZU11PB44PEOrxN072MWjuultFB/bZnJhiVeHPQf5JEitoNPtssoJyFp8sUcYx/a/CnwMGVEQyjfbNTmt/s/H8A+EEVOnSb9yB6o+LlB5Q3z8QTEC1Jk/WHRiYz+QYW/ubDStoDslc0gttGf7ScQZ0teguqnp1ygAgfyoVFMjfOAGuXQHtX52yfHMLbDAAR2Mt/ImPSOf6s7wbGHLdcAX00dn646+1BtTAn/ycaaY/2/vVcyvo4wYR6z/X8/KpYyz8Za2gIf5gnqeY+JfxjEH716Mt69kIagD94TB1bcGZxSvR1CxXTZKBlAq6B3CXiIjrkr+xgP4iwPInP2CYVUGtxi8xI/tqKswEUP4Uplyzngc1mwGKVlAJiR1Y/jJXUN8uETAzQAeu3qhuF4wB1fkbWajfVrVLxDH0VwDehXroW2UB+Bay6Q+bkApa7UI9/VkSds/C97BIXWOYAfRnSOBdXy7Ui0jsKNefQAUN0aBTbgeG0ZQ/BjRVYkdT/hjQVIkdTfljQFMldhj7U79Xw4CKSOyw9ad/t5sBFZHYwQrq0aDDgEpI7GBARSR2NOUvY0D1t794oqkOVJPYYRTQDBsIPdFUB6pJ7GAFFZHYPRrLgHo06OTpQLsPFzCgHg06rKDREqgPSjCgIhI75P1hbY7BgIpI7GAF9WjQYUAlJHYwoCISEZJWNgrylwQDKiKRIG1tuBx/aTCgIhIRWEFHYEBFJPPmFXPuWjCgHg06WTpw3srMrPu+DKhHgw4rqITEDgY0XAK1PvhM0wGt7uVTA+L8Yd1heUbOHyaugNb38qljYv0h5lPSHySugNb38qlj6K8AQioo6MunwgioMPQHjHMMCv3yqUBcjaU/fDiLF5HY0ZS/8ZZzFwxkmvLHCpoqsaMpfwxoqsSOpvxxod4rgaMpf1yo90nwaMofF+p9Ejya8seFep8Ej6b8hS7UF4XDPP0VgCugTnzfjH7ch3X76C9eo96AnMd9WLeP/uI16g3IedyHdfvoL16j3oCcx31Yt4/+4jXqDch53Id1++gvXqPegJzHfVi3j/7iNeoNyHnch3X76C9eQ4gpDCiBhgEl0DCgBBoGlEDDgBJoGFACDQNKoAkL6LLrPh1/MX58c9V1Fy79dnv3wXX8zqOfOP7yCPlE+3zQH6y/oICuf7jeP6P98sXE8buL52e6x4/3D9SOGHw5vnp379RPHN+uL9/cDn5RDPSH6y8ooP3P/Xx9+MXE8Z6RU+z1+Obz30YMvhwfPT39v3/z06/7M3DiuA/6w/UXFNDlrizffDr8YuL4duTzWkfH7z6MeXg5fvP3xdgl4FW/Wpx8muHwt060zwf94fqTDuiuSDv0uzPEbfD83vnzl+fjl4h8HUh/mf0JX+JX342dIK+XgP4jUY5LSN841yWmP7YcG2WvM10C6S+3P9lJ0sQI/lA2dga+HJ84w1+P92fo2Djn+fPgypMI+svuL2KZqf8hrmWK3fGb8TPsVe9apuiP343KX4/fOJYpHO3zQX+w/rhQT6BhQAk0DCiBhgEl0DCgBBoGlEDDgBJoGFACDQNKoGFACTQMKIGGASXQMKAEGgaUQMOAEmj+D0r5+QwzkTPjAAAAAElFTkSuQmCC" alt="Synthetic planar cell locations, colored by relative tumor-density zone." />
+<div class="figcaption">Synthetic planar cell locations, colored by
+relative tumor-density zone.</div>
+</div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">par</span>(old)</span></code></pre></div>
+</div>
+<div id="fix-the-cell-roster-before-either-fit" class="section level2">
+<h2>2. Fix the cell roster before either fit</h2>
+<p>Call <code>ispat3d_sample()</code> once and pass its row indices to
+both analyses. This is the key matching rule; selecting separate random
+subsets would conflate sampling with the spatial-model comparison.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>selected <span class="ot">&lt;-</span> <span class="fu">ispat3d_sample</span>(image<span class="sc">$</span>coords, image<span class="sc">$</span>zones, image<span class="sc">$</span>sections,</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>                           <span class="at">budget =</span> <span class="dv">36</span><span class="dt">L</span>, <span class="at">budget_kind =</span> <span class="st">&quot;per_zone&quot;</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>                           <span class="at">seed =</span> <span class="dv">2027</span><span class="dt">L</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>rows <span class="ot">&lt;-</span> <span class="fu">unlist</span>(selected, <span class="at">use.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">table</span>(image<span class="sc">$</span>zones[rows], image<span class="sc">$</span>sections[rows])</span></code></pre></div>
+<pre><code>##       
+##         1  2  3
+##   Low  19 13  1
+##   High 29  6  4</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">length</span>(rows) <span class="sc">==</span> <span class="dv">72</span><span class="dt">L</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>Y <span class="ot">&lt;-</span> image<span class="sc">$</span>Y[rows, , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>xyz <span class="ot">&lt;-</span> image<span class="sc">$</span>coords[rows, , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>zone <span class="ot">&lt;-</span> image<span class="sc">$</span>zones[rows]</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>section <span class="ot">&lt;-</span> image<span class="sc">$</span>sections[rows]</span></code></pre></div>
+<p>For experimental CRC-style analysis, the budget denotes cells
+<strong>per zone</strong>. For the manuscript’s breast specimen,
+<code>budget_kind = &quot;total&quot;</code> allocates one budget across the five
+zones. Save <code>selected</code> with <code>saveRDS()</code> when
+comparing fit variants or repeating an analysis.</p>
+</div>
+<div id="fit-the-section-wise-planar-model" class="section level2">
+<h2>3. Fit the section-wise planar model</h2>
+<p><code>ispat3d_fit_2d()</code> takes the same three-column registered
+coordinate matrix as the 3D function but uses only the first two columns
+for each section-zone GP. GP predictions and residuals are made for all
+selected cells in that group. The complete adjusted covariance for each
+zone then enters the same factor-covariance likelihood as the volumetric
+fit.</p>
+<p>This example uses a small rank and short optimizer budget for a fast
+executable vignette. Defaults for large applications are 15 Vecchia
+neighbors and up to 5,000 anchors per fit; the manuscript used rank five
+for CRC and breast.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>common <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="at">Y =</span> Y, <span class="at">coords =</span> xyz, <span class="at">zones =</span> zone, <span class="at">sections =</span> section,</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="at">rank =</span> <span class="dv">2</span><span class="dt">L</span>, <span class="at">anchor_min =</span> <span class="dv">12</span><span class="dt">L</span>, <span class="at">anchor_max =</span> <span class="dv">24</span><span class="dt">L</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="at">neighbors =</span> <span class="dv">5</span><span class="dt">L</span>, <span class="at">gp_maxit =</span> <span class="dv">3</span><span class="dt">L</span>, <span class="at">factor_maxit =</span> <span class="dv">60</span><span class="dt">L</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="at">threads =</span> <span class="dv">1</span><span class="dt">L</span>, <span class="at">return_residuals =</span> <span class="cn">TRUE</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>)</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>fit2d <span class="ot">&lt;-</span> <span class="fu">do.call</span>(ispat3d_fit_2d, common)</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="fu">table</span>(fit2d<span class="sc">$</span>gp_log<span class="sc">$</span>status)</span></code></pre></div>
+<pre><code>## 
+##            ok small_section 
+##             9             9</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>fit2d<span class="sc">$</span>counts</span></code></pre></div>
+<pre><code>##  Low High 
+##   33   39</code></pre>
+<p>Inspect <code>fit2d$gp_log</code> before using the result. A
+<code>small_section</code> or <code>constant</code> status means
+mean-centering was used as specified; <code>fallback:...</code> means an
+attempted GP failed and that particular variable-group was
+mean-centered. The returned residual matrices are available because
+<code>return_residuals = TRUE</code> was set.</p>
+</div>
+<div id="compute-and-plot-conditional-networks" class="section level2">
+<h2>4. Compute and plot conditional networks</h2>
+<p>The fitted covariance in zone <span class="math inline">\(q\)</span>
+is the sum of shared factors, zone factors, and positive diagonal
+uniqueness. The partial correlation for a pair is obtained by inverting
+this <strong>full</strong> covariance and normalizing its precision
+entries. The shared factor product alone is low rank and should not be
+inverted as a separate network.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">round</span>(fit2d<span class="sc">$</span>full[[<span class="st">&quot;High&quot;</span>]], <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##             Tumor T_cell Macrophage
+## Tumor       0.058 -0.038     -0.033
+## T_cell     -0.038  0.487      0.033
+## Macrophage -0.033  0.033      0.376</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">round</span>(fit2d<span class="sc">$</span>partial[[<span class="st">&quot;High&quot;</span>]], <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##             Tumor T_cell Macrophage
+## Tumor       1.000 -0.214     -0.209
+## T_cell     -0.214  1.000      0.029
+## Macrophage -0.209  0.029      1.000</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">isTRUE</span>(<span class="fu">all.equal</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>  <span class="fu">ispat3d_partial_correlation</span>(fit2d<span class="sc">$</span>full[[<span class="st">&quot;High&quot;</span>]]),</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  fit2d<span class="sc">$</span>partial[[<span class="st">&quot;High&quot;</span>]]</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>)))</span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="fu">ispat3d_edge_table</span>(fit2d, <span class="at">zone =</span> <span class="st">&quot;High&quot;</span>, <span class="at">threshold =</span> <span class="fl">0.02</span>)</span></code></pre></div>
+<pre><code>##     from         to partial_correlation     sign absolute_effect
+## 1  Tumor     T_cell         -0.21412730 negative      0.21412730
+## 2  Tumor Macrophage         -0.20938917 negative      0.20938917
+## 3 T_cell Macrophage          0.02929854 positive      0.02929854</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">ispat3d_plot_zones</span>(fit2d, <span class="at">columns =</span> <span class="dv">2</span>, <span class="at">threshold =</span> <span class="fl">0.02</span>,</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>                   <span class="at">label_cex =</span> <span class="fl">0.8</span>)</span></code></pre></div>
+<div class="float">
+<img src="data:image/png;base64,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" alt="Matched planar conditional-density networks in the two simulated zones." />
+<div class="figcaption">Matched planar conditional-density networks in
+the two simulated zones.</div>
+</div>
+<p>The edge table and base-R circular plots use the fitted partial
+correlations. Red and blue edges are positive and negative conditional
+density associations. A display threshold declutters the drawing; it is
+not a test of significance.</p>
+</div>
+<div id="compare-with-the-volumetric-fit-on-identical-cells" class="section level2">
+<h2>5. Compare with the volumetric fit on identical cells</h2>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>fit3d <span class="ot">&lt;-</span> <span class="fu">do.call</span>(ispat3d_fit, common)</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">identical</span>(fit3d<span class="sc">$</span>counts, fit2d<span class="sc">$</span>counts))</span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>delta_high <span class="ot">&lt;-</span> fit3d<span class="sc">$</span>partial[[<span class="st">&quot;High&quot;</span>]] <span class="sc">-</span> fit2d<span class="sc">$</span>partial[[<span class="st">&quot;High&quot;</span>]]</span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="fu">round</span>(delta_high, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##             Tumor T_cell Macrophage
+## Tumor       0.000 -0.133     -0.150
+## T_cell     -0.133  0.000     -0.133
+## Macrophage -0.150 -0.133      0.000</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>old <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>))</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="fu">ispat3d_plot_network</span>(fit3d, <span class="at">zone =</span> <span class="st">&quot;High&quot;</span>, <span class="at">threshold =</span> <span class="fl">0.02</span>,</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>                     <span class="at">main =</span> <span class="st">&quot;Pooled 3D&quot;</span>, <span class="at">label_cex =</span> <span class="fl">0.8</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="fu">ispat3d_plot_network</span>(fit2d, <span class="at">zone =</span> <span class="st">&quot;High&quot;</span>, <span class="at">threshold =</span> <span class="fl">0.02</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>                     <span class="at">main =</span> <span class="st">&quot;Section-wise 2D&quot;</span>, <span class="at">label_cex =</span> <span class="fl">0.8</span>)</span></code></pre></div>
+<div class="float">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqAAAAFQCAMAAABXmDxzAAAA8FBMVEUAAAAAAAsAADoAAGYAOjoAOmYAOpAAZmYAZpAAZrYLABQUJTMhZqwlMzMzJRQzLB0zMyUzMzM6AAA6ADo6AGY6OgA6Ojo6OmY6OpA6ZmY6ZpA6ZrY6kJA6kLY6kNtmAABmADpmAGZmOgBmOjpmZmZmkJBmkLZmkNtmtttmtv+QOgCQOjqQZgCQZjqQkDqQkGaQtpCQttuQtv+Q27aQ29uQ2/+yGCu2ZgC2Zjq2ZpC2kDq2kGa2tma225C229u22/+2/9u2///bkDrbkGbbtmbbtpDb25Db27bb/7bb////tmb/25D/27b//7b//9v///9V78wtAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAOd0lEQVR4nO2dDXfbthlGOTt2ps1dZ8VZsmax87G2kbsuyzZN2bomtZYuk2SL///fDABBErJly/og8LwvnntaW5YpEry6ICkp57goCQGmSD0AQu6CgRJoGCiBhoESaBgogYaBEmgYKIGGgRJoGCiBhoESaBgogYaBEmgYKIGGgRJoGCiBhoESaBgogYaBEmgYKIGGgRJoGCiBhoESaJIFOi4qnny8fZn5eXE4WXL/qNi/8Dcvvy+KvW8m7Qr3vrpjhfKZ//B41T7O/3lxq7k7HrXyEZev66crpurkgRZ7w1uXWR3o1ZlbR29hhYNOBgyBMbJqHy9f7XcS6LTfPF0xVacP9A4vqwM1a3ljvwzCFd6RvHSanWxOITcY3fG7LTDPxf6wnPXtMxJTdcJAncfLs2onfzbnjwffVDU2t32g8/fGxDP3u/n7fnHwrnkO5j/8zixgrA2aFX5+VR1QdTIq9t4YaeduSoZiyk/m1P/gjV3C5vuTn9qt1nGx93ez+MGwXZVdYuTWNDXzvHrEf9oriHDt5lz1ut8rff4xVacO1IprTxqHwcWkuV0F6k/jBxftGW7hIDEf+VVUd5rF1zy7CcJPTTMlT8tQTNVlYe5dCDTQWh/1mmPe1N60qzh1q60eMW71hmu/NoCYqlMH+vnMfm/OHKdleLsK1Dj56J8SM9N7Ezuzg0Cn/rBQW2tvKGRsXxJ+8D8sink+uXQuXUKVuVCr+Xrw0d92uPOO+WIOgmbpnnuEKa43KT/V0dZrb6nXGE81xjWoPzCMGsHV7VraaeldjOq5HXixK3pWLgSq9yLUn0IO3k2chmtixl99KMNAQ63VhboJrNeuqufk7V/YVt0jzI0Dn3+49gZ7VB3EVZ0+ULOL9Yshu783bs/6zYLOaXnjdcDP/eoQkUGg1bVmdeZdFNOca9tAQ5Xeij1EVifvw8nY/D8qHp7tDcf1waDq3120Bmtvtm0O0f5yIZ9A3QW501a6E9UgvO2kTduS699df6G6cGGkPFBz6Pv81p2YAzH1zLW0gYYqlwRqLkL/dmZfHJ2OmpovX1Vr/Gu49nrNtllffBaBtpGtOoIOri13Z6D2/RCt16DNJeHIn5j9/RsdQc233/ft4fPhWXO9b46Sbx+73wZrbzfutxJTNUSgq65BF48OwTXo5ev+aenfManftzpX/DaT2fO9byfuomb/4qaY6ZN3d1yDNoG2Dyr8GSq4zDLM/3Rt7fW26yViqsYIdMWr+L039vLH3KxexY+aV/FmAeP2U/0yNdq7x8lod7JXXhPzzF1B+nP5slfxNwKdutX48OrLqefuPL+o3TFqP1LJ6Y365qfmDbvb3gd1Lvzbfc1j/aV8+EZfFh91hu9UhmJ6VXZL3we9EaiVN3Cr7NVXCe/b7sK1l8GLpuodgWiqQQKtPvL49tptf9q5/N7I8Z9u/KtfPHgT/mOR15n9YxH3Kt5/5haIqT5JctLs50Ufwk+SnNYlgVbnH/8GlHftVl/9A55w7Ysfsmbxj0UIuQ8MlEDDQAk0DJRAw0AJNAyUQMNACTQMlEDDQAk0DJRAw0AJNAyUQMNACTQMlEDDQAk0DJRAw0AJNAyUQMNACTQMlEDDQAk0DJRAw0AJNAyUQMNACTQMlEDDQAk0DJRAw0AJNAyUQMNACTQMlEDDQAk0DJRAw0AJNAyUQMNACTQMlEDDQAk0kIH6Pxql+C/GxUWyT8hADbMTrX8QNg1ifTLQPBDrEzpQ+8X8Pz//ul/0zHmq585W5kw1e/JK7Z/c7gaxPmUEav8o9+Fk9mh4dTYop/ZPpSv+g7GdINanjEDt3+R1/9t7rl4MjdrUAxSGWJ/CAp26P9I9EHtFlQyxPoUFWs94XKGgiPUJHai9Qhrvh0LrayZcoaCI9QkdaDkuij+8DIXWrzpxhYIi1idqoIQ4GCiBhoESaBgogYaBEmgYKIGGgRJoGCiBhoESaBgogYaBEmiEBHp8nHoEupDjU0SgVqccpfhI8ikj0OYL2QWSfEoI9HjhG9kWUT4ZaH6I8ikhUFGnJAlI8ikjUHdRf5R6GGqQ5FNCoEdHR0anIfVAlCDKp5BAK1IPRAmifAoItHIpxig8snwKCbT9RrZFlk/8QI8CoRKMoiPMp4xAmxsCjKIjzCd8oEfChKIjzSd6oKFFGUaxEedTUqBSruuREecTPNDFSS5iykMjz6eAQG//kayLPJ/YgV6f4hKmPDICfeIHeuMOcKPICPQJHehNffhCkZHoEznQZfbwjeIi0qe0QCVc16Mi0idwoMsnN/yUh0WmT/BA7383WYVMn7iB3ja10ac8KkJ9Ygd66y+AjaIi1CdsoLdrwxaKilSfqIHeZQ3bKCZifUoMFP26HhGxPkEDvXtSQ095SOT6BA50xa9RjUIi1ydmoKuEAQuFRLBP3EBXLgBqFBHBPiEDvYcuWKGISPaJGOh9pjPulMdDtE+pgeJOeTxE+wQM9H6TGXbKwyHbJ2ig91wM0Sgcsn3iBXpfUaBC4RDuEy7Q+3sCNQqGdJ+CA4W9rodCuk+0QNeZxphTHgvxPhEDXWthOKNYiPcJFuh6ihCFYiHfJ2Cgay6OZhQK+T6xAl1bEJ5QKBT4hAp0/QkMOOWB0OBTeKCAUx4IDT6RAt1k+uJNeRxU+EQLdKMHQRnFQYVPoEA3U4MmFAcdPsEC3fBhSEZh0OETJ9CNxWAJhUGJT5hAN5+4YFMeBC0+FQQKZhQELT5RAt1GCpRQENT4RAp0qwfDGMVAjU+QQLdUAiQUAz0+gQLd8uEoRiHQ4xMj0K2F4AiFQJFPiEC3n7BAUx4ATT6VBApkFABNPhEC3YUMGKEAqPKJEuhOVgJhND2qfAIEuiMVIELTo8snSKA7Wg2C0eTo8pk+0J2JwBCaHGU+kwe6u4kKMuUTo82nokBBjCZGm8/Uge5SAoTQxKjziRDoTleW3Gha1PlMHOiOFQAITYs+nwCB7nh1qY0mRZ/PtIHuXACA0ZQo9Jk00N3vfnqhKdHoU1mgAEYTotFnykA72fnUQhOi0mfqQDtZaaaFqvSZMNCOdj3bQHX6TBxoR6vNslCdPtMF2tmOZ1qoUp/JAu1ut/MMVKtPhYHmWahWn6kC7XSnMwxUrc+UgXa68swKVeszUaAd73J2her1mTDQjlefXaAdrz6rQDvf4cwKVewzSaARdjerQDX71BxoNoVq9pki0Cg7m1Ggqn2mCjTKRjIpVLXPBIFG2tVsCtXtM1GgkTaTTaCRNpNFoNF2NJNClfuMHmjE3cwiUO0+tQeqvlDtPmMHGnUnMyhUvc8UgUbdWAaBRt2Y8kAj76L6QvX7jBto9B1UHmgGPjMIVHGhGfiMGmiCXFQHmoPP6IHG3F6p/BCag8+YgSaJRXGhWfiMHWjEzbUbVRxoko0qDTRRKmoLzcNnvECThaI00Ex8ZhKowkIz8Rkt0ISZqAw0F59RA421rSWbVldoLj5jBZo0EoWFZuMzZqCRNrV84woDTbpxZYEmTkRdofn4jBNo8kBSb3/HZOQzo0AVFZp8d+INIEqgyX1CDGF3AOxMtCFECzTGdlYMIfUYdgbAvqgKFCIOiEHsBohdiTWIWIFG2IyIUewCjD3REyjEhIcZxvaA7EikYXQfKIhPlAPP1mTmM7NAIQayHTC7EWcgnQcK4xNqKJsDtBNRhhIl0K63cU+AntvNAdoHFYFCRQE1mM2A2oUYg4kRaMebWAOs0WwC1h7IDxRqwsMNZ33AdiDCcDoN9PgYy6czenycehAbk6PPDgO1I7dKu9vC+hxVg0o9jI3I02eXgbovUD7rQaUexUbk6XOdQGf9/Qvz7erMfbt70ZMLP2qsGL7sF5ZfDJf90gza/BdvMPR5D9YK9NHjgfk2fbB6q4HQIySO3dBueZajB7qRz38g0b3PtQI9+fOp+Tb6+l5CMc+mx8FzfZ3ogdLnatYL9Menk/Lq5Y9mq1NzYO/Zs1RRDMrZk1f7F+bm3rCcf/fW/mJ28u+i+HVZ/qZZ7JfnA3MyK1afzbrl+Hh28kUrtBq/H1j8QOlzJesF+tN3w3LaM1u9OhuU072h/WaH0beyzD37F/PzffPL01m/Z3764rftYuNiMDdOx4eTLUe8LV/+qnXmx+8HFj9Q+lzJeoFejE/L0cBv9erFcFrpmT0aupOQuceOrRz36nvaxczY/SJbjnhbQmf1+KuBxQ+UPleyZqCzp/976bZqj+V7w3E7IDs2Y9MJnR7+98Qd4YPFzC/sD/a0lZbQWT3+amAJAqXPVawZ6NWLvzx1h24zo4MZ7/UFM766J1jMz/j03DLjyxQvkuhzJWsGWo6KU/vdXB2VI3/N9GjoZNbXTIcT725xMX/NlF5qOAI/fj+wBIHS5yrWDdRcoleXwUXx3A6jetVph+FfdZ7/saicX1vsoblYMi/ukp+RFp/S9lVntV/RA6XPFez6o053SlpG+qt5kWTvM0qg9tJpmvodO5lk7zPOEXQM8GozZFZ9hAw1puVk7zP634snZB0YKIGGgRJoGCiBhoESaBgogYaBEmgYKIGGgRJoGCiBhoESaBgogYaBEmgYKIGGgRJoGCiBhoESaBgogYaBEmgYKIGGgRJoGCiBhoESaBgogYaBEmgYKIGGgRJoGCiBhoESaBgogYaBEmgYKIGGgRJoGCiBhoESaBgogYaBEmgYKIGGgRJoGCiBhoESaBgogYaBEmgYKIGGgRJoGCiBhoESaBgogYaBEmgYKIGGgRJoGCiBhoESaBgogYaBEmgYKIGGgRJoGCiBhoESaBgogYaBEmgYKIGGgRJoGCiBhoESaBgogYaBEmgYKIGGgRJoGCiBhoESaBgogYaBEmgYKIGGgRJoGCiBhoESaBgogYaBEmgYKIGGgRJoGCiBhoESaBgogYaBEmgYKIGGgRJoGCiBhoESaBgogYaBEmgYKIGGgRJoGCiB5v+3cxed9brcSAAAAABJRU5ErkJggg==" alt="The same selected cells analyzed with pooled 3D and section-wise planar GP adjustment." />
+<div class="figcaption">The same selected cells analyzed with pooled 3D
+and section-wise planar GP adjustment.</div>
+</div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">par</span>(old)</span></code></pre></div>
+<p>A 3D-minus-2D contrast is a difference between two complete
+spatial-adjustment strategies. It should be reported with effect
+magnitudes, GP fit diagnostics, sampling details, and the caution that a
+smooth field can contain meaningful tissue biology. Neither fit
+identifies physical contacts or cell-cell signaling from density
+measurements alone.</p>
+</div>
+<div id="use-processed-serial-section-data" class="section level2">
+<h2>6. Use processed serial-section data</h2>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="co"># dat contains registered X,Y,Z, section, zone and cell-type KDE columns.</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>coords <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(dat[, <span class="fu">c</span>(<span class="st">&quot;X&quot;</span>, <span class="st">&quot;Y&quot;</span>, <span class="st">&quot;Z&quot;</span>)])</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>kde <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(dat[, <span class="fu">c</span>(<span class="st">&quot;kde_Tumor&quot;</span>, <span class="st">&quot;kde_T_cell&quot;</span>, <span class="st">&quot;kde_Macrophage&quot;</span>)])</span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="fu">colnames</span>(kde) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Tumor&quot;</span>, <span class="st">&quot;T_cell&quot;</span>, <span class="st">&quot;Macrophage&quot;</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">log1p</span>(<span class="fl">1e9</span> <span class="sc">*</span> kde)</span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>selected <span class="ot">&lt;-</span> <span class="fu">ispat3d_sample</span>(coords, dat<span class="sc">$</span>zone, dat<span class="sc">$</span>section,</span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>                           <span class="at">budget =</span> <span class="dv">1000</span><span class="dt">L</span>, <span class="at">budget_kind =</span> <span class="st">&quot;per_zone&quot;</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>rows <span class="ot">&lt;-</span> <span class="fu">unlist</span>(selected, <span class="at">use.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a>args <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Y =</span> Y[rows, , <span class="at">drop =</span> <span class="cn">FALSE</span>],</span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a>             <span class="at">coords =</span> coords[rows, , <span class="at">drop =</span> <span class="cn">FALSE</span>],</span>
+<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a>             <span class="at">zones =</span> dat<span class="sc">$</span>zone[rows], <span class="at">sections =</span> dat<span class="sc">$</span>section[rows],</span>
+<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a>             <span class="at">rank =</span> <span class="dv">2</span><span class="dt">L</span>)</span>
+<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a>planar <span class="ot">&lt;-</span> <span class="fu">do.call</span>(ispat3d_fit_2d, args)</span>
+<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a>volumetric <span class="ot">&lt;-</span> <span class="fu">do.call</span>(ispat3d_fit, args)</span>
+<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a><span class="fu">ispat3d_plot_zones</span>(planar, <span class="at">threshold =</span> <span class="fl">0.05</span>)</span></code></pre></div>
+<p>See the <a href="https://github.com/sagnikbhadury/ISPAT-3D#readme">README</a> for
+the exact processed CRC and breast input schemas and full sample
+budgets.</p>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<p>Bhadury, S., Peruzzi, M., Acharyya, S., et al. (2026). “Informed
+spatially aware patterns for multiplexed immunofluorescence data.”
+<em>Scientific Reports</em> <strong>16</strong>, 5015. <a href="https://doi.org/10.1038/s41598-026-35341-8">doi:10.1038/s41598-026-35341-8</a>.</p>
+<p>Bhadury, S. and Rao, A. (2026). “Estimating Conditional Cell
+Population Associations Across Tumor Density Zones in Three Dimensional
+Tissue Images.” Manuscript submitted to <em>Scientific Reports</em>.
+Accompanying software archive: <a href="https://doi.org/10.5281/zenodo.22798429">doi:10.5281/zenodo.22798429</a>.
+This is the <strong>software DOI</strong>, not a publication DOI for the
+manuscript.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
